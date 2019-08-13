@@ -20,18 +20,25 @@ function showModal(store ,msg) {
 }
 
 const promiseMiddleware = store => next => action => {
+  let payload = null;
   if (isPromise(action.payload)) {
     action.payload.then(
       res => {
+        console.log(res);
         switch (action.type) {
           case REGISTER:
-            store.dispatch({ type: ASYNC_END });
             showModal(store, "success!");
             break;
+          case LOGIN:
+            showModal(store, "success!");
+            action.payload = res.user;
+            localStorage.setItem('ws-token', res.user.refreshToken);
+            break;
           default:
-            store.dispatch({ type: ASYNC_END });
             break;
         }
+        store.dispatch(action);
+        store.dispatch({ type: ASYNC_END });
         setTimeout(10);
       },
       error => {
@@ -42,7 +49,6 @@ const promiseMiddleware = store => next => action => {
     );
     return
   }
-
   next(action);
 };
 

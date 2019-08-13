@@ -2,10 +2,31 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import AppLayout from './layouts/AppLayout';
 import { Button, Card, Form, Icon, Input, Row } from 'antd';
+import { connect } from 'react-redux';
+import { onLogin, startAsync } from '../actions';
 import './login.css';
 
 
 class Login extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.handleSubmit = (e) => {
+      e.preventDefault();
+      props.startAsync();
+      props.form.validateFields((err, values) => {
+        console.log('Received values of form: ', values);
+        if (err) {
+          console.log('Error ', values);
+          formIsValid = false;
+          return;
+        } else {
+          props.onLogin(values);
+        }
+      });
+    };
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -22,7 +43,7 @@ class Login extends Component {
       <AppLayout>
         <div className="container login-section"  style={{ width: 450 }}>
           <Card title="Account Login">
-            <Form  className="login-form">
+            <Form  className="login-form" onSubmit = {this.handleSubmit} >
               <Form.Item>
                 {getFieldDecorator('email', {
                   rules: [{ required: true, message: 'Please input your email!' }],
@@ -38,7 +59,12 @@ class Login extends Component {
                 )}
               </Form.Item>
               <Form.Item>
-                <Button type="primary" htmlType="submit"style={{ width: '100%' }}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  style={{ width: '100%' }}
+                  loading={ this.props.async.loading }
+                >
                   Log in
                 </Button>
               </Form.Item>
@@ -51,4 +77,9 @@ class Login extends Component {
   }
 }
 
-export default Form.create()(Login);
+const mapStateToProps = state => ({ async: state.async });
+
+export default connect(
+                  mapStateToProps,
+                  { onLogin, startAsync }
+               )(Form.create()(Login));

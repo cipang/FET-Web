@@ -6,6 +6,7 @@ import {
   ASYNC_UPDATE_FIELD,
   ASYNC_START,
   ASYNC_END,
+  ISLOGGEDIN,
 } from '../constants/actionTypes';
 import * as firebase from 'firebase';
 
@@ -19,6 +20,13 @@ const config = {
 };
 
 firebase.initializeApp(config);
+
+export function isLoggedIn() {
+  return {
+    type: ISLOGGEDIN,
+    payload: firebase.auth().currentUser
+  };
+}
 
 export function onLogin(user) {
   return {

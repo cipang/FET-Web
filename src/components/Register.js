@@ -1,9 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import AppLayout from './layouts/AppLayout';
 import BottomNav from './commons/BottomNav';
 import { Button, Card, Form, Icon, Input, Row, Col } from 'antd';
+import { connect } from 'react-redux';
 import { updateFieldAuth, onRegister, startAsync } from '../actions';
+
 class Register extends React.Component {
 
   constructor(props) {
@@ -12,12 +13,10 @@ class Register extends React.Component {
     this.handleSubmit = (e) => {
       e.preventDefault();
       props.startAsync();
-      let formIsValid = true;
       props.form.validateFields((err, values) => {
         console.log('Received values of form: ', values);
         if (err) {
           console.log('Error ', values);
-          formIsValid = false;
           return;
         } else {
           props.onRegister(values);
