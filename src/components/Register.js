@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import AppLayout from './layouts/AppLayout';
 import BottomNav from './commons/BottomNav';
 import { Button, Card, Form, Icon, Input, Row, Col } from 'antd';
-import { updateFieldAuth, onRegister, startAsync, endAsync } from '../actions';
+import { updateFieldAuth, onRegister, startAsync } from '../actions';
 class Register extends React.Component {
 
   constructor(props) {
@@ -23,7 +23,6 @@ class Register extends React.Component {
           props.onRegister(values);
         }
       });
-      props.endAsync();
     };
 
     this.compareToFirstPassword = (rule, value, callback) => {
@@ -145,5 +144,5 @@ const mapStateToProps = state => ({
 
 export default connect(
                   mapStateToProps,
-                  { updateFieldAuth, onRegister, startAsync, endAsync }
+                  { updateFieldAuth, onRegister, startAsync }
                )(Form.create()(Register));

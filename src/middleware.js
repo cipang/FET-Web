@@ -25,15 +25,18 @@ const promiseMiddleware = store => next => action => {
       res => {
         switch (action.type) {
           case REGISTER:
+            store.dispatch({ type: ASYNC_END });
             showModal(store, "success!");
             break;
           default:
+            store.dispatch({ type: ASYNC_END });
             break;
         }
         setTimeout(10);
       },
       error => {
         console.log(error);
+        store.dispatch({ type: ASYNC_END });
         showModal(store, error.message);
       }
     );
