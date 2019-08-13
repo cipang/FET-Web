@@ -15,7 +15,13 @@ module.exports = {
        test: /\.js$/,
        exclude: /node_modules/,
        use: {
-         loader: "babel-loader"
+         loader: "babel-loader",
+         options: {
+           presets: ["@babel/preset-env", "@babel/preset-react"],
+           plugins: [
+             ['import', { libraryName: "antd", style: true }]
+           ]
+         }
        }
      },
      {
@@ -27,20 +33,35 @@ module.exports = {
        ]
      },
      {
-         test: /\.(png|jp(e*)g|svg)$/,
-         use: [{
-             loader: 'url-loader',
-             options: {
-                 limit: 8000, // Convert images < 8kb to base64 strings
-                 name: 'images/[hash]-[name].[ext]'
-             }
-         }]
+       test: /\.(png|jp(e*)g|svg)$/,
+       use: [{
+           loader: 'url-loader',
+           options: {
+               limit: 8000, // Convert images < 8kb to base64 strings
+               name: 'images/[hash]-[name].[ext]'
+           }
+       }]
      },
      //css loader
      {
        test: /\.css$/,
        use: [ 'style-loader', 'css-loader' ]
-     }
+     },
+     {
+       test: /\.less$/,
+       use: [{
+           loader: 'style-loader' // creates style nodes from JS strings
+       },
+       {
+           loader: 'css-loader' // translates CSS into CommonJ
+       },
+       {
+           loader: 'less-loader', // compiles Less to CSS
+           options: {
+               javascriptEnabled: true
+           }
+       }
+     ]}
    ]
   },
   devServer: {

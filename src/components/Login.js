@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './login.css';
 import AppLayout from './layouts/AppLayout';
+import { Button, Card, Form, Icon, Input, Row } from 'antd';
 
 class Login extends Component {
 
@@ -9,6 +10,13 @@ class Login extends Component {
     return(
       <AppLayout>
         <div className="container login-section">
+          <Row>
+            <Card title="Default size card" extra={<a href="#">More</a>} style={{ width: 300 }}>
+              <p>Card content</p>
+              <p>Card content</p>
+              <p>Card content</p>
+            </Card>
+          </Row>
           <div className="row">
             <div className="col-md-6 mx-auto">
               <div className="card">
