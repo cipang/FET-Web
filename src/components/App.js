@@ -1,22 +1,20 @@
-import React from 'react';
-import bg from '../assets/images/bg.jpg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route} from "react-router-dom";
+import Home from "./Home";
+import Login from "./Login";
+import { connect } from 'react-redux';
+import { createBrowserHistory } from 'history';
 
-function App() {
-  return (
-    <div className="home" style = {{ "backgroundImage": `url(${bg})`}}>
-      <div className="dark-overlay"></div>
+class App extends React.Component {
 
-      <div className="row home-row">
-        <div className="container d-flex justify-content-center align-items-center">
-          <div className="row pb-5">
-              <div className="text-white display-3">The Big Picture</div>
-              <p className="mt-5 text-white mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt voluptates rerum eveniet sapiente repellat esse, doloremque quod recusandae deleniti nostrum assumenda vel beatae sed aut modi nesciunt porro quisquam voluptatem.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  render() {
+    return (
+      <Router history={createBrowserHistory}>
+        <Route exact path="/" component={Home}/>
+        <Route exact path="/login" component={Login}/>
+      </Router>
+    );
+  }
 }
 
 export default App;
