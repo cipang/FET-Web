@@ -5,7 +5,7 @@ import Login from "./Login";
 import Register from "./Register";
 import { connect } from 'react-redux';
 import { createBrowserHistory } from 'history';
-import { isLoggedIn } from '../actions';
+import { isLoggedIn, firebase } from '../actions';
 
 class App extends React.Component {
 

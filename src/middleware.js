@@ -4,7 +4,8 @@ import {
   LOGIN,
   LOGOUT,
   REGISTER,
-  ASYNC_UPDATE_FIELD
+  ASYNC_UPDATE_FIELD,
+  ISLOGGEDIN
 } from './constants/actionTypes';
 
 
@@ -47,7 +48,20 @@ const promiseMiddleware = store => next => action => {
         showModal(store, error.message);
       }
     );
-    return
+    return;
+  } else if (action.type === ISLOGGEDIN) {
+    store.dispatch({ type: ASYNC_START});
+    action.payload.onAuthStateChanged((user) => {
+      if(user) {
+        store.dispatch({ type: LOGIN, payload: user });
+
+        console.log(user);
+      } else {
+        console.log("no user");
+      }
+      store.dispatch({ type: ASYNC_END });
+    })
+    return;
   }
   next(action);
 };

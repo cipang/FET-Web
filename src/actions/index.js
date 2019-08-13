@@ -24,7 +24,7 @@ firebase.initializeApp(config);
 export function isLoggedIn() {
   return {
     type: ISLOGGEDIN,
-    payload: firebase.auth().currentUser
+    payload: firebase.auth()
   };
 }
 
