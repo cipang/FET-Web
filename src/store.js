@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from "redux";
 import reducers from './reducers';
-// import { promiseMiddleware } from './middleware';
+import { promiseMiddleware } from './middleware';
 
 const logger = (store) => (next) => (action) => {
   console.log("action fired",action);
@@ -9,7 +9,7 @@ const logger = (store) => (next) => (action) => {
 
 const store = createStore(
   reducers,
-  applyMiddleware(logger)
+  applyMiddleware(logger, promiseMiddleware)
 );
 
 export default store;

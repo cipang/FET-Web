@@ -1,7 +1,8 @@
 import {
   LOGIN,
   LOGOUT,
-  REGISTER
+  REGISTER,
+  AUTH_UPDATE_FIELD
 } from '../constants/actionTypes';
 import * as firebase from 'firebase';
 
@@ -35,5 +36,12 @@ export function logout() {
   return {
     type: LOGOUT,
     payload:firebase.auth().signOut()
+  };
+}
+
+export function updateFieldAuth(key, value) {
+  return {
+    type: AUTH_UPDATE_FIELD,
+    payload: {key, value}
   };
 }

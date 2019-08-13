@@ -1,9 +1,50 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import AppLayout from './layouts/AppLayout';
 import BottomNav from './commons/BottomNav';
 import { Button, Card, Form, Icon, Input, Row, Col } from 'antd';
-
+import { updateFieldAuth } from '../actions';
 class Register extends React.Component {
+
+  constructor(props) {
+    super(props);
+    console.log(this.props);
+    this.handleSubmit = (e) => {
+      e.preventDefault();
+      let formIsValid = true;
+      this.props.form.validateFields((err, values) => {
+        console.log('Received values of form: ', values);
+        if (err) {
+          console.log('Error ', values);
+          formIsValid = false;
+        }
+      });
+    };
+
+    this.compareToFirstPassword = (rule, value, callback) => {
+      const { form } = props;
+      if (value && value !== form.getFieldValue('password')) {
+        callback('Two passwords that you enter is inconsistent!');
+      } else {
+        callback();
+      }
+    };
+
+    this.validateToNextPassword = (rule, value, callback) => {
+      const { form } = props;
+      if (value && props.auth.confirmDirty) {
+        form.validateFields(['confirm'], { force: true });
+      }
+      callback();
+    };
+
+    this.handleConfirmBlur = (e) => {
+      const { value } = e.target;
+      props.updateFieldAuth("confirmDirty", props.auth.confirmDirty || !!value);
+    };
+
+  }
+
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -80,6 +121,7 @@ class Register extends React.Component {
                 loading = {false}
                 goBackButtonText = {'Cancel'}
                 goNextButtonText = {'Register'}
+                goNext = {this.handleSubmit}
               />
             </Form.Item>
           </Card>
@@ -89,4 +131,6 @@ class Register extends React.Component {
   }
 }
 
-export default Form.create()(Register);
+const mapStateToProps = state => ({ auth: state.auth });
+
+export default connect(mapStateToProps, { updateFieldAuth })(Form.create()(Register));
