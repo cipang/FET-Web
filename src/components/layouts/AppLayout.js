@@ -11,22 +11,22 @@ class AppLayout extends React.Component {
 
   constructor(props) {
     super(props);
-    this.closeModal = () => { this.updateFieldAuth("showModal", false); };
+    this.closeModal = () => { props.updateFieldAsync("showModal", false); };
   }
 
   render() {
-    const { error, showModal } = this.props.async;
+    const { error, showModal, modalMsg } = this.props.async;
     return (
       <div className="applayout-wrapper">
         <Header/>
         {this.props.children}
         <Modal
-          title="Somthing goes wrong"
+          title="Somthing happened"
           visible={showModal}
           onOk={this.closeModal}
           onCancel={this.closeModal}
         >
-          <p>{error}</p>
+          <p>{modalMsg}</p>
         </Modal>
 
       </div>

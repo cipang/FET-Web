@@ -3,7 +3,9 @@ import {
   LOGOUT,
   REGISTER,
   AUTH_UPDATE_FIELD,
-  ASYNC_UPDATE_FIELD
+  ASYNC_UPDATE_FIELD,
+  ASYNC_START,
+  ASYNC_END,
 } from '../constants/actionTypes';
 import * as firebase from 'firebase';
 
@@ -46,9 +48,13 @@ export function updateFieldAuth(key, value) {
     payload: {key, value}
   };
 }
+
 export function updateFieldAsync(key, value) {
   return {
     type: ASYNC_UPDATE_FIELD,
     payload: {key, value}
   };
 }
+
+export function startAsync() { return { type: ASYNC_START };}
+export function endAsync() { return { type: ASYNC_END };}

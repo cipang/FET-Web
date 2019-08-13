@@ -6,8 +6,9 @@ import {
 
 const initialstate = {
   loading:false,
-  error:null,
+  error:'',
   showModal:false,
+  modalMsg:''
 };
 
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import AppLayout from './layouts/AppLayout';
 import BottomNav from './commons/BottomNav';
 import { Button, Card, Form, Icon, Input, Row, Col } from 'antd';
-import { updateFieldAuth, onRegister } from '../actions';
+import { updateFieldAuth, onRegister, startAsync, endAsync } from '../actions';
 class Register extends React.Component {
 
   constructor(props) {
@@ -11,15 +11,19 @@ class Register extends React.Component {
     console.log(this.props);
     this.handleSubmit = (e) => {
       e.preventDefault();
+      props.startAsync();
       let formIsValid = true;
       props.form.validateFields((err, values) => {
         console.log('Received values of form: ', values);
         if (err) {
           console.log('Error ', values);
           formIsValid = false;
+          return;
+        } else {
+          props.onRegister(values);
         }
       });
-      props.onRegister(values);
+      props.endAsync();
     };
 
     this.compareToFirstPassword = (rule, value, callback) => {
@@ -74,6 +78,8 @@ class Register extends React.Component {
       },
     };
 
+    console.log(this.props.async.loading);
+
     return (
       <AppLayout>
         <div className="container login-section">
@@ -119,7 +125,7 @@ class Register extends React.Component {
             </Form>
             <Form.Item>
               <BottomNav
-                loading = {false}
+                loading = {this.props.async.loading}
                 goBackButtonText = {'Cancel'}
                 goNextButtonText = {'Register'}
                 goNext = {this.handleSubmit}
@@ -132,9 +138,12 @@ class Register extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ auth: state.auth });
+const mapStateToProps = state => ({
+  auth: state.auth,
+  async: state.async
+});
 
 export default connect(
                   mapStateToProps,
-                  { updateFieldAuth, onRegister }
+                  { updateFieldAuth, onRegister, startAsync, endAsync }
                )(Form.create()(Register));
