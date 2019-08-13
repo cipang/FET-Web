@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import './login.css';
+import { Link } from "react-router-dom";
 import AppLayout from './layouts/AppLayout';
 import { Button, Card, Form, Icon, Input, Row } from 'antd';
+import './login.css';
+
 
 class Login extends Component {
 
@@ -40,7 +42,7 @@ class Login extends Component {
                   Log in
                 </Button>
               </Form.Item>
-              Or <a href="">register now!</a>
+              Or <Link to="/register">register now!</Link>
             </Form>
           </Card>
         </div>
