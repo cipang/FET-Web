@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import AppLayout from './layouts/AppLayout';
 import BottomNav from './commons/BottomNav';
 import { Button, Card, Form, Icon, Input, Row, Col } from 'antd';
-import { updateFieldAuth } from '../actions';
+import { updateFieldAuth, onRegister } from '../actions';
 class Register extends React.Component {
 
   constructor(props) {
@@ -12,13 +12,14 @@ class Register extends React.Component {
     this.handleSubmit = (e) => {
       e.preventDefault();
       let formIsValid = true;
-      this.props.form.validateFields((err, values) => {
+      props.form.validateFields((err, values) => {
         console.log('Received values of form: ', values);
         if (err) {
           console.log('Error ', values);
           formIsValid = false;
         }
       });
+      props.onRegister(values);
     };
 
     this.compareToFirstPassword = (rule, value, callback) => {
@@ -133,4 +134,7 @@ class Register extends React.Component {
 
 const mapStateToProps = state => ({ auth: state.auth });
 
-export default connect(mapStateToProps, { updateFieldAuth })(Form.create()(Register));
+export default connect(
+                  mapStateToProps,
+                  { updateFieldAuth, onRegister }
+               )(Form.create()(Register));

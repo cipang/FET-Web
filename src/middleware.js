@@ -7,8 +7,8 @@ import {
 } from './constants/actionTypes';
 
 const promiseMiddleware = store => next => action => {
-  if (isPromise(action.payload)) {
-    console.log(action);
+  // if (isPromise(action.payload)) {
+  if (1) {
     store.dispatch({ type: ASYNC_START, subtype: action.type });
     action.payload.then(
       res => {

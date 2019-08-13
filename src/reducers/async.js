@@ -1,20 +1,24 @@
 import {
   ASYNC_START,
-  ASYNC_END
+  ASYNC_END,
+  ASYNC_UPDATE_FIELD
 } from '../constants/actionTypes';
 
 const initialstate = {
   loading:false,
   error:null,
+  showModal:false,
 };
 
 
 export default (state = initialstate, action) => {
   switch (action.type) {
     case ASYNC_START:
-      return{ ...state, loading: true };
+      return { ...state, loading: true };
     case ASYNC_END:
-      return{ ...state, loading: false };
+      return { ...state, loading: false };
+    case ASYNC_UPDATE_FIELD:
+      return { ...state, [action.payload.key]: action.payload.value}
     default:
       return state;
   }
