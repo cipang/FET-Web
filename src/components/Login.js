@@ -6,43 +6,47 @@ import { Button, Card, Form, Icon, Input, Row } from 'antd';
 class Login extends Component {
 
   render() {
+    const { getFieldDecorator } = this.props.form;
+    const emailIcon = <Icon
+                        type="mail"
+                        style={{ color: 'rgba(0,0,0,.25)'}}
+                      />;
+    const passwordIcon = <Icon
+                        type="lock"
+                        style={{ color: 'rgba(0,0,0,.25)'}}
+                      />;
     // Todo: responsive margin top
     return(
       <AppLayout>
-        <div className="container login-section">
-          <Row>
-            <Card title="Default size card" extra={<a href="#">More</a>} style={{ width: 300 }}>
-              <p>Card content</p>
-              <p>Card content</p>
-              <p>Card content</p>
-            </Card>
-          </Row>
-          <div className="row">
-            <div className="col-md-6 mx-auto">
-              <div className="card">
-                <div className="card-header">
-                  <h4>Account Login</h4>
-                </div>
-                <div className="card-body">
-                  <form>
-                    <div className="form-group">
-                      <label htmlFor="email">Email</label>
-                      <input type="text" className="form-control"/>
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="password">Password</label>
-                      <input type="password" className="form-control"/>
-                    </div>
-                    <input type="submit" value="Login" className="btn btn-primary btn-block"/>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="container login-section"  style={{ width: 450 }}>
+          <Card title="Account Login">
+            <Form  className="login-form">
+              <Form.Item>
+                {getFieldDecorator('email', {
+                  rules: [{ required: true, message: 'Please input your email!' }],
+                })(
+                  <Input prefix={emailIcon} size="large"  placeholder="email" />
+                )}
+              </Form.Item>
+              <Form.Item>
+                {getFieldDecorator('password', {
+                  rules: [{ required: true, message: 'Please input your password!' }],
+                })(
+                  <Input prefix={passwordIcon} size="large" type="password" placeholder="password" />
+                )}
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary" htmlType="submit"style={{ width: '100%' }}>
+                  Log in
+                </Button>
+              </Form.Item>
+              Or <a href="">register now!</a>
+            </Form>
+          </Card>
         </div>
       </AppLayout>
     );
   }
 }
 
-export default Login;
+export default Form.create()(Login);
