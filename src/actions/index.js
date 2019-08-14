@@ -4,6 +4,7 @@ import {
   REGISTER,
   AUTH_UPDATE_FIELD,
   ASYNC_UPDATE_FIELD,
+  TIMETABLE_UPDATE_FIELD,
   ASYNC_START,
   ASYNC_END,
   ISLOGGEDIN,
@@ -60,6 +61,13 @@ export function updateFieldAuth(key, value) {
 export function updateFieldAsync(key, value) {
   return {
     type: ASYNC_UPDATE_FIELD,
+    payload: {key, value}
+  };
+}
+
+export function updateFieldTimetable(key, value) {
+  return {
+    type: TIMETABLE_UPDATE_FIELD,
     payload: {key, value}
   };
 }
