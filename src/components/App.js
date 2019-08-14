@@ -5,7 +5,6 @@ import Login from "./Login";
 import Register from "./Register";
 import NewTimetable from "./NewTimetable";
 import { connect } from 'react-redux';
-import { createBrowserHistory } from 'history';
 import { isLoggedIn, firebase } from '../actions';
 
 class App extends React.Component {
@@ -19,7 +18,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router history={createBrowserHistory}>
+      <Router>
         <Route exact path="/" component={Home}/>
         <Route exact path="/login" component={Login}/>
         <Route exact path="/register" component={Register}/>

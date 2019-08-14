@@ -5,6 +5,7 @@ import {
   AUTH_UPDATE_FIELD,
   ASYNC_UPDATE_FIELD,
   TIMETABLE_UPDATE_FIELD,
+  DAYS_UPDATE_FIELD,
   ASYNC_START,
   ASYNC_END,
   ISLOGGEDIN,
@@ -68,6 +69,12 @@ export function updateFieldAsync(key, value) {
 export function updateFieldTimetable(key, value) {
   return {
     type: TIMETABLE_UPDATE_FIELD,
+    payload: {key, value}
+  };
+}
+export function updateFieldDays(key, value) {
+  return {
+    type: DAYS_UPDATE_FIELD,
     payload: {key, value}
   };
 }
