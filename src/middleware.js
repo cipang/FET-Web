@@ -29,11 +29,17 @@ const promiseMiddleware = store => next => action => {
         switch (action.type) {
           case REGISTER:
             showModal(store, "success!");
+            action.payload = null;
             break;
           case LOGIN:
             showModal(store, "success!");
             action.payload = res.user;
             localStorage.setItem('ws-token', res.user.refreshToken);
+            break;
+          case LOGOUT:
+            showModal(store, "success!");
+            action.payload = null;
+            localStorage.setItem('ws-token', null);
             break;
           default:
             break;

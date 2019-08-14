@@ -13,7 +13,7 @@ class AppLayout extends React.Component {
     super(props);
     this.closeModal = () => {
       props.updateFieldAsync("showModal", false);
-      // window.location.reload();
+      window.location.reload();
     };
   }
 
