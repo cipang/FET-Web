@@ -61,7 +61,7 @@ class Header extends React.Component {
               <Menu.Item key="logout" onClick={this.props.logout}>Logout</Menu.Item>
             </Menu.SubMenu>
             :<Menu.Item key="3"><Link to="/login">Login</Link></Menu.Item>}
-          {loggedIn?<Menu.Item key="3"><Link to="/mktimetable">Make a timeable</Link></Menu.Item>:null}
+          {loggedIn?<Menu.Item key="3"><Link to="/newTimetable">Make a timeable</Link></Menu.Item>:null}
 
         </Menu>
       </Layout.Header>
