@@ -14,7 +14,8 @@ const initialstate = {
     friday:"default",
     saturday:"default",
     sunday:"default"
-  }
+  },
+  numberOfHoursPerDay:8,
 };
 
 

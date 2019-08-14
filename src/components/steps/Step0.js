@@ -1,6 +1,6 @@
 import React from 'react';
 import BottomNav from '../commons/BottomNav';
-import {Form, Icon, Input, Row, Tooltip, Radio, Button  } from 'antd';
+import {Form, Icon, Input, Row, Tooltip, Select, Button  } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldDays } from '../../actions';
 
@@ -11,6 +11,9 @@ class Step0 extends React.Component {
     this.goStep1 = () => {props.updateFieldTimetable("step",1);};
     this.nameOnChange = (e) => {
       props.updateFieldTimetable("name", e.target.value);
+    };
+    this.hoursOnChange = (value) => {
+      props.updateFieldTimetable("numberOfHoursPerDay", value);
     };
     this.addMonday = (e) => { this.addDays(e.target.value,"monday") };
     this.addTuesday = (e) => { this.addDays(e.target.value,"tuesday") };
@@ -30,8 +33,16 @@ class Step0 extends React.Component {
     }
   }
 
+  renderHours(){
+    let options = []
+    for (let i = 1; i <= 24; i++) {
+      options.push(<Select.Option value={i} key = {i}>{i}</Select.Option>)
+    }
+    return options;
+  }
+
   render() {
-    const { name } = this.props.timetable;
+    const { name, numberOfHoursPerDay } = this.props.timetable;
     const {monday, tuesday, wednesday, thursday, friday, saturday, sunday} =
           this.props.timetable.days;
     const formItemLayout = {
@@ -69,6 +80,11 @@ class Step0 extends React.Component {
               <Button onClick={this.addSaturday} type={saturday} value={saturday}>Saturday </Button>
               <Button onClick={this.addSunday} type={sunday} value={sunday}>Sunday </Button>
             </Row>
+          </Form.Item>
+          <Form.Item label= "Number of Hours(per day)">
+            <Select value={numberOfHoursPerDay} style={{ width: 120 }} onChange = {this.hoursOnChange}>
+              {this.renderHours()}
+            </Select>
           </Form.Item>
         </Form>
         <BottomNav
