@@ -25,7 +25,7 @@ class NewTimetable extends React.Component {
     const current = 1;
     return (
       <AppLayout>
-        <div className="container login-section">
+        <div className="container mt-5 pt-5">
           <Card>
             <Row gutter={24} >
               <Col span={6}>

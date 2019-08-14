@@ -2,7 +2,9 @@ import React from 'react';
 import BottomNav from '../commons/BottomNav';
 import {Form, Icon, Input, Row, Tooltip, Select, Button  } from 'antd';
 import { connect } from 'react-redux';
-import { updateFieldTimetable, updateFieldDays } from '../../actions';
+import { updateFieldTimetable,
+         updateFieldDays,
+         updateFieldPeriods } from '../../actions';
 
 class Step0 extends React.Component {
 
@@ -12,8 +14,11 @@ class Step0 extends React.Component {
     this.nameOnChange = (e) => {
       props.updateFieldTimetable("name", e.target.value);
     };
-    this.hoursOnChange = (value) => {
-      props.updateFieldTimetable("numberOfHoursPerDay", value);
+    this.numberOfPeriodsOnChange = (value) => {
+      props.updateFieldTimetable("numberOfPeriodsPerDay", value);
+    };
+    this.periodsOnChange = (e, id) => {
+      props.updateFieldPeriods("period" + id.toString(), e.target.value);
     };
     this.addMonday = (e) => { this.addDays(e.target.value,"monday") };
     this.addTuesday = (e) => { this.addDays(e.target.value,"tuesday") };
@@ -33,16 +38,34 @@ class Step0 extends React.Component {
     }
   }
 
-  renderHours(){
-    let options = []
+  renderNumerOfPeriods(){
+    let options = [];
     for (let i = 1; i <= 24; i++) {
       options.push(<Select.Option value={i} key = {i}>{i}</Select.Option>)
     }
     return options;
   }
 
+  renderPeriods(){
+    let periods = [];
+    // @ Todo : bind this function
+    for (let i = 1; i <= this.props.timetable.numberOfPeriodsPerDay; i++) {
+      periods.push(
+        <Row key = {i}>period {i} =>
+          <Input
+            key = {i}
+            value={this.props.timetable.periods["period" + i.toString()]}
+            onChange={(e) => this.periodsOnChange(e,i)}
+            style={{ width: '50%' }}
+          />
+        </Row>
+      );
+    }
+    return periods;
+  }
+
   render() {
-    const { name, numberOfHoursPerDay } = this.props.timetable;
+    const { name, numberOfPeriodsPerDay } = this.props.timetable;
     const {monday, tuesday, wednesday, thursday, friday, saturday, sunday} =
           this.props.timetable.days;
     const formItemLayout = {
@@ -81,10 +104,17 @@ class Step0 extends React.Component {
               <Button onClick={this.addSunday} type={sunday} value={sunday}>Sunday </Button>
             </Row>
           </Form.Item>
-          <Form.Item label= "Number of Hours(per day)">
-            <Select value={numberOfHoursPerDay} style={{ width: 120 }} onChange = {this.hoursOnChange}>
-              {this.renderHours()}
+          <Form.Item label= "Number of Periods(per day)">
+            <Select
+              value={numberOfPeriodsPerDay}
+              style={{ width: 120 }}
+              onChange = {this.numberOfPeriodsOnChange}
+             >
+              {this.renderNumerOfPeriods()}
             </Select>
+          </Form.Item>
+          <Form.Item label= "Periods">
+            {this.renderPeriods()}
           </Form.Item>
         </Form>
         <BottomNav
@@ -102,4 +132,6 @@ const mapStateToProps = state => ({ timetable: state.timetable });
 
 
 export default connect( mapStateToProps,
-              { updateFieldTimetable, updateFieldDays } )(Step0);
+                        { updateFieldTimetable,
+                          updateFieldDays,
+                          updateFieldPeriods } )(Step0);

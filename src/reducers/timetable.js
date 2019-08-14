@@ -1,6 +1,7 @@
 import {
   TIMETABLE_UPDATE_FIELD,
-  DAYS_UPDATE_FIELD
+  DAYS_UPDATE_FIELD,
+  PERIODS_UPDATE_FIELD
 } from '../constants/actionTypes';
 
 const initialstate = {
@@ -15,7 +16,8 @@ const initialstate = {
     saturday:"default",
     sunday:"default"
   },
-  numberOfHoursPerDay:8,
+  numberOfPeriodsPerDay:8,
+  periods:{}
 };
 
 
@@ -25,6 +27,8 @@ export default (state = initialstate, action) => {
       return { ...state, [action.payload.key]: action.payload.value}
     case DAYS_UPDATE_FIELD:
       return { ...state, days:{...state.days, [action.payload.key]: action.payload.value}}
+    case PERIODS_UPDATE_FIELD:
+      return { ...state, periods:{...state.periods, [action.payload.key]: action.payload.value}}
     default:
       return state;
   }
