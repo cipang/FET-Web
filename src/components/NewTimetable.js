@@ -3,12 +3,23 @@ import AppLayout from './layouts/AppLayout';
 import BottomNav from './commons/BottomNav';
 import { Button, Card, Row, Col, Steps  } from 'antd';
 import { connect } from 'react-redux';
-import { updateFieldTimetable } from '../actions';
+import { onSaveTimetable, startAsync } from '../actions';
 import Step0 from './steps/Step0';
 import Step1 from './steps/Step1';
 import Step2 from './steps/Step2';
 
 class NewTimetable extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.onSaveTimetable = this.saveTimetable.bind(this);
+  }
+
+  saveTimetable(e) {
+    e.preventDefault();
+    // this.props.startAsync();
+    this.props.onSaveTimetable(this.props.timetable);
+  }
 
   renderSteps() {
     const { step } = this.props.timetable;
@@ -22,10 +33,12 @@ class NewTimetable extends React.Component {
   }
 
   render() {
+    console.log(this.props.async.loading);
+    // console.log(new Date().toLocaleString());
     const current = 1;
     return (
       <AppLayout>
-        <div className="container mt-5 pt-5">
+        <div className="container mt-5 pt-2">
           <Card>
             <Row gutter={24} >
               <Col span={6}>
@@ -36,7 +49,14 @@ class NewTimetable extends React.Component {
                 </Steps>
               </Col>
               <Col span={18}>
-                <Card title = "New Timetable">
+              <Card title = {<div>
+                              <span>New Timetable</span>
+                              <Button
+                                style = {{float: 'right'}}
+                                onClick = {this.onSaveTimetable}
+                                loading = {this.props.async.loading }
+                              > Save</Button>
+                            </div>}>
                    {this.renderSteps()}
                 </Card>
               </Col>
@@ -48,6 +68,6 @@ class NewTimetable extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ timetable: state.timetable });
+const mapStateToProps = state => ({ timetable: state.timetable, async: state.async });
 
-export default connect( mapStateToProps, {})(NewTimetable);
+export default connect( mapStateToProps, { onSaveTimetable, startAsync })(NewTimetable);

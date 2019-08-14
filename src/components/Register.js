@@ -76,8 +76,6 @@ class Register extends React.Component {
       },
     };
 
-    console.log(this.props.async.loading);
-
     return (
       <AppLayout>
         <div className="container login-section">

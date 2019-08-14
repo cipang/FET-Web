@@ -4,6 +4,7 @@ import {
   LOGIN,
   LOGOUT,
   REGISTER,
+  SAVE_TIMETABLE,
   ASYNC_UPDATE_FIELD,
   ISLOGGEDIN
 } from './constants/actionTypes';
@@ -66,6 +67,23 @@ const promiseMiddleware = store => next => action => {
         console.log("no user");
       }
       store.dispatch({ type: ASYNC_END });
+    })
+    return;
+  } else if (action.type === SAVE_TIMETABLE) {
+    store.dispatch({ type: ASYNC_START});
+    console.log(action.updates);
+    action.auth.onAuthStateChanged((user) => {
+      if(user) {
+        action.database.ref().update(action.updates).then( res => {
+          // showModal(store, "success!");
+        }, error => {
+          showModal(store, error.message);
+        });
+        store.dispatch({ type: ASYNC_END });
+      } else {
+        showModal(store, "You need to sign in first!");
+        store.dispatch({ type: ASYNC_END });
+      }
     })
     return;
   }

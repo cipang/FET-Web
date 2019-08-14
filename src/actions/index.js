@@ -10,19 +10,22 @@ import {
   ASYNC_START,
   ASYNC_END,
   ISLOGGEDIN,
+  SAVE_TIMETABLE
 } from '../constants/actionTypes';
 import * as firebase from 'firebase';
 
-const config = {
+
+const firebaseConfig = {
   apiKey: "AIzaSyDcWtQqtqJeQ0QvxGEXtIRyiyoc42lWmmc",
   authDomain: "fet-web.firebaseapp.com",
-  databaseURL: "fet-web.firebaseio.com",
+  databaseURL: "https://fet-web.firebaseio.com",
   projectId: "fet-web",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_ID"
+  storageBucket: "fet-web.appspot.com",
+  messagingSenderId: "594488385508",
+  appId: "1:594488385508:web:0681f5d828166939"
 };
 
-firebase.initializeApp(config);
+firebase.initializeApp(firebaseConfig);
 
 export function isLoggedIn() {
   return {
@@ -52,6 +55,27 @@ export function logout() {
     payload:firebase.auth().signOut()
   };
 }
+
+export function onSaveTimetable(timetable, key) {
+  let uid = firebase.auth().currentUser.uid;
+  var newPostKey = firebase.database().ref().child('timetables').push().key;
+  var updates = {};
+  timetable['lastModifiedTime'] = new Date().toLocaleString();
+  if(key == null) {
+    updates['/timetables/' + newPostKey] = timetable;
+    updates['users/' + uid + '/timetables/' + newPostKey] = timetable;
+  } else {
+    updates['/timetables/' + key] = timetable;
+    updates['users/' + uid + '/timetables/' + key] = timetable;
+  }
+  return {
+    type: SAVE_TIMETABLE,
+    auth: firebase.auth(),
+    database: firebase.database(),
+    updates
+  };
+}
+
 
 export function updateFieldAuth(key, value) {
   return {
