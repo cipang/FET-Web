@@ -1,6 +1,5 @@
 import React from 'react';
 import AppLayout from './layouts/AppLayout';
-import BottomNav from './commons/BottomNav';
 import { Button, Card, Row, Col, Steps  } from 'antd';
 import { connect } from 'react-redux';
 import { onSaveTimetable, startAsync } from '../actions';
@@ -24,13 +23,13 @@ class NewTimetable extends React.Component {
 
   renderSteps() {
     const { step } = this.props.timetable;
-    if(step == 0){
+    if(step === 0){
       return <Step0 /> ;
-    } else if(step == 1){
+    } else if(step === 1){
       return <Step1 / > ;
-    } else if(step == 2){
+    } else if(step === 2){
       return <Step2 / > ;
-    } else if(step == 3){
+    } else if(step === 3){
       return <Step3 / > ;
     }
   }
@@ -38,7 +37,6 @@ class NewTimetable extends React.Component {
   render() {
     // console.log(this.props.async.loading);
     // console.log(new Date().toLocaleString());
-    const current = 1;
     return (
       <AppLayout>
         <div className="container mt-5 pt-2">

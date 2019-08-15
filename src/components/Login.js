@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import AppLayout from './layouts/AppLayout';
-import { Button, Card, Form, Icon, Input, Row } from 'antd';
+import { Button, Card, Form, Icon, Input } from 'antd';
 import { connect } from 'react-redux';
 import { onLogin, startAsync } from '../actions';
 import './login.css';
@@ -19,7 +19,6 @@ class Login extends Component {
         console.log('Received values of form: ', values);
         if (err) {
           console.log('Error ', values);
-          formIsValid = false;
           return;
         } else {
           props.onLogin(values);

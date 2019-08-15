@@ -5,7 +5,7 @@ import Login from "./Login";
 import Register from "./Register";
 import NewTimetable from "./NewTimetable";
 import { connect } from 'react-redux';
-import { isLoggedIn, firebase } from '../actions';
+import { isLoggedIn } from '../actions';
 
 class App extends React.Component {
 

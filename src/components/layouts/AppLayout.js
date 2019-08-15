@@ -18,7 +18,7 @@ class AppLayout extends React.Component {
   }
 
   render() {
-    const { error, showModal, modalMsg } = this.props.async;
+    const { showModal, modalMsg } = this.props.async;
     return (
       <div className="applayout-wrapper">
         <Header/>

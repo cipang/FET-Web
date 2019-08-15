@@ -1,6 +1,6 @@
 import React from 'react';
 import BottomNav from '../commons/BottomNav';
-import {Form, Icon, Input, Row ,Tooltip, Button  } from 'antd';
+import {Form, Icon, Input, Row, Button  } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldSubjects } from '../../actions';
 
@@ -52,26 +52,26 @@ class Step1 extends React.Component {
     let count = 0;
     Object.keys(subjects).map(subject => {
       subjectsItems.push(
-      <Form.Item
-        {...(count === 0  ? formItemLayout : formItemLayoutWithOutLabel)}
-        label={count  === 0 ? 'Subjects' : ''}
-        required={false}
-        key={subject}
-      >
-        <Input
-          value={subjects[subject]}
-          placeholder="Subject Name"
-          onChange={(e) => this.onSubjectChange(e,subject)}
-          style={{ width: '60%', marginRight: 8 }}
-        />
-        {count >= 1 ? (
-          <Icon
-            className="dynamic-delete-button"
-            type="minus-circle-o"
-            onClick={() => this.removeSubject(subject)}
+        <Form.Item
+          {...(count === 0  ? formItemLayout : formItemLayoutWithOutLabel)}
+          label={count  === 0 ? 'Subjects' : ''}
+          required={false}
+          key={subject}
+        >
+          <Input
+            value={subjects[subject]}
+            placeholder="Subject Name"
+            onChange={(e) => this.onSubjectChange(e,subject)}
+            style={{ width: '60%', marginRight: 8 }}
           />
-        ) : null}
-      </Form.Item>);
+          {count >= 1 ? (
+            <Icon
+              className="dynamic-delete-button"
+              type="minus-circle-o"
+              onClick={() => this.removeSubject(subject)}
+            />
+          ) : null}
+        </Form.Item>);
       count++;
     });
     return subjectsItems;

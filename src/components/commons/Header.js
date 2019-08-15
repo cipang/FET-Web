@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { Layout, Menu, Typography, Divider, Button } from 'antd';
+import { Layout, Menu, Typography } from 'antd';
 import { Link } from "react-router-dom";
 import { logout } from '../../actions';
 import './Header.css';

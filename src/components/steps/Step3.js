@@ -1,6 +1,6 @@
 import React from 'react';
 import BottomNav from '../commons/BottomNav';
-import {Form, Icon, Input, Row, Table, Divider, Button, Modal, Popconfirm } from 'antd';
+import {Form, Input, Row, Table, Divider, Button, Modal, Popconfirm } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldYears } from '../../actions';
 
