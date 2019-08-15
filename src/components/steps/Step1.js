@@ -2,7 +2,7 @@ import React from 'react';
 import BottomNav from '../commons/BottomNav';
 import {Form, Icon, Input, Row ,Tooltip, Button  } from 'antd';
 import { connect } from 'react-redux';
-import { updateFieldTimetable, rmSubject, updateFieldSubjects } from '../../actions';
+import { updateFieldTimetable, updateFieldSubjects } from '../../actions';
 
 
 const formItemLayout = {
@@ -43,13 +43,11 @@ class Step1 extends React.Component {
       let { [subject]:value, ...rest } = this.props.timetable.subjects;
       props.updateFieldTimetable("subjects", rest);
     }
-    // this.rmSubject;
     console.log(this.props);
   }
 
   renderSubjects() {
     const { subjects } = this.props.timetable;
-    const { getFieldDecorator } = this.props.form;
     let subjectsItems = [];
     let count = 0;
     Object.keys(subjects).map(subject => {
@@ -60,21 +58,12 @@ class Step1 extends React.Component {
         required={false}
         key={subject}
       >
-        {getFieldDecorator(subject, {
-          validateTrigger: ['onChange', 'onBlur'],
-          rules: [
-            {
-              required: true,
-              whitespace: true,
-              message: "Please input subject's name or delete this field.",
-            },
-          ],
-        })(<Input
-              placeholder="Subjet Name"
-              onChange={(e) => this.onSubjectChange(e,subject)}
-              style={{ width: '60%', marginRight: 8 }}
-            />)
-        }
+        <Input
+          value={subjects[subject]}
+          placeholder="Subject Name"
+          onChange={(e) => this.onSubjectChange(e,subject)}
+          style={{ width: '60%', marginRight: 8 }}
+        />
         {count >= 1 ? (
           <Icon
             className="dynamic-delete-button"
@@ -115,4 +104,4 @@ class Step1 extends React.Component {
 const mapStateToProps = state => ({ timetable: state.timetable });
 
 
-export default connect( mapStateToProps, { updateFieldTimetable, rmSubject, updateFieldSubjects } )(Form.create()(Step1));
+export default connect( mapStateToProps, { updateFieldTimetable, updateFieldSubjects } )(Form.create()(Step1));

@@ -2,7 +2,8 @@ import {
   TIMETABLE_UPDATE_FIELD,
   DAYS_UPDATE_FIELD,
   PERIODS_UPDATE_FIELD,
-  SUBJECTS_UPDATE_FIELD
+  SUBJECTS_UPDATE_FIELD,
+  TEACHERS_UPDATE_FIELD
 } from '../constants/actionTypes';
 
 const initialstate = {
@@ -22,6 +23,13 @@ const initialstate = {
   numberOfSubjects:1,
   subjects:{
     subject_1:""
+  },
+  teachers:{
+    teacher_1:{
+      name:"",
+      targetNumberOfHours:"",
+      qualifiedSubjects:[]
+    }
   }
 };
 
@@ -36,6 +44,8 @@ export default (state = initialstate, action) => {
       return { ...state, periods:{...state.periods, [action.payload.key]: action.payload.value}}
     case SUBJECTS_UPDATE_FIELD:
       return { ...state, subjects:{...state.subjects, [action.payload.key]: action.payload.value}}
+    case TEACHERS_UPDATE_FIELD:
+      return { ...state, teachers:{...state.teachers, [action.payload.key]: action.payload.value}}
     default:
       return state;
   }

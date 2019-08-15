@@ -8,6 +8,7 @@ import {
   DAYS_UPDATE_FIELD,
   PERIODS_UPDATE_FIELD,
   SUBJECTS_UPDATE_FIELD,
+  TEACHERS_UPDATE_FIELD,
   ASYNC_START,
   ASYNC_END,
   ISLOGGEDIN,
@@ -120,12 +121,14 @@ export function updateFieldSubjects(key, value) {
   };
 }
 
-export function rmSubject(key, value) {
+export function updateFieldTeachers(key, value) {
   return {
-    type: PERIODS_UPDATE_FIELD,
+    type: TEACHERS_UPDATE_FIELD,
     payload: {key, value}
   };
 }
+
+
 
 export function startAsync() { return { type: ASYNC_START };}
 export function endAsync() { return { type: ASYNC_END };}
