@@ -17,7 +17,7 @@ class NewTimetable extends React.Component {
 
   saveTimetable(e) {
     e.preventDefault();
-    // this.props.startAsync();
+    this.props.startAsync();
     this.props.onSaveTimetable(this.props.timetable);
   }
 
@@ -33,7 +33,7 @@ class NewTimetable extends React.Component {
   }
 
   render() {
-    console.log(this.props.async.loading);
+    // console.log(this.props.async.loading);
     // console.log(new Date().toLocaleString());
     const current = 1;
     return (

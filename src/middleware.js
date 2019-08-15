@@ -57,7 +57,6 @@ const promiseMiddleware = store => next => action => {
     );
     return;
   } else if (action.type === ISLOGGEDIN) {
-    store.dispatch({ type: ASYNC_START});
     action.payload.onAuthStateChanged((user) => {
       if(user) {
         store.dispatch({ type: LOGIN, payload: user });
@@ -75,7 +74,8 @@ const promiseMiddleware = store => next => action => {
     action.auth.onAuthStateChanged((user) => {
       if(user) {
         action.database.ref().update(action.updates).then( res => {
-          // showModal(store, "success!");
+          // console.log("done");
+          showModal(store, "success!");
         }, error => {
           showModal(store, error.message);
         });

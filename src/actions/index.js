@@ -7,6 +7,7 @@ import {
   TIMETABLE_UPDATE_FIELD,
   DAYS_UPDATE_FIELD,
   PERIODS_UPDATE_FIELD,
+  SUBJECTS_UPDATE_FIELD,
   ASYNC_START,
   ASYNC_END,
   ISLOGGEDIN,
@@ -106,6 +107,20 @@ export function updateFieldDays(key, value) {
 }
 
 export function updateFieldPeriods(key, value) {
+  return {
+    type: PERIODS_UPDATE_FIELD,
+    payload: {key, value}
+  };
+}
+
+export function updateFieldSubjects(key, value) {
+  return {
+    type: SUBJECTS_UPDATE_FIELD,
+    payload: {key, value}
+  };
+}
+
+export function rmSubject(key, value) {
   return {
     type: PERIODS_UPDATE_FIELD,
     payload: {key, value}
