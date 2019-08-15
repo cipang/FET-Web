@@ -9,6 +9,7 @@ import {
   PERIODS_UPDATE_FIELD,
   SUBJECTS_UPDATE_FIELD,
   TEACHERS_UPDATE_FIELD,
+  YEARS_UPDATE_FIELD,
   ASYNC_START,
   ASYNC_END,
   ISLOGGEDIN,
@@ -124,6 +125,13 @@ export function updateFieldSubjects(key, value) {
 export function updateFieldTeachers(key, value) {
   return {
     type: TEACHERS_UPDATE_FIELD,
+    payload: {key, value}
+  };
+}
+
+export function updateFieldYears(key, value) {
+  return {
+    type: YEARS_UPDATE_FIELD,
     payload: {key, value}
   };
 }

@@ -7,6 +7,7 @@ import { onSaveTimetable, startAsync } from '../actions';
 import Step0 from './steps/Step0';
 import Step1 from './steps/Step1';
 import Step2 from './steps/Step2';
+import Step3 from './steps/Step3';
 
 class NewTimetable extends React.Component {
 
@@ -29,6 +30,8 @@ class NewTimetable extends React.Component {
       return <Step1 / > ;
     } else if(step == 2){
       return <Step2 / > ;
+    } else if(step == 3){
+      return <Step3 / > ;
     }
   }
 
@@ -46,6 +49,7 @@ class NewTimetable extends React.Component {
                   <Steps.Step title="Step 1" description="This is a description." />
                   <Steps.Step title="Step 2" description="This is a description." />
                   <Steps.Step title="Step 3" description="This is a description." />
+                  <Steps.Step title="Step 4" description="This is a description." />
                 </Steps>
               </Col>
               <Col span={18}>
