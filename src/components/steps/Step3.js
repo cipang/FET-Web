@@ -1,100 +1,8 @@
 import React from 'react';
 import BottomNav from '../commons/BottomNav';
-import {Form, Input, Row, Table, Divider, Button, Modal, Popconfirm } from 'antd';
+import { Form, Row, Table, Divider, Button, Modal, Popconfirm, Input, Col,Card } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldYears } from '../../actions';
-
-
-const EditableContext = React.createContext();
-
-const EditableRow = ({ form, index, ...props }) => (
-  <EditableContext.Provider value={form}>
-    <tr {...props} />
-  </EditableContext.Provider>
-);
-
-const EditableFormRow = Form.create()(EditableRow);
-
-class EditableCell extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      editing: false,
-    };
-  }
-
-  toggleEdit() {
-    console.log("???");
-    const editing = !this.state.editing;
-    this.setState({ editing }, () => {
-      if (editing) {
-        this.input.focus();
-      }
-    });
-  };
-
-  save(e) {
-    const { record, handleSave } = this.props;
-    this.form.validateFields((error, values) => {
-      if (error && error[e.currentTarget.id]) {
-        return;
-      }
-      this.toggleEdit();
-      handleSave({ ...record, ...values });
-    });
-  };
-
-  renderCell(form) {
-    this.form = form;
-    const { children, dataIndex, record, title } = this.props;
-    const { editing } = this.state;
-    return editing ? (
-      <Form.Item style={{ margin: 0 }}>
-        {form.getFieldDecorator(dataIndex, {
-          rules: [
-            {
-              required: true,
-              message: `${title} is required.`,
-            },
-          ],
-          initialValue: record[dataIndex],
-        })(<Input ref={node => (this.input = node)} onPressEnter={this.save} onBlur={this.save} />)}
-      </Form.Item>
-    ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{ paddingRight: 24 }}
-        onClick={this.toggleEdit}
-      >
-        {children}
-      </div>
-    );
-  };
-
-  render() {
-    console.log("???????????")
-    const {
-      editable,
-      dataIndex,
-      title,
-      record,
-      index,
-      handleSave,
-      children,
-      ...restProps
-    } = this.props;
-    return (
-      <td {...restProps}>
-        {editable ? (
-          <EditableContext.Consumer>{this.renderCell}</EditableContext.Consumer>
-        ) : (
-          children
-        )}
-      </td>
-    );
-  }
-}
 
 class Step3 extends React.Component {
 
@@ -144,11 +52,14 @@ class Step3 extends React.Component {
   }
 
   render() {
-
-    const components = {
-      body: {
-        row: EditableFormRow,
-        cell: EditableCell,
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 16 },
+        sm: { span: 6 },
+      },
+      wrapperCol: {
+        xs: { span: 32 },
+        sm: { span: 18 },
       },
     };
 
@@ -188,22 +99,48 @@ class Step3 extends React.Component {
             onOk={this.showModal}
             onCancel={this.closeModal}
           >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          <Form {...formItemLayout}>
+            <Form.Item label="Year">
+              <Input style = {{width:'40%'}}/>
+            </Form.Item>
+            <Form.Item label="Number">
+              <Input style = {{width:'40%'}}/>
+            </Form.Item>
+          </Form>
         </Modal>
         <Row className="mb-2">
           <Button onClick={this.showModal}>Add New</Button>
           <Button className="ml-3">Delete Selected</Button>
         </Row>
         <Table
-          rowClassName={() => 'editable-row'}
-          component={components}
           size="small"
           columns={columns}
           rowSelection={rowSelection}
           dataSource={data}
-          />,
+          />
+        <Card>
+          <Row gutter = {24} style={{textAlign:"center"}}>
+            <Col span={6}>test</Col>
+            <Col span={6}>test</Col>
+            <Col span={6}>test</Col>
+            <Col span={6}>test</Col>
+          </Row>
+          <Divider style={{margin:"5px 0"}}/>
+          <Row gutter = {24} style={{textAlign:"center" }}>
+            <Col span={6}>test</Col>
+            <Col span={6}>test</Col>
+            <Col span={6}>test</Col>
+            <Col span={6}>test</Col>
+          </Row>
+          <Divider style={{margin:"5px 0"}}/>
+          <Row gutter = {24} style={{textAlign:"center" }}>
+            <Col span={6}>test</Col>
+            <Col span={6}>test</Col>
+            <Col span={6}>test</Col>
+            <Col span={6}>test</Col>
+          </Row>
+        </Card>
+
         <BottomNav
           loading = {false}
           goBackButtonText = {'Back'}

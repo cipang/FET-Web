@@ -8,7 +8,7 @@ import {
 } from '../constants/actionTypes';
 
 const initialstate = {
-  step:0,
+  step:3,
   name:'',
   days:{
     monday:"default",
