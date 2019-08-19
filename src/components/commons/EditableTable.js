@@ -89,91 +89,6 @@ class EditableCell extends React.Component {
 }
 
 class EditableTable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.columns = [
-      {
-        title: 'year',
-        dataIndex: 'year',
-        width: '30%',
-        editable: true,
-      },
-      {
-        title: 'number',
-        dataIndex: 'number',
-        editable: true,
-      },
-      {
-        title: 'operation',
-        dataIndex: 'operation',
-        render: (text, record) =>
-          this.props.dataSource.length >= 1 ? (
-            <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
-              <a>Delete</a>
-            </Popconfirm>
-          ) : null,
-      },
-    ];
-
-    this.state = {
-      dataSource: [
-        {
-          key: 1,
-          year: 'John Brown sr.',
-          number: 60,
-          children: [
-            {
-              key: 11,
-              year: 'John Brown',
-              number: 42,
-            },
-            {
-              key: 12,
-              year: 'John Brown jr.',
-              number: 30,
-              children: [
-                {
-                  key: 121,
-                  year: 'Jimmy Brown',
-                  number: 16,
-                },
-              ],
-            },
-            {
-              key: 13,
-              year: 'Jim Green sr.',
-              number: 72,
-              children: [
-                {
-                  key: 131,
-                  year: 'Jim Green',
-                  number: 42,
-                  children: [
-                    {
-                      key: 1311,
-                      year: 'Jim Green jr.',
-                      number: 25,
-                    },
-                    {
-                      key: 1312,
-                      year: 'Jimmy Green sr.',
-                      number: 18,
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          key: 2,
-          year: 'Joe Black',
-          number: 32,
-        },
-      ],
-      count: 2,
-    };
-  }
 
   handleDelete = key => {
     const dataSource = [...this.state.dataSource];
@@ -202,9 +117,9 @@ class EditableTable extends React.Component {
       ...item,
       ...row,
     });
-    this.props.handleSave("data", newData );
-    // this.setState("data", newData );
+    this.setState({ dataSource: newData });
   };
+
 
   render() {
     const { dataSource, rowSelection } = this.props;

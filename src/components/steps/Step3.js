@@ -16,6 +16,10 @@ class Step3 extends React.Component {
     this.addSubgroup = (text, record) => {
       console.log(text.target, record);
     }
+    this.handleDelete = key => {
+      const dataSource = [...this.props.timetable.years.data];
+      props.updateFieldYears("data", dataSource.filter(item => item.key !== key));
+    }
     this.columns = [
       {
         title: 'Year',
@@ -41,15 +45,17 @@ class Step3 extends React.Component {
             <span>
               <Button onClick= {() => this.addSubgroup(text, record)}>Add Subgroup</Button>
               <Divider type="vertical" />
-              <Popconfirm title="Sure to delete?">
-                <Button>Delete</Button>
-              </Popconfirm>
+              {this.props.timetable.years.data.length >= 1 ? (
+                <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
+                  <Button>Delete</Button>
+                </Popconfirm>
+              ) : null}
+
             </span>
           )
         }
       },
     ];
-    console.log(this.props);
   }
 
   render() {
