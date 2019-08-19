@@ -87,7 +87,8 @@ const initialstate = {
         year: 'Joe Black',
         number: 32,
       },
-    ]
+    ],
+    count: 2
   }
 };
 

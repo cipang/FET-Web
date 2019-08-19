@@ -20,6 +20,16 @@ class Step3 extends React.Component {
       const dataSource = [...this.props.timetable.years.data];
       props.updateFieldYears("data", dataSource.filter(item => item.key !== key));
     }
+    this.handleAdd = () => {
+      const { count, data } = this.props.timetable.years;
+      const newData = {
+        key: count + 1,
+        year: "",
+        number: ""
+      };
+      props.updateFieldYears("data", [...data, newData]);
+      props.updateFieldYears("count", count + 1);
+    };
     this.columns = [
       {
         title: 'Year',
@@ -116,7 +126,7 @@ class Step3 extends React.Component {
           </Form>
         </Modal>
         <Row className="mb-2">
-          <Button onClick={this.showModal}>Add New</Button>
+          <Button onClick={this.handleAdd}>Add New</Button>
           <Button className="ml-3">Delete Selected</Button>
         </Row>
 
