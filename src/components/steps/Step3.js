@@ -114,7 +114,12 @@ class Step3 extends React.Component {
           <Button className="ml-3">Delete Selected</Button>
         </Row>
 
-        <EditableTable columns={columns} dataSource={data} rowSelection={rowSelection}/>
+        <EditableTable
+          columns={columns}
+          dataSource={data}
+          rowSelection={rowSelection}
+          handleSave={this.props.updateFieldYears}
+        />
 
         <BottomNav
           loading = {false}

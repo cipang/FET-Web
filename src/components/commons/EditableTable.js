@@ -28,6 +28,7 @@ class EditableCell extends React.Component {
 
   save = e => {
     const { record, handleSave } = this.props;
+    console.log(record.key);
     this.form.validateFields((error, values) => {
       if (error && error[e.currentTarget.id]) {
         return;
@@ -106,7 +107,7 @@ class EditableTable extends React.Component {
         title: 'operation',
         dataIndex: 'operation',
         render: (text, record) =>
-          this.state.dataSource.length >= 1 ? (
+          this.props.dataSource.length >= 1 ? (
             <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
               <a>Delete</a>
             </Popconfirm>
@@ -201,7 +202,8 @@ class EditableTable extends React.Component {
       ...item,
       ...row,
     });
-    this.setState({ dataSource: newData });
+    this.props.handleSave("data", newData );
+    // this.setState("data", newData );
   };
 
   render() {
