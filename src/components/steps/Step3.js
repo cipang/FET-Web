@@ -4,6 +4,7 @@ import EditableTable from '../commons/EditableTable';
 import { Form, Row, Table, Divider, Button, Modal, Popconfirm, Input, Col,Card } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldYears } from '../../actions';
+import { getObject, delObject } from '../../helper';
 
 class Step3 extends React.Component {
 
@@ -14,11 +15,13 @@ class Step3 extends React.Component {
     this.showModal = () => { props.updateFieldYears("visibility", true); }
     this.closeModal = () => { props.updateFieldYears("visibility", false); }
     this.addSubgroup = (text, record) => {
-      console.log(text.target, record);
+      const dataSource = [...this.props.timetable.years.data];
+      console.log("Result", delObject(dataSource,record.key));
+      // dataSource.filter(item => console.log(item));
     }
     this.handleDelete = key => {
       const dataSource = [...this.props.timetable.years.data];
-      props.updateFieldYears("data", dataSource.filter(item => item.key !== key));
+      props.updateFieldYears("data", delObject(dataSource, key));
     }
     this.handleAdd = () => {
       const { count, data } = this.props.timetable.years;
