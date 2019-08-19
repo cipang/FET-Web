@@ -14,46 +14,6 @@ class Step3 extends React.Component {
     this.goStep2 = () => {props.updateFieldTimetable("step",2);};
     this.showModal = () => { props.updateFieldYears("visibility", true); }
     this.closeModal = () => { props.updateFieldYears("visibility", false); }
-    this.addSubgroup = (text, record) => {
-      const { data, keyList } = this.props.timetable.years;
-      const parentObject = getObject(data, record.key);
-      let length = 0;
-
-      if("children" in parentObject) {
-        length = parentObject["children"].length;
-      }
-
-      let newKey = generateKey(keyList, record.key, length);
-      let newObject = {
-        key: newKey,
-        year: null,
-        number: null
-      };
-
-      props.updateFieldYears("data", addObject(data, record.key, newObject));
-      props.updateFieldYears("keyList", [...keyList, newKey]);
-    }
-    this.handleDelete = key => {
-      const { data, keyList } = this.props.timetable.years;
-      props.updateFieldYears("data", delObject(data, key));
-      props.updateFieldYears("keyList", keyList.filter(item => item.key !== key));
-    }
-    this.handleAdd = () => {
-      const { data, keyList } = this.props.timetable.years;
-      let newKey = generateKey(keyList, data.length, 0);
-      let newObject = {
-        key: newKey,
-        year: null,
-        number: null
-      };
-
-      props.updateFieldYears("data", [...data, newObject]);
-      props.updateFieldYears("keyList", [...keyList, newKey]);
-    };
-    this.handleSave = row => {
-      const { data } = this.props.timetable.years;
-      props.updateFieldYears("data", updateObject(data, row.key, row));
-    };
     this.columns = [
       {
         title: 'Year',
@@ -90,6 +50,50 @@ class Step3 extends React.Component {
       },
     ];
   }
+
+  addSubgroup = (text, record) => {
+    const { data, keyList } = this.props.timetable.years;
+    const parentObject = getObject(data, record.key);
+    let length = 0;
+
+    if("children" in parentObject) {
+      length = parentObject["children"].length;
+    }
+
+    let newKey = generateKey(keyList, record.key, length);
+    let newObject = {
+      key: newKey,
+      year: null,
+      number: null
+    };
+
+    this.props.updateFieldYears("data", addObject(data, record.key, newObject));
+    this.props.updateFieldYears("keyList", [...keyList, newKey]);
+  }
+
+  handleDelete = key => {
+    const { data, keyList } = this.props.timetable.years;
+    this.props.updateFieldYears("data", delObject(data, key));
+    this.props.updateFieldYears("keyList", keyList.filter(item => item.key !== key));
+  }
+
+  handleAdd = () => {
+    const { data, keyList } = this.props.timetable.years;
+    let newKey = generateKey(keyList, data.length, 0);
+    let newObject = {
+      key: newKey,
+      year: null,
+      number: null
+    };
+
+    this.props.updateFieldYears("data", [...data, newObject]);
+    this.props.updateFieldYears("keyList", [...keyList, newKey]);
+  };
+
+  handleSave = row => {
+    const { data } = this.props.timetable.years;
+    this.props.updateFieldYears("data", updateObject(data, row.key, row));
+  };
 
   render() {
     const formItemLayout = {

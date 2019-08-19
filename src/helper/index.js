@@ -98,11 +98,11 @@ export function addObject(theObject, key, newObject) {
 }
 
 export function generateKey(keyList, key, length) {
-  let i = 1;
-  let newKey = parseInt(key.toString() + (length + i).toString());
-  while(keyList.includes(newKey)) {
-    i++;
-    newKey = parseInt(key.toString() + (length + i).toString());
-  }
-  return newKey;
+    let i = 1;
+    let newKey = parseInt(key.toString() + (length + i).toString());
+    while(keyList.includes(newKey)) {
+        i++;
+        newKey = parseInt(key.toString() + (length + i).toString());
+    }
+    return newKey;
 }
