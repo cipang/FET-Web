@@ -1,5 +1,6 @@
 import React from 'react';
 import BottomNav from '../commons/BottomNav';
+import EditableTable from '../commons/EditableTable';
 import { Form, Row, Table, Divider, Button, Modal, Popconfirm, Input, Col,Card } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldYears } from '../../actions';
@@ -112,34 +113,8 @@ class Step3 extends React.Component {
           <Button onClick={this.showModal}>Add New</Button>
           <Button className="ml-3">Delete Selected</Button>
         </Row>
-        <Table
-          size="small"
-          columns={columns}
-          rowSelection={rowSelection}
-          dataSource={data}
-          />
-        <Card>
-          <Row gutter = {24} style={{textAlign:"center"}}>
-            <Col span={6}>test</Col>
-            <Col span={6}>test</Col>
-            <Col span={6}>test</Col>
-            <Col span={6}>test</Col>
-          </Row>
-          <Divider style={{margin:"5px 0"}}/>
-          <Row gutter = {24} style={{textAlign:"center" }}>
-            <Col span={6}>test</Col>
-            <Col span={6}>test</Col>
-            <Col span={6}>test</Col>
-            <Col span={6}>test</Col>
-          </Row>
-          <Divider style={{margin:"5px 0"}}/>
-          <Row gutter = {24} style={{textAlign:"center" }}>
-            <Col span={6}>test</Col>
-            <Col span={6}>test</Col>
-            <Col span={6}>test</Col>
-            <Col span={6}>test</Col>
-          </Row>
-        </Card>
+
+        <EditableTable columns={columns} dataSource={data} rowSelection={rowSelection}/>
 
         <BottomNav
           loading = {false}
