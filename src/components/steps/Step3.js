@@ -4,7 +4,7 @@ import EditableTable from '../commons/EditableTable';
 import { Form, Row, Table, Divider, Button, Modal, Popconfirm, Input, Col,Card } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldYears } from '../../actions';
-import { getObject, delObject } from '../../helper';
+import { getObject, delObject, addObject, generateKey } from '../../helper';
 
 class Step3 extends React.Component {
 
@@ -15,23 +15,40 @@ class Step3 extends React.Component {
     this.showModal = () => { props.updateFieldYears("visibility", true); }
     this.closeModal = () => { props.updateFieldYears("visibility", false); }
     this.addSubgroup = (text, record) => {
-      const dataSource = [...this.props.timetable.years.data];
-      console.log("Result", delObject(dataSource,record.key));
-      // dataSource.filter(item => console.log(item));
+      const { data, keyList } = this.props.timetable.years;
+      const parentObject = getObject(data, record.key);
+      let length = 0;
+
+      if("children" in parentObject) {
+        length = parentObject["children"].length;
+      }
+
+      let newKey = generateKey(keyList, record.key, length);
+      let newObject = {
+        key: newKey,
+        year: null,
+        number: null
+      };
+
+      props.updateFieldYears("data", addObject(data, record.key, newObject));
+      props.updateFieldYears("keyList", [...keyList, newKey]);
     }
     this.handleDelete = key => {
-      const dataSource = [...this.props.timetable.years.data];
-      props.updateFieldYears("data", delObject(dataSource, key));
+      const { data, keyList } = this.props.timetable.years;
+      props.updateFieldYears("data", delObject(data, key));
+      props.updateFieldYears("keyList", keyList.filter(item => item.key !== key));
     }
     this.handleAdd = () => {
-      const { count, data } = this.props.timetable.years;
-      const newData = {
-        key: count + 1,
-        year: "",
-        number: ""
+      const { data, keyList } = this.props.timetable.years;
+      let newKey = generateKey(keyList, data.length, 0);
+      let newObject = {
+        key: newKey,
+        year: null,
+        number: null
       };
-      props.updateFieldYears("data", [...data, newData]);
-      props.updateFieldYears("count", count + 1);
+
+      props.updateFieldYears("data", [...data, newObject]);
+      props.updateFieldYears("keyList", [...keyList, newKey]);
     };
     this.columns = [
       {

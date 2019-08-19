@@ -33,6 +33,7 @@ const initialstate = {
     }
   },
   years:{
+    keyList: [1,2,11,12,13,121,131,1311,1312],
     data:[
       {
         key: 1,
@@ -87,8 +88,7 @@ const initialstate = {
         year: 'Joe Black',
         number: 32,
       },
-    ],
-    count: 2
+    ]
   }
 };
 
