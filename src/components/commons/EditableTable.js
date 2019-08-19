@@ -28,7 +28,6 @@ class EditableCell extends React.Component {
 
   save = e => {
     const { record, handleSave } = this.props;
-    console.log(record.key);
     this.form.validateFields((error, values) => {
       if (error && error[e.currentTarget.id]) {
         return;
@@ -90,23 +89,6 @@ class EditableCell extends React.Component {
 
 class EditableTable extends React.Component {
 
-  handleDelete = key => {
-    const dataSource = [...this.state.dataSource];
-    this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
-  };
-
-  handleSave = row => {
-    const newData = [...this.state.dataSource];
-    const index = newData.findIndex(item => row.key === item.key);
-    const item = newData[index];
-    newData.splice(index, 1, {
-      ...item,
-      ...row,
-    });
-    this.setState({ dataSource: newData });
-  };
-
-
   render() {
     const { dataSource, rowSelection } = this.props;
     const components = {
@@ -126,7 +108,7 @@ class EditableTable extends React.Component {
           editable: col.editable,
           dataIndex: col.dataIndex,
           title: col.title,
-          handleSave: this.handleSave,
+          handleSave: this.props.handleSave,
         }),
       };
     });

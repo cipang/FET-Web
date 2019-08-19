@@ -4,7 +4,7 @@ import EditableTable from '../commons/EditableTable';
 import { Form, Row, Table, Divider, Button, Modal, Popconfirm, Input, Col,Card } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldYears } from '../../actions';
-import { getObject, delObject, addObject, generateKey } from '../../helper';
+import { getObject, delObject, addObject, generateKey, updateObject } from '../../helper';
 
 class Step3 extends React.Component {
 
@@ -50,6 +50,10 @@ class Step3 extends React.Component {
       props.updateFieldYears("data", [...data, newObject]);
       props.updateFieldYears("keyList", [...keyList, newKey]);
     };
+    this.handleSave = row => {
+      const { data } = this.props.timetable.years;
+      props.updateFieldYears("data", updateObject(data, row.key, row));
+    };
     this.columns = [
       {
         title: 'Year',
@@ -70,7 +74,6 @@ class Step3 extends React.Component {
         key: 'action',
         width: '50%',
         render: (text, record) => {
-          console.log(record)
           return(
             <span>
               <Button onClick= {() => this.addSubgroup(text, record)}>Add Subgroup</Button>
@@ -154,7 +157,7 @@ class Step3 extends React.Component {
           columns={columns}
           dataSource={data}
           rowSelection={rowSelection}
-          handleSave={this.props.updateFieldYears}
+          handleSave={this.handleSave}
         />
 
         <BottomNav

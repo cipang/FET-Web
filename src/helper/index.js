@@ -47,6 +47,25 @@ export function delObject(theObject, key) {
     return result;
 }
 
+export function updateObject(theObject, key, newObject) {
+    let result = [];
+    for(let i = 0; i < theObject.length; i++) {
+        if(theObject[i]["key"] === key){
+            result.push(newObject);
+        } else if ("children" in theObject[i]) {
+            result.push(
+                {
+                    ...theObject[i],
+                    "children": updateObject(theObject[i]["children"], key, newObject)
+                }
+            );
+        } else {
+            result.push(theObject[i]);
+        }
+    }
+    return result;
+}
+
 export function addObject(theObject, key, newObject) {
     let result = [];
     for(let i = 0; i < theObject.length; i++) {
