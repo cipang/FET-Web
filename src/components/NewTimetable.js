@@ -2,7 +2,7 @@ import React from 'react';
 import AppLayout from './layouts/AppLayout';
 import { Button, Card, Row, Col, Steps  } from 'antd';
 import { connect } from 'react-redux';
-import { onSaveTimetable, startAsync } from '../actions';
+import { onSaveTimetable, startAsync, updateFieldTimetable} from '../actions';
 import Step0 from './steps/Step0';
 import Step1 from './steps/Step1';
 import Step2 from './steps/Step2';
@@ -40,6 +40,8 @@ class NewTimetable extends React.Component {
     }
   }
 
+  onChange = current => this.props.updateFieldTimetable("step", current);
+
   render() {
     // console.log(this.props.async.loading);
     // console.log(new Date().toLocaleString());
@@ -49,7 +51,12 @@ class NewTimetable extends React.Component {
           <Card>
             <Row gutter={24} >
               <Col span={6}>
-                <Steps current={this.props.timetable.step} direction="vertical">
+                <Steps
+                  type="navigation"
+                  current={this.props.timetable.step}
+                  direction="vertical"
+                  onChange={this.onChange}
+                >
                   <Steps.Step title="Step 1" description="Name and time." />
                   <Steps.Step title="Step 2" description="Add subjects." />
                   <Steps.Step title="Step 3" description="Add teachers." />
@@ -80,4 +87,4 @@ class NewTimetable extends React.Component {
 
 const mapStateToProps = state => ({ timetable: state.timetable, async: state.async });
 
-export default connect( mapStateToProps, { onSaveTimetable, startAsync })(NewTimetable);
+export default connect( mapStateToProps, { onSaveTimetable, startAsync, updateFieldTimetable })(NewTimetable);
