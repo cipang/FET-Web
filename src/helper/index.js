@@ -151,12 +151,8 @@ export function createActivity(raw, keyList) {
     let teachers = "";
     let tags = "";
     let children = [];
-    let newKey = generateUniqueKey(keyList, length);
-
+    let newKey = generateUniqueKey(keyList, 6);
     keyList.push(newKey);
-    Object.keys(raw.durations).map(duration => {
-      sum += raw.durations[duration];
-    });
 
     raw.selectedTeachers.map(teacher => {
       teachers = teachers.concat(teacher.teacher, ",");
@@ -168,12 +164,30 @@ export function createActivity(raw, keyList) {
     })
     tags = tags.substring(0, tags.length - 1);
 
+    Object.keys(raw.durations).map(duration => {
+      sum += raw.durations[duration];
+    });
+
+    Object.keys(raw.durations).map(duration => {
+      let childKey = generateUniqueKey(keyList, 6);
+      console.log(childKey);
+      keyList.push(childKey);
+      children.push({
+        key:childKey,
+        duration: raw.durations[duration].toString() + "/" + sum.toString(),
+        subject:raw.selectedSubject,
+        teachers,
+        tags
+      })
+    });
+
     result = {
       key:newKey,
       duration: sum,
       subject:raw.selectedSubject,
       teachers,
       tags,
+      children
     }
     console.log(result);
     return result;
