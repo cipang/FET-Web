@@ -1,102 +1,75 @@
 import React from 'react';
-import BottomNav from '../commons/BottomNav';
-import {Form, Icon, Input, Row, Button  } from 'antd';
+import CommonStep from '../commons/CommonStep';
+import { Popconfirm, Button } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldSubjects } from '../../actions';
-
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 4 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 20 },
-  },
-}
-
-const formItemLayoutWithOutLabel = {
-  wrapperCol: {
-    xs: { span: 24, offset: 0 },
-    sm: { span: 20, offset: 4 },
-  },
-};
+import { delObject } from '../../helper';
 
 class Step1 extends React.Component {
 
   constructor(props) {
     super(props);
+    this.columns = [
+      {
+        title: 'Subject',
+        dataIndex: 'subject',
+        key: 'subject',
+        editable: true,
+      },
+      {
+        title: 'Action',
+        key: 'action',
+        render: (text, record) => {
+          return(
+            <span>
+              {this.props.timetable.subjects.data.length >= 1 ? (
+                <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
+                  <Button>Delete</Button>
+                </Popconfirm>
+              ) : null}
+            </span>
+          )
+        }
+      },
+    ];
     this.goStep0 = () => {props.updateFieldTimetable("step",0);};
     this.goStep2 = () => {props.updateFieldTimetable("step",2);};
-    this.addSubject = () => {
-      let num = Object.keys(this.props.timetable.subjects).length+1;
-      while(this.props.timetable.subjects["subject_"+num.toString()] != null){
-        num++;
-      }
-      props.updateFieldSubjects("subject_"+num.toString(),"");
-    }
-    this.onSubjectChange = (e, subject) => {
-      props.updateFieldSubjects(subject, e.target.value);
-    }
-    this.removeSubject = (subject) => {
-      let { [subject]:value, ...rest } = this.props.timetable.subjects;
-      props.updateFieldTimetable("subjects", rest);
-    }
-    console.log(this.props);
   }
 
-  renderSubjects() {
-    const { subjects } = this.props.timetable;
-    let subjectsItems = [];
-    let count = 0;
-    Object.keys(subjects).map(subject => {
-      subjectsItems.push(
-        <Form.Item
-          {...(count === 0  ? formItemLayout : formItemLayoutWithOutLabel)}
-          label={count  === 0 ? 'Subjects' : ''}
-          required={false}
-          key={subject}
-        >
-          <Input
-            value={subjects[subject]}
-            placeholder="Subject Name"
-            onChange={(e) => this.onSubjectChange(e,subject)}
-            style={{ width: '60%', marginRight: 8 }}
-          />
-          {count >= 1 ? (
-            <Icon
-              className="dynamic-delete-button"
-              type="minus-circle-o"
-              onClick={() => this.removeSubject(subject)}
-            />
-          ) : null}
-        </Form.Item>);
-      count++;
-    });
-    return subjectsItems;
+
+  handleDelete = key => {
+    const { data, keyList } = this.props.timetable.subjects;
+    this.props.updateFieldSubjects("data", delObject(data, key));
+    this.props.updateFieldSubjects("keyList", keyList.filter(item => item.key !== key));
   }
 
-  render(){
+  render() {
+    const { data, keyList } = this.props.timetable.subjects;
+    const objectPrototype = { tag: null };
+    const rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => {
+        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      },
+      onSelect: (record, selected, selectedRows) => {
+        console.log(record, selected, selectedRows);
+      },
+      onSelectAll: (selected, selectedRows, changeRows) => {
+        console.log(selected, selectedRows, changeRows);
+      },
+    };
+
 
     return (
-      <Row>
-        <Form>
-          {this.renderSubjects()}
-          <Form.Item {...formItemLayoutWithOutLabel}>
-            <Button type="dashed"  onClick={this.addSubject} style={{ width: '60%' }}>
-              <Icon type="plus" /> Add field
-            </Button>
-          </Form.Item>
-        </Form>
-        <BottomNav
-          loading = {false}
-          goBackButtonText = {'Back'}
-          goNextButtonText = {'Next'}
-          goBack= {this.goStep0}
-          goNext= {this.goStep2}
-        />
-      </Row>
+      <CommonStep
+        data = {data}
+        keyList = {keyList}
+        columns = {this.columns}
+        rowSelection = {rowSelection}
+        objectPrototype = {objectPrototype}
+        updateField = {this.props.updateFieldSubjects}
+        goBack = {this.goStep0}
+        goNext = {this.goStep2}
+      />
     );
   }
 }
@@ -104,4 +77,4 @@ class Step1 extends React.Component {
 const mapStateToProps = state => ({ timetable: state.timetable });
 
 
-export default connect( mapStateToProps, { updateFieldTimetable, updateFieldSubjects } )(Form.create()(Step1));
+export default connect( mapStateToProps, { updateFieldTimetable, updateFieldSubjects } )(Step1);

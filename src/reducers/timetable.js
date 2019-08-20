@@ -25,11 +25,37 @@ const initialstate = {
   periods:{},
   numberOfSubjects:1,
   subjects:{
+    keyList: [1,2],
+    data:[
+      {
+        key: 1,
+        subject: 'maths'
+      },
+      {
+        key: 2,
+        subject: 'physics'
+      }
+    ],
     subject_1:"maths",
     subject_2:"physics",
     subject_3:"chemistry",
   },
   teachers:{
+    keyList: [1,2],
+    data:[
+      {
+        key: 1,
+        teacher: 'teach1',
+        targetNumberOfHours:0,
+        qualifiedSubjects:[]
+      },
+      {
+        key: 2,
+        teacher: 'teach2',
+        targetNumberOfHours:0,
+        qualifiedSubjects:[]
+      }
+    ],
     teacher_1:{
       name:"teach1",
       targetNumberOfHours:"",

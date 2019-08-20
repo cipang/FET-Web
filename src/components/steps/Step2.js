@@ -1,109 +1,81 @@
 import React from 'react';
-import BottomNav from '../commons/BottomNav';
-import {Form, Icon, Input, Row, Button  } from 'antd';
+import CommonStep from '../commons/CommonStep';
+import { Popconfirm, Button } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldTeachers } from '../../actions';
+import { delObject } from '../../helper';
 
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 4 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 20 },
-  },
-}
-
-const formItemLayoutWithOutLabel = {
-  wrapperCol: {
-    xs: { span: 24, offset: 0 },
-    sm: { span: 20, offset: 4 },
-  },
-};
-
-class Step2 extends React.Component {
+class Step1 extends React.Component {
 
   constructor(props) {
     super(props);
+    this.columns = [
+      {
+        title: 'Teacher',
+        dataIndex: 'teacher',
+        key: 'teacher',
+        editable: true,
+      },
+      {
+        title: 'Target Number Of Hours',
+        dataIndex: 'targetNumberOfHours',
+        key: 'targetNumberOfHours',
+        editable: true,
+      },
+      {
+        title: 'Action',
+        key: 'action',
+        render: (text, record) => {
+          return(
+            <span>
+              {this.props.timetable.teachers.data.length >= 1 ? (
+                <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
+                  <Button>Delete</Button>
+                </Popconfirm>
+              ) : null}
+            </span>
+          )
+        }
+      },
+    ];
     this.goStep1 = () => {props.updateFieldTimetable("step",1);};
     this.goStep3 = () => {props.updateFieldTimetable("step",3);};
-    this.addTeacher = () => {
-      let num = Object.keys(this.props.timetable.teachers).length+1;
-      while(this.props.timetable.teachers["teacher_"+num.toString()] != null){
-        num++;
-      }
-      props.updateFieldTeachers("teacher_"+num.toString(),"");
-    }
-    this.onTeacherChange = (e, teacher) => {
-      props.updateFieldTeachers(teacher, e.target.value);
-    }
-    this.removeTeacher = (teacher) => {
-      let { [teacher]:value, ...rest } = this.props.timetable.teachers;
-      props.updateFieldTimetable("teachers", rest);
-    }
-    // this.rmTeacher;
-    console.log(this.props);
   }
 
-  renderTeachers() {
-    const { teachers } = this.props.timetable;
-    let teachersItems = [];
-    let count = 0;
-    Object.keys(teachers).map(teacher => {
-      teachersItems.push(
-      <Form.Item
-        {...(count === 0  ? formItemLayout : formItemLayoutWithOutLabel)}
-        label={count  === 0 ? 'Teachers' : ''}
-        required={false}
-        key={teacher}
-      >
-        <Input
-          value={teachers[teacher]["name"]}
-          placeholder="Teacher Name"
-          onChange={(e) => this.onTeacherChange(e,teacher)}
-          style={{ width: '30%', marginRight: 8 }}
-        />
-        <Input
-          value={teachers[teacher]["targetNumberOfHours"]}
-          placeholder="Target number of hours default is 0"
-          onChange={(e) => this.onTeacherChange(e,teacher)}
-          style={{ width: '30%', marginRight: 8 }}
-        />
-        {count >= 1 ? (
-          <Icon
-            className="dynamic-delete-button"
-            type="minus-circle-o"
-            onClick={() => this.removeTeacher(teacher)}
-          />
-        ) : null}
-      </Form.Item>);
-      count++;
-    });
-    return teachersItems;
+
+  handleDelete = key => {
+    const { data, keyList } = this.props.timetable.teachers;
+    this.props.updateFieldTeachers("data", delObject(data, key));
+    this.props.updateFieldTeachers("keyList", keyList.filter(item => item.key !== key));
   }
 
-  render(){
+  render() {
+    const { data, keyList } = this.props.timetable.teachers;
+    const objectPrototype = { tag: null };
+    const rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => {
+        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      },
+      onSelect: (record, selected, selectedRows) => {
+        console.log(record, selected, selectedRows);
+      },
+      onSelectAll: (selected, selectedRows, changeRows) => {
+        console.log(selected, selectedRows, changeRows);
+      },
+    };
+
 
     return (
-      <Row>
-        <Form>
-          {this.renderTeachers()}
-          <Form.Item {...formItemLayoutWithOutLabel}>
-            <Button type="dashed"  onClick={this.addTeacher} style={{ width: '60%' }}>
-              <Icon type="plus" /> Add field
-            </Button>
-          </Form.Item>
-        </Form>
-        <BottomNav
-          loading = {false}
-          goBackButtonText = {'Back'}
-          goNextButtonText = {'Next'}
-          goBack= {this.goStep1}
-          goNext= {this.goStep3}
-        />
-      </Row>
+      <CommonStep
+        data = {data}
+        keyList = {keyList}
+        columns = {this.columns}
+        rowSelection = {rowSelection}
+        objectPrototype = {objectPrototype}
+        updateField = {this.props.updateFieldTeachers}
+        goBack = {this.goStep1}
+        goNext = {this.goStep3}
+      />
     );
   }
 }
@@ -111,4 +83,4 @@ class Step2 extends React.Component {
 const mapStateToProps = state => ({ timetable: state.timetable });
 
 
-export default connect( mapStateToProps, { updateFieldTimetable, updateFieldTeachers } )(Step2);
+export default connect( mapStateToProps, { updateFieldTimetable, updateFieldTeachers } )(Step1);

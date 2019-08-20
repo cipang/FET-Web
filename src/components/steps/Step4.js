@@ -1,9 +1,9 @@
 import React from 'react';
 import CommonStep from '../commons/CommonStep';
-import { Form, Icon, Input, Row , Button, Popconfirm } from 'antd';
+import { Popconfirm, Button } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldTags } from '../../actions';
-import { getObject, delObject, addObject, generateKey, updateObject, mapColumns } from '../../helper';
+import { delObject } from '../../helper';
 
 class Step1 extends React.Component {
 
@@ -22,7 +22,7 @@ class Step1 extends React.Component {
         render: (text, record) => {
           return(
             <span>
-              {this.props.timetable.years.data.length >= 1 ? (
+              {this.props.timetable.tags.data.length >= 1 ? (
                 <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
                   <Button>Delete</Button>
                 </Popconfirm>
