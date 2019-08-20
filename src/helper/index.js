@@ -118,8 +118,6 @@ export function mapColumns(columns) {
                     ...col,
                     onCell: record => ({
                         record,
-                        dataIndex: col.dataIndex,
-                        key: col.key,
                         title: col.title
                     }),
                 }

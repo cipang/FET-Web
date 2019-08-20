@@ -4,6 +4,7 @@ import {
   PERIODS_UPDATE_FIELD,
   SUBJECTS_UPDATE_FIELD,
   TEACHERS_UPDATE_FIELD,
+  TAGS_UPDATE_FIELD,
   YEARS_UPDATE_FIELD,
   ACTIVITIES_UPDATE_FIELD
 } from '../constants/actionTypes';
@@ -72,11 +73,11 @@ const initialstate = {
     data:[
       {
         key: 1,
-        name: 'tag1'
+        tag: 'tag1'
       },
       {
         key: 2,
-        name: 'tag2'
+        tag: 'tag2'
       }
     ]
   },
@@ -101,6 +102,8 @@ export default (state = initialstate, action) => {
       return { ...state, teachers:{...state.teachers, [action.payload.key]: action.payload.value}}
     case YEARS_UPDATE_FIELD:
       return { ...state, years:{...state.years, [action.payload.key]: action.payload.value}}
+    case TAGS_UPDATE_FIELD:
+      return { ...state, tags:{...state.tags, [action.payload.key]: action.payload.value}}
     case ACTIVITIES_UPDATE_FIELD:
       return { ...state, activities:{...state.activities, [action.payload.key]: action.payload.value}}
     default:
