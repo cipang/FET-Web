@@ -12,6 +12,10 @@ class Step1 extends React.Component {
     this.goStep6 = () => this.props.updateFieldTimetable("step",6);
     this.showModal = () => this.props.updateFieldActivities("showModal", true);
     this.closeModal = () => this.props.updateFieldActivities("showModal", false);
+    this.subjectOnChange = val => {
+      let currentActivity = this.props.timetable.activities.newActivity;
+      this.props.updateFieldActivities("newActivity", {...currentActivity, selectedSubject:val});
+    }
     this.splitOnChange = val => {
       let currentActivity = this.props.timetable.activities.newActivity;
       this.props.updateFieldActivities("newActivity", {...currentActivity, split:val});
@@ -123,6 +127,7 @@ class Step1 extends React.Component {
                   <Select
                     size="small"
                     value={selectedSubject}
+                    onChange={this.subjectOnChange}
                    >
                     {subjects.data.map(subject =>
                       <Select.Option value={subject.subject} key = {subject.key}>{subject.subject}</Select.Option>
@@ -165,7 +170,7 @@ class Step1 extends React.Component {
                         <Form.Item label= "Duration" {...formItemLayout}>
                           <Select
                             size="small"
-                            value={durations["duration_" + (i+1).toString()]}
+                            value={durations["duration_" + (i+1).toString()]?durations["duration_" + (i+1).toString()]:1}
                             onChange={(e) => this.durationsOnChange(e,i+1)}
                            >
                              {[...Array(numberOfPeriodsPerDay).keys()].map(i => (
