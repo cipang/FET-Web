@@ -50,12 +50,12 @@ class NewTimetable extends React.Component {
             <Row gutter={24} >
               <Col span={6}>
                 <Steps current={this.props.timetable.step} direction="vertical">
-                  <Steps.Step title="Step 1" description="This is a description." />
-                  <Steps.Step title="Step 2" description="This is a description." />
-                  <Steps.Step title="Step 3" description="This is a description." />
-                  <Steps.Step title="Step 4" description="This is a description." />
-                  <Steps.Step title="Step 5" description="This is a description." />
-                  <Steps.Step title="Step 6" description="This is a description." />
+                  <Steps.Step title="Step 1" description="Name and time." />
+                  <Steps.Step title="Step 2" description="Add subjects." />
+                  <Steps.Step title="Step 3" description="Add teachers." />
+                  <Steps.Step title="Step 4" description="Add students in years(groups)." />
+                  <Steps.Step title="Step 5" description="Add activity tags." />
+                  <Steps.Step title="Step 6" description="Add activities." />
                 </Steps>
               </Col>
               <Col span={18}>
