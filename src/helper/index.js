@@ -106,3 +106,26 @@ export function generateKey(keyList, key, length) {
     }
     return newKey;
 }
+
+export function mapColumns(columns) {
+    let result = [];
+    columns.map(col => {
+        if (!col.editable) {
+            result.push(col);
+        } else{
+            result.push(
+                {
+                    ...col,
+                    onCell: record => ({
+                        record,
+                        dataIndex: col.dataIndex,
+                        key: col.key,
+                        title: col.title
+                    }),
+                }
+            );
+
+        }
+    });
+    return result
+}

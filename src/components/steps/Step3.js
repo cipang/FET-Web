@@ -4,7 +4,7 @@ import EditableTable from '../commons/EditableTable';
 import { Form, Row, Table, Divider, Button, Modal, Popconfirm, Input, Col,Card } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldYears } from '../../actions';
-import { getObject, delObject, addObject, generateKey, updateObject } from '../../helper';
+import { getObject, delObject, addObject, generateKey, updateObject, mapColumns } from '../../helper';
 
 class Step3 extends React.Component {
 
@@ -12,8 +12,6 @@ class Step3 extends React.Component {
     super(props);
     this.goStep2 = () => {props.updateFieldTimetable("step",2);};
     this.goStep4 = () => {props.updateFieldTimetable("step",4);};
-    this.showModal = () => { props.updateFieldYears("visibility", true); }
-    this.closeModal = () => { props.updateFieldYears("visibility", false); }
     this.columns = [
       {
         title: 'Year',
@@ -107,19 +105,7 @@ class Step3 extends React.Component {
       },
     };
 
-    const columns = this.columns.map(col => {
-      if (!col.editable) {
-        return col;
-      }
-      return {
-        ...col,
-        onCell: record => ({
-          record,
-          title: col.title
-        }),
-      };
-    });
-
+    const columns = mapColumns(this.columns);
     const { data } = this.props.timetable.years;
 
     // rowSelection objects indicates the need for row selection
@@ -137,21 +123,6 @@ class Step3 extends React.Component {
 
     return (
       <Row>
-        <Modal
-            title="Add students"
-            visible={this.props.timetable.years.visibility}
-            onOk={this.showModal}
-            onCancel={this.closeModal}
-          >
-          <Form {...formItemLayout}>
-            <Form.Item label="Year">
-              <Input style = {{width:'40%'}}/>
-            </Form.Item>
-            <Form.Item label="Number">
-              <Input style = {{width:'40%'}}/>
-            </Form.Item>
-          </Form>
-        </Modal>
         <Row className="mb-2">
           <Button onClick={this.handleAdd}>Add New</Button>
           <Button className="ml-3">Delete Selected</Button>

@@ -34,7 +34,7 @@ const initialstate = {
       targetNumberOfHours:"",
       qualifiedSubjects:[]
     },
-    teacher_1:{
+    teacher_2:{
       name:"teach2",
       targetNumberOfHours:"",
       qualifiedSubjects:[]
@@ -65,6 +65,19 @@ const initialstate = {
         year: '2020',
         number: 32,
       },
+    ]
+  },
+  tags:{
+    keyList: [1,2],
+    data:[
+      {
+        key: 1,
+        name: 'tag1'
+      },
+      {
+        key: 2,
+        name: 'tag2'
+      }
     ]
   },
   activities:{
