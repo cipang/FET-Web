@@ -1,6 +1,6 @@
 import React from 'react';
 import BottomNav from '../commons/BottomNav';
-import { Form, Icon, Input, Row ,Tooltip, Modal, Button } from 'antd';
+import { Form, Icon, Input, Row ,Table, Button, Popconfirm, Modal } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldActivities } from '../../actions';
 
@@ -8,15 +8,17 @@ class Step1 extends React.Component {
 
   constructor(props) {
     super(props);
-    this.goStep4 = () => {props.updateFieldTimetable("step",4);};
-    this.goStep6 = () => {props.updateFieldTimetable("step",6);};
+    this.goStep4 = () => this.props.updateFieldTimetable("step",4);
+    this.goStep6 = () => this.props.updateFieldTimetable("step",6);
+    this.showModal = () => this.props.updateFieldActivities("showModal", true);
+    this.closeModal = () => this.props.updateFieldActivities("showModal", false);
     console.log(this.props);
   }
 
-  showModal = () => { this.props.updateFieldActivities("showModal", true); }
-  closeModal = () => { this.props.updateFieldActivities("showModal", false); }
+
 
   render() {
+    const { years, tags, teachers } = this.props.timetable;
     const formItemLayout = {
       labelCol: {
         xs: { span: 16 },
@@ -27,6 +29,13 @@ class Step1 extends React.Component {
         sm: { span: 18 },
       },
     };
+    const columnsTags = [
+      {
+        title: 'Tag',
+        dataIndex: 'tag',
+        key: 'tag',
+      },
+    ]
     return (
       <Row>
         <Modal
@@ -35,14 +44,21 @@ class Step1 extends React.Component {
             onOk={this.showModal}
             onCancel={this.closeModal}
           >
-          <Form {...formItemLayout}>
-            <Form.Item label="Year">
-              <Input style = {{width:'40%'}}/>
-            </Form.Item>
-            <Form.Item label="Number">
-              <Input style = {{width:'40%'}}/>
-            </Form.Item>
-          </Form>
+          <Table
+            size = "small"
+            columns = {columnsTags}
+            dataSource= {tags.data}
+          />
+          <Table
+            size = "small"
+            columns = {columnsTags}
+            dataSource= {tags.data}
+          />
+          <Table
+            size = "small"
+            columns = {columnsTags}
+            dataSource= {tags.data}
+          />
         </Modal>
         <Row className="mb-2">
           <Button onClick={this.showModal}>Add New</Button>
