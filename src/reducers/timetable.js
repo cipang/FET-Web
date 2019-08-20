@@ -96,6 +96,7 @@ const initialstate = {
   },
   activities:{
     newActivity:{
+      error:null,
       split:1,
       selectedSubject:"",
       selectedTeachers:[],

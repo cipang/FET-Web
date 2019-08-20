@@ -127,3 +127,55 @@ export function mapColumns(columns) {
     });
     return result
 }
+
+
+function generateHexString(length) {
+  let ret = "";
+  while (ret.length < length) {
+    ret += Math.random().toString(16).substring(2);
+  }
+  return ret.substring(0,length);
+}
+
+export function generateUniqueKey(keyList, length) {
+    let newKey = generateHexString(8);
+    while(keyList.includes(newKey)) {
+        newKey = generateHexString(8);
+    }
+    return newKey;
+}
+
+export function createActivity(raw, keyList) {
+    let result = {};
+    let sum = 0;
+    let teachers = "";
+    let tags = "";
+    let children = [];
+    let newKey = generateUniqueKey(keyList, length);
+
+    keyList.push(newKey);
+    Object.keys(raw.durations).map(duration => {
+      sum += raw.durations[duration];
+    });
+
+    raw.selectedTeachers.map(teacher => {
+      teachers = teachers.concat(teacher.teacher, ",");
+    })
+    teachers = teachers.substring(0, teachers.length - 1);
+
+    raw.selectedTags.map(tag => {
+      tags = tags.concat(tag.tag, ",");
+    })
+    tags = tags.substring(0, tags.length - 1);
+
+    result = {
+      key:newKey,
+      duration: sum,
+      subject:raw.selectedSubject,
+      teachers,
+      tags,
+    }
+    console.log(result);
+    return result;
+
+}

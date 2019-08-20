@@ -3,6 +3,7 @@ import BottomNav from '../commons/BottomNav';
 import { Form, Icon, Input, Row ,Table, Button, Popconfirm, Modal, Col, Select,Tabs, Tooltip } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldActivities } from '../../actions';
+import { createActivity, generateKey } from '../../helper';
 
 class Step1 extends React.Component {
 
@@ -12,32 +13,11 @@ class Step1 extends React.Component {
     this.goStep6 = () => this.props.updateFieldTimetable("step",6);
     this.showModal = () => this.props.updateFieldActivities("showModal", true);
     this.closeModal = () => this.props.updateFieldActivities("showModal", false);
-    this.subjectOnChange = val => {
-      let currentActivity = this.props.timetable.activities.newActivity;
-      this.props.updateFieldActivities("newActivity", {...currentActivity, selectedSubject:val});
-    }
-    this.splitOnChange = val => {
-      let currentActivity = this.props.timetable.activities.newActivity;
-      this.props.updateFieldActivities("newActivity", {...currentActivity, split:val});
-    }
-    this.durationsOnChange = (val, key) => {
-      let currentActivity = this.props.timetable.activities.newActivity;
-      this.props.updateFieldActivities(
-        "newActivity",
-        {
-          ...currentActivity,
-          durations:{
-            ...currentActivity.durations,
-            ["duration_" + key.toString()]:val
-          }
-        }
-      );
-    }
     this.columns = [
       {
-        title: 'Id',
-        dataIndex: 'id',
-        key: 'id'
+        title: 'Key',
+        dataIndex: 'key',
+        key: 'key'
       },
       {
         title: 'Duration',
@@ -60,6 +40,53 @@ class Step1 extends React.Component {
         key: 'tags'
       }
     ];
+  }
+
+  subjectOnChange = val => {
+    let currentActivity = this.props.timetable.activities.newActivity;
+    this.props.updateFieldActivities("newActivity", {...currentActivity, selectedSubject:val});
+  }
+
+  splitOnChange = val => {
+    let currentActivity = this.props.timetable.activities.newActivity;
+    let durations = {};
+    [...Array(val).keys()].map(i => {
+      durations["duration_" + (i+1).toString()] = 1;
+    });
+    this.props.updateFieldActivities("newActivity",
+       {
+         ...currentActivity,
+         split:val,
+         durations
+       }
+    );
+  }
+
+  durationsOnChange = (val, key) => {
+    let currentActivity = this.props.timetable.activities.newActivity;
+    this.props.updateFieldActivities(
+      "newActivity",
+      {
+        ...currentActivity,
+        durations:{
+          ...currentActivity.durations,
+          ["duration_" + key.toString()]:val
+        }
+      }
+    );
+  }
+
+  handleAdd = () => {
+    let { newActivity, data, keyList } = this.props.timetable.activities;
+    let updatedActivities = createActivity(newActivity, keyList );
+    this.props.updateFieldActivities(
+      "data",
+      [...data,  updatedActivities]
+    );
+    this.props.updateFieldActivities(
+      "keyList",
+      keyList
+    );
   }
 
   render() {
@@ -148,7 +175,7 @@ class Step1 extends React.Component {
         <Modal
             title="Add students"
             visible={this.props.timetable.activities.showModal}
-            onOk={this.showModal}
+            onOk={this.handleAdd}
             onCancel={this.closeModal}
             width="1300px"
           >
@@ -215,7 +242,7 @@ class Step1 extends React.Component {
                         <Form.Item label= "Duration" {...formItemLayout}>
                           <Select
                             size="small"
-                            value={durations["duration_" + (i+1).toString()]?durations["duration_" + (i+1).toString()]:1}
+                            value={durations["duration_" + (i+1).toString()]}
                             onChange={(e) => this.durationsOnChange(e,i+1)}
                            >
                              {[...Array(numberOfPeriodsPerDay).keys()].map(i => (
