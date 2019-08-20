@@ -201,3 +201,35 @@ export function createActivity(raw, keyList) {
     return result;
 
 }
+
+export function refreshActivities(activities) {
+  let newData = [];
+  let ommitedKeys = [];
+  activities.map(activity => {
+      if(activity["children"]){
+          let sum = 0;
+          activity["children"].map(child => {
+              sum += child["duration"];
+          });
+          if(sum !== activity["duration"]) {
+              let newChildren = [];
+              activity["children"].map(child => {
+                  newChildren.push({
+                    ...child,
+                    duration: child["duration"].toString() + "/" + sum.toString(),
+                  });
+              });
+              newData.push({
+                ...activity,
+                duration:sum,
+                children:newChildren
+              });
+          } else {
+              newData.push(activity);
+          }
+      } else{
+          ommitedKeys.push(activity["key"]);
+      }
+  });
+  return {newData, ommitedKeys};
+}

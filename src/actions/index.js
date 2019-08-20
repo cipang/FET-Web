@@ -12,6 +12,8 @@ import {
   YEARS_UPDATE_FIELD,
   TAGS_UPDATE_FIELD,
   ACTIVITIES_UPDATE_FIELD,
+  BUILDINGS_UPDATE_FIELD,
+  ROOMS_UPDATE_FIELD,
   ASYNC_START,
   ASYNC_END,
   ISLOGGEDIN,
@@ -148,6 +150,20 @@ export function updateFieldTags(key, value) {
 export function updateFieldActivities(key, value) {
   return {
     type: ACTIVITIES_UPDATE_FIELD,
+    payload: {key, value}
+  };
+}
+
+export function updateFieldBuildings(key, value) {
+  return {
+    type: BUILDINGS_UPDATE_FIELD,
+    payload: {key, value}
+  };
+}
+
+export function updateFieldRooms(key, value) {
+  return {
+    type: ROOMS_UPDATE_FIELD,
     payload: {key, value}
   };
 }

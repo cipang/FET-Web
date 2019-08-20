@@ -1,39 +1,64 @@
 import React from 'react';
-import BottomNav from '../commons/BottomNav';
-import {Form, Icon, Input, Row ,Tooltip  } from 'antd';
+import CommonStep from '../commons/CommonStep';
+import { Popconfirm, Button } from 'antd';
 import { connect } from 'react-redux';
-import { updateFieldTimetable } from '../../actions';
+import { updateFieldTimetable, updateFieldBuildings } from '../../actions';
+import { delObject, delObjects } from '../../helper';
 
 class Step1 extends React.Component {
 
   constructor(props) {
     super(props);
-    this.goStep3 = () => {props.updateFieldTimetable("step",3);};
+    this.columns = [
+      {
+        title: 'Building',
+        dataIndex: 'building',
+        key: 'building',
+        editable: true,
+      },
+      {
+        title: 'Action',
+        key: 'action',
+        render: (text, record) => {
+          return(
+            <span>
+              {this.props.timetable.buildings.data.length >= 1 ? (
+                <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
+                  <Button>Delete</Button>
+                </Popconfirm>
+              ) : null}
+            </span>
+          )
+        }
+      },
+    ];
     this.goStep5 = () => {props.updateFieldTimetable("step",5);};
-    console.log(this.props);
+    this.goStep7 = () => {props.updateFieldTimetable("step",7);};
+  }
+
+
+  handleDelete = key => {
+    let { data, keyList } = this.props.timetable.buildings;
+
+    this.props.updateFieldBuildings("data", delObject(data, key));
+    this.props.updateFieldBuildings("keyList", keyList.filter(item => item !== key));
   }
 
   render() {
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 16 },
-        sm: { span: 6 },
-      },
-      wrapperCol: {
-        xs: { span: 32 },
-        sm: { span: 18 },
-      },
-    };
+    const { data, keyList, selectedRowKeys } = this.props.timetable.buildings;
+    const objectPrototype = { building: null };
+
     return (
-      <Row>
-        <BottomNav
-          loading = {false}
-          goBackButtonText = {'Back'}
-          goNextButtonText = {'Next'}
-          goBack= {this.goStep3}
-          goNext= {this.goStep5}
-        />
-      </Row>
+      <CommonStep
+        data = {data}
+        keyList = {keyList}
+        columns = {this.columns}
+        objectPrototype = {objectPrototype}
+        selectedRowKeys = {selectedRowKeys}
+        updateField = {this.props.updateFieldBuildings}
+        goBack = {this.goStep5}
+        goNext = {this.goStep7}
+      />
     );
   }
 }
@@ -41,4 +66,4 @@ class Step1 extends React.Component {
 const mapStateToProps = state => ({ timetable: state.timetable });
 
 
-export default connect( mapStateToProps, { updateFieldTimetable } )(Step1);
+export default connect( mapStateToProps, { updateFieldTimetable, updateFieldBuildings } )(Step1);

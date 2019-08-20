@@ -6,7 +6,9 @@ import {
   TEACHERS_UPDATE_FIELD,
   TAGS_UPDATE_FIELD,
   YEARS_UPDATE_FIELD,
-  ACTIVITIES_UPDATE_FIELD
+  ACTIVITIES_UPDATE_FIELD,
+  BUILDINGS_UPDATE_FIELD,
+  ROOMS_UPDATE_FIELD
 } from '../constants/actionTypes';
 
 const initialstate = {
@@ -107,6 +109,14 @@ const initialstate = {
     showModal:false,
     data:[],
     keyList: []
+  },
+  buildings:{
+    data:[],
+    keyList: []
+  },
+  rooms:{
+    data:[],
+    keyList: []
   }
 };
 
@@ -129,6 +139,10 @@ export default (state = initialstate, action) => {
       return { ...state, tags:{...state.tags, [action.payload.key]: action.payload.value}}
     case ACTIVITIES_UPDATE_FIELD:
       return { ...state, activities:{...state.activities, [action.payload.key]: action.payload.value}}
+    case BUILDINGS_UPDATE_FIELD:
+      return { ...state, buildings:{...state.buildings, [action.payload.key]: action.payload.value}}
+    case ROOMS_UPDATE_FIELD:
+      return { ...state, rooms:{...state.rooms, [action.payload.key]: action.payload.value}}
     default:
       return state;
   }

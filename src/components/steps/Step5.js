@@ -3,8 +3,9 @@ import BottomNav from '../commons/BottomNav';
 import { Form, Icon, Input, Row ,Table, Button, Popconfirm, Modal, Col, Select,Tabs, Tooltip } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldActivities } from '../../actions';
-import { createActivity, generateKey } from '../../helper';
+import { createActivity, generateKey, delObject, refreshActivities } from '../../helper';
 
+// TODO: may use common step
 class Step1 extends React.Component {
 
   constructor(props) {
@@ -89,6 +90,28 @@ class Step1 extends React.Component {
     );
   }
 
+  //TODO: need a better way
+  handleDelAll = () => {
+    const { selectedRowKeys, data, keyList } = this.props.timetable.activities;
+    let newData = [...data];
+    let newKeyList = [...keyList];
+    selectedRowKeys.map(key => {
+      newData = delObject(newData, key);
+      newKeyList = newKeyList.filter(item => item !== key);
+    });
+
+    // let result = refreshActivities(newData);
+    // newData = result["newData"];
+    // let ommitedKeys = result["ommitedKeys"];
+    //
+    // ommitedKeys.map(key => {
+    //   newKeyList = newKeyList.filter(item => item !== key);
+    // });
+
+    this.props.updateFieldActivities("data", newData);
+    this.props.updateFieldActivities("keyList", newKeyList);
+  }
+
   render() {
     const { years, tags, teachers, subjects, activities, numberOfPeriodsPerDay } = this.props.timetable;
     const { data, keyList } = this.props.timetable.activities;
@@ -103,18 +126,11 @@ class Step1 extends React.Component {
         sm: { span: 18 },
       },
     };
+
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        console.log(selectedRowKeys, 'selectedRows: ', selectedRows);
-      },
-      onSelect: (record, selected, selectedRows) => {
-        console.log(record, selected, selectedRows);
-      },
-      getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User', // Column configuration not to be checked
-        name: record.name,
-      }),
+        this.props.updateFieldActivities("selectedRowKeys",selectedRowKeys);
+      }
     };
 
     const tableData = [
@@ -261,7 +277,9 @@ class Step1 extends React.Component {
 
         <Row className="mb-2">
           <Button onClick={this.showModal}>Add New</Button>
-          <Button className="ml-3">Delete Selected</Button>
+          <Popconfirm title="Sure to delete?" onConfirm={this.handleDelAll}>
+            <Button  className="ml-3">Delete Selected</Button>
+          </Popconfirm>
         </Row>
 
         <Table
