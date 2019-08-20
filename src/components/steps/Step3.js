@@ -1,10 +1,9 @@
 import React from 'react';
-import BottomNav from '../commons/BottomNav';
-import EditableTable from '../commons/EditableTable';
-import { Form, Row, Table, Divider, Button, Modal, Popconfirm, Input, Col,Card } from 'antd';
+import CommonStep from '../commons/CommonStep';
+import { Row, Table, Divider, Button, Modal, Popconfirm, Input, Col} from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldYears } from '../../actions';
-import { getObject, delObject, addObject, generateKey, updateObject, mapColumns } from '../../helper';
+import { getObject, delObject, generateKey } from '../../helper';
 
 class Step3 extends React.Component {
 
@@ -75,74 +74,21 @@ class Step3 extends React.Component {
     this.props.updateFieldYears("keyList", keyList.filter(item => item !== key));
   }
 
-  handleAdd = () => {
-    const { data, keyList } = this.props.timetable.years;
-    let newKey = generateKey(keyList, data.length, 0);
-    let newObject = {
-      key: newKey,
-      year: null,
-      number: null
-    };
-
-    this.props.updateFieldYears("data", [...data, newObject]);
-    this.props.updateFieldYears("keyList", [...keyList, newKey]);
-  };
-
-  handleSave = row => {
-    const { data } = this.props.timetable.years;
-    this.props.updateFieldYears("data", updateObject(data, row.key, row));
-  };
-
   render() {
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 16 },
-        sm: { span: 6 },
-      },
-      wrapperCol: {
-        xs: { span: 32 },
-        sm: { span: 18 },
-      },
-    };
-
-    const columns = mapColumns(this.columns);
-    const { data } = this.props.timetable.years;
-
-    // rowSelection objects indicates the need for row selection
-    const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      },
-      onSelect: (record, selected, selectedRows) => {
-        console.log(record, selected, selectedRows);
-      },
-      onSelectAll: (selected, selectedRows, changeRows) => {
-        console.log(selected, selectedRows, changeRows);
-      },
-    };
+    const { data, keyList, selectedRowKeys } = this.props.timetable.years;
+    const objectPrototype = { year: null, number: null };
 
     return (
-      <Row>
-        <Row className="mb-2">
-          <Button onClick={this.handleAdd}>Add New</Button>
-          <Button className="ml-3">Delete Selected</Button>
-        </Row>
-
-        <EditableTable
-          columns={columns}
-          dataSource={data}
-          rowSelection={rowSelection}
-          handleSave={this.handleSave}
-        />
-
-        <BottomNav
-          loading = {false}
-          goBackButtonText = {'Back'}
-          goNextButtonText = {'Next'}
-          goBack= {this.goStep2}
-          goNext= {this.goStep4}
-        />
-      </Row>
+      <CommonStep
+        data = {data}
+        keyList = {keyList}
+        columns = {this.columns}
+        selectedRowKeys = {selectedRowKeys}
+        objectPrototype = {objectPrototype}
+        updateField = {this.props.updateFieldYears}
+        goBack = {this.goStep2}
+        goNext = {this.goStep4}
+      />
     );
   }
 }

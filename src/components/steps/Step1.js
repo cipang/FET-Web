@@ -47,18 +47,12 @@ class Step1 extends React.Component {
   render() {
     const { data, keyList, selectedRowKeys } = this.props.timetable.subjects;
     const objectPrototype = { tag: null };
-    const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        this.props.updateFieldSubjects("selectedRowKeys",selectedRowKeys);
-      }
-    };
 
     return (
       <CommonStep
         data = {data}
         keyList = {keyList}
         columns = {this.columns}
-        rowSelection = {rowSelection}
         objectPrototype = {objectPrototype}
         selectedRowKeys = {selectedRowKeys}
         updateField = {this.props.updateFieldSubjects}

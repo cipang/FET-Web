@@ -44,8 +44,14 @@ class CommonStep extends React.Component {
   };
 
   render() {
-    const { data, columns, rowSelection, goBack, goNext } = this.props;
+    const { data, columns, goBack, goNext } = this.props;
     const columnsSource = mapColumns(columns);
+    // rowSelection objects indicates the need for row selection
+    const rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => {
+        this.props.updateField("selectedRowKeys",selectedRowKeys);
+      }
+    };
 
     return (
       <Row>
