@@ -3,7 +3,7 @@ import CommonStep from '../commons/CommonStep';
 import { Popconfirm, Button } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldSubjects } from '../../actions';
-import { delObject } from '../../helper';
+import { delObject, delObjects } from '../../helper';
 
 class Step1 extends React.Component {
 
@@ -38,26 +38,20 @@ class Step1 extends React.Component {
 
 
   handleDelete = key => {
-    const { data, keyList } = this.props.timetable.subjects;
+    let { data, keyList } = this.props.timetable.subjects;
+
     this.props.updateFieldSubjects("data", delObject(data, key));
-    this.props.updateFieldSubjects("keyList", keyList.filter(item => item.key !== key));
+    this.props.updateFieldSubjects("keyList", keyList.filter(item => item !== key));
   }
 
   render() {
-    const { data, keyList } = this.props.timetable.subjects;
+    const { data, keyList, selectedRowKeys } = this.props.timetable.subjects;
     const objectPrototype = { tag: null };
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      },
-      onSelect: (record, selected, selectedRows) => {
-        console.log(record, selected, selectedRows);
-      },
-      onSelectAll: (selected, selectedRows, changeRows) => {
-        console.log(selected, selectedRows, changeRows);
-      },
+        this.props.updateFieldSubjects("selectedRowKeys",selectedRowKeys);
+      }
     };
-
 
     return (
       <CommonStep
@@ -66,6 +60,7 @@ class Step1 extends React.Component {
         columns = {this.columns}
         rowSelection = {rowSelection}
         objectPrototype = {objectPrototype}
+        selectedRowKeys = {selectedRowKeys}
         updateField = {this.props.updateFieldSubjects}
         goBack = {this.goStep0}
         goNext = {this.goStep2}

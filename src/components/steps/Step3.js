@@ -72,7 +72,7 @@ class Step3 extends React.Component {
   handleDelete = key => {
     const { data, keyList } = this.props.timetable.years;
     this.props.updateFieldYears("data", delObject(data, key));
-    this.props.updateFieldYears("keyList", keyList.filter(item => item.key !== key));
+    this.props.updateFieldYears("keyList", keyList.filter(item => item !== key));
   }
 
   handleAdd = () => {

@@ -40,22 +40,16 @@ class Step1 extends React.Component {
   handleDelete = key => {
     const { data, keyList } = this.props.timetable.tags;
     this.props.updateFieldTags("data", delObject(data, key));
-    this.props.updateFieldTags("keyList", keyList.filter(item => item.key !== key));
+    this.props.updateFieldTags("keyList", keyList.filter(item => item !== key));
   }
 
   render() {
-    const { data, keyList } = this.props.timetable.tags;
+    const { data, keyList, selectedRowKeys } = this.props.timetable.tags;
     const objectPrototype = { tag: null };
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      },
-      onSelect: (record, selected, selectedRows) => {
-        console.log(record, selected, selectedRows);
-      },
-      onSelectAll: (selected, selectedRows, changeRows) => {
-        console.log(selected, selectedRows, changeRows);
-      },
+        this.props.updateFieldTags("selectedRowKeys",selectedRowKeys);
+      }
     };
 
 
@@ -65,6 +59,7 @@ class Step1 extends React.Component {
         keyList = {keyList}
         columns = {this.columns}
         rowSelection = {rowSelection}
+        selectedRowKeys = {selectedRowKeys}
         objectPrototype = {objectPrototype}
         updateField = {this.props.updateFieldTags}
         goBack = {this.goStep3}

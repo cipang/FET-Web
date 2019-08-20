@@ -47,6 +47,14 @@ export function delObject(theObject, key) {
     return result;
 }
 
+export function delObjects(theObject, keys) {
+    let result = [...theObject];
+    keys.map(key => {
+      result = delObject(result, key)
+    });
+    return result;
+}
+
 export function updateObject(theObject, key, newObject) {
     let result = [];
     for(let i = 0; i < theObject.length; i++) {
@@ -130,11 +138,11 @@ export function mapColumns(columns) {
 
 
 function generateHexString(length) {
-  let ret = "";
-  while (ret.length < length) {
-    ret += Math.random().toString(16).substring(2);
-  }
-  return ret.substring(0,length);
+    let ret = "";
+    while (ret.length < length) {
+        ret += Math.random().toString(16).substring(2);
+    }
+    return ret.substring(0,length);
 }
 
 export function generateUniqueKey(keyList, length) {
@@ -155,39 +163,39 @@ export function createActivity(raw, keyList) {
     keyList.push(newKey);
 
     raw.selectedTeachers.map(teacher => {
-      teachers = teachers.concat(teacher.teacher, ",");
+        teachers = teachers.concat(teacher.teacher, ",");
     })
     teachers = teachers.substring(0, teachers.length - 1);
 
     raw.selectedTags.map(tag => {
-      tags = tags.concat(tag.tag, ",");
+        tags = tags.concat(tag.tag, ",");
     })
     tags = tags.substring(0, tags.length - 1);
 
     Object.keys(raw.durations).map(duration => {
-      sum += raw.durations[duration];
+        sum += raw.durations[duration];
     });
 
     Object.keys(raw.durations).map(duration => {
-      let childKey = generateUniqueKey(keyList, 6);
-      console.log(childKey);
-      keyList.push(childKey);
-      children.push({
-        key:childKey,
-        duration: raw.durations[duration].toString() + "/" + sum.toString(),
-        subject:raw.selectedSubject,
-        teachers,
-        tags
-      })
+        let childKey = generateUniqueKey(keyList, 6);
+        console.log(childKey);
+        keyList.push(childKey);
+        children.push({
+            key:childKey,
+            duration: raw.durations[duration].toString() + "/" + sum.toString(),
+            subject:raw.selectedSubject,
+            teachers,
+            tags
+        })
     });
 
     result = {
-      key:newKey,
-      duration: sum,
-      subject:raw.selectedSubject,
-      teachers,
-      tags,
-      children
+        key:newKey,
+        duration: sum,
+        subject:raw.selectedSubject,
+        teachers,
+        tags,
+        children
     }
     console.log(result);
     return result;
