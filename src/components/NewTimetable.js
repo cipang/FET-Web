@@ -10,6 +10,7 @@ import Step3 from './steps/Step3';
 import Step4 from './steps/Step4';
 import Step5 from './steps/Step5';
 import Step6 from './steps/Step6';
+import Step7 from './steps/Step7';
 
 class NewTimetable extends React.Component {
 
@@ -40,6 +41,8 @@ class NewTimetable extends React.Component {
       return <Step5 / > ;
     } else if(step === 6){
       return <Step6 / > ;
+    } else if(step === 7){
+      return <Step7 / > ;
     }
   }
 
@@ -66,7 +69,8 @@ class NewTimetable extends React.Component {
                   <Steps.Step title="Step 4" description="Add students in years(groups)." />
                   <Steps.Step title="Step 5" description="Add activity tags." />
                   <Steps.Step title="Step 6" description="Add activities." />
-                  <Steps.Step title="Step 7" description="Add space(buildings and rooms)." />
+                  <Steps.Step title="Step 7" description="Add buildings." />
+                  <Steps.Step title="Step 8" description="Add rooms." />
                 </Steps>
               </Col>
               <Col span={18}>

@@ -12,7 +12,7 @@ import {
 } from '../constants/actionTypes';
 
 const initialstate = {
-  step:1,
+  step:7,
   name:'',
   days:{
     monday:"default",
@@ -111,13 +111,31 @@ const initialstate = {
     keyList: []
   },
   buildings:{
-    data:[],
-    keyList: []
+    data:[
+      {
+        key: 1,
+        building: 'A',
+        capacity: 130
+      },
+      {
+        key: 2,
+        building: 'B',
+        capacity: 190
+      }
+    ],
+    keyList: [1,2]
   },
   rooms:{
-    data:[],
-    keyList: []
-  }
+    data:[
+      {
+        key: 1,
+        room:'A101',
+        building: 'A',
+        capacity: 130
+      }
+    ],
+    keyList: [1]
+  },
 };
 
 

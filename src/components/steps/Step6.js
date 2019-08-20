@@ -17,6 +17,12 @@ class Step1 extends React.Component {
         editable: true,
       },
       {
+        title: 'Capacity',
+        dataIndex: 'capacity',
+        key: 'capacity',
+        editable: true,
+      },
+      {
         title: 'Action',
         key: 'action',
         render: (text, record) => {
@@ -46,7 +52,7 @@ class Step1 extends React.Component {
 
   render() {
     const { data, keyList, selectedRowKeys } = this.props.timetable.buildings;
-    const objectPrototype = { building: null };
+    const objectPrototype = { building: null, capacity: 100 };
 
     return (
       <CommonStep
