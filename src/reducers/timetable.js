@@ -4,7 +4,8 @@ import {
   PERIODS_UPDATE_FIELD,
   SUBJECTS_UPDATE_FIELD,
   TEACHERS_UPDATE_FIELD,
-  YEARS_UPDATE_FIELD
+  YEARS_UPDATE_FIELD,
+  ACTIVITIES_UPDATE_FIELD
 } from '../constants/actionTypes';
 
 const initialstate = {
@@ -23,72 +24,52 @@ const initialstate = {
   periods:{},
   numberOfSubjects:1,
   subjects:{
-    subject_1:""
+    subject_1:"maths",
+    subject_2:"physics",
+    subject_3:"chemistry",
   },
   teachers:{
     teacher_1:{
-      name:"",
+      name:"teach1",
+      targetNumberOfHours:"",
+      qualifiedSubjects:[]
+    },
+    teacher_1:{
+      name:"teach2",
       targetNumberOfHours:"",
       qualifiedSubjects:[]
     }
   },
   years:{
-    keyList: [1,2,11,12,13,121,131,1311,1312],
+    keyList: [1,2,11,12],
     data:[
       {
         key: 1,
-        year: 'John Brown sr.',
+        year: '2019',
         number: 60,
         children: [
           {
             key: 11,
-            year: 'John Brown',
+            year: '2019 A',
             number: 42,
           },
           {
             key: 12,
-            year: 'John Brown jr.',
-            number: 30,
-            children: [
-              {
-                key: 121,
-                year: 'Jimmy Brown',
-                number: 16,
-              },
-            ],
-          },
-          {
-            key: 13,
-            year: 'Jim Green sr.',
-            number: 72,
-            children: [
-              {
-                key: 131,
-                year: 'Jim Green',
-                number: 42,
-                children: [
-                  {
-                    key: 1311,
-                    year: 'Jim Green jr.',
-                    number: 25,
-                  },
-                  {
-                    key: 1312,
-                    year: 'Jimmy Green sr.',
-                    number: 18,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+            year: '2019 B',
+            number: 18,
+          }
+        ]
       },
       {
         key: 2,
-        year: 'Joe Black',
+        year: '2020',
         number: 32,
       },
     ]
+  },
+  activities:{
+    showModal:false,
+    data:[]
   }
 };
 
@@ -107,6 +88,8 @@ export default (state = initialstate, action) => {
       return { ...state, teachers:{...state.teachers, [action.payload.key]: action.payload.value}}
     case YEARS_UPDATE_FIELD:
       return { ...state, years:{...state.years, [action.payload.key]: action.payload.value}}
+    case ACTIVITIES_UPDATE_FIELD:
+      return { ...state, activities:{...state.activities, [action.payload.key]: action.payload.value}}
     default:
       return state;
   }

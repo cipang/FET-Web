@@ -13,7 +13,8 @@ import {
   ASYNC_START,
   ASYNC_END,
   ISLOGGEDIN,
-  SAVE_TIMETABLE
+  SAVE_TIMETABLE,
+  ACTIVITIES_UPDATE_FIELD
 } from '../constants/actionTypes';
 import * as firebase from 'firebase';
 
@@ -132,6 +133,13 @@ export function updateFieldTeachers(key, value) {
 export function updateFieldYears(key, value) {
   return {
     type: YEARS_UPDATE_FIELD,
+    payload: {key, value}
+  };
+}
+
+export function updateFieldActivities(key, value) {
+  return {
+    type: ACTIVITIES_UPDATE_FIELD,
     payload: {key, value}
   };
 }

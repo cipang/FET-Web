@@ -10,8 +10,8 @@ class Step3 extends React.Component {
 
   constructor(props) {
     super(props);
-    this.goStep0 = () => {props.updateFieldTimetable("step",0);};
     this.goStep2 = () => {props.updateFieldTimetable("step",2);};
+    this.goStep4 = () => {props.updateFieldTimetable("step",4);};
     this.showModal = () => { props.updateFieldYears("visibility", true); }
     this.closeModal = () => { props.updateFieldYears("visibility", false); }
     this.columns = [
@@ -168,8 +168,8 @@ class Step3 extends React.Component {
           loading = {false}
           goBackButtonText = {'Back'}
           goNextButtonText = {'Next'}
-          goBack= {this.goStep0}
-          goNext= {this.goStep2}
+          goBack= {this.goStep2}
+          goNext= {this.goStep4}
         />
       </Row>
     );
