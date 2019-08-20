@@ -98,10 +98,14 @@ const initialstate = {
     newActivity:{
       split:1,
       selectedSubject:"",
+      selectedTeachers:[],
+      selectedTags:[],
+      selectedYears:[],
       durations:{}
     },
     showModal:false,
-    data:[]
+    data:[],
+    keyList: []
   }
 };
 

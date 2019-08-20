@@ -33,11 +33,38 @@ class Step1 extends React.Component {
         }
       );
     }
-    console.log(this.props);
+    this.columns = [
+      {
+        title: 'Id',
+        dataIndex: 'id',
+        key: 'id'
+      },
+      {
+        title: 'Duration',
+        dataIndex: 'duration',
+        key: 'duration'
+      },
+      {
+        title: 'Teachers',
+        dataIndex: 'teachers',
+        key: 'teachers'
+      },
+      {
+        title: 'Subject',
+        dataIndex: 'subject',
+        key: 'subject'
+      },
+      {
+        title: 'Tags',
+        dataIndex: 'tags',
+        key: 'tags'
+      }
+    ];
   }
 
   render() {
     const { years, tags, teachers, subjects, activities, numberOfPeriodsPerDay } = this.props.timetable;
+    const { data, keyList } = this.props.timetable.activities;
     const { selectedSubject, split, durations } = this.props.timetable.activities.newActivity;
     const formItemLayout = {
       labelCol: {
@@ -73,7 +100,13 @@ class Step1 extends React.Component {
             dataIndex: 'year',
             key: 'year',
           }
-        ]
+        ],
+        rowSelection: {
+          onChange: (selectedRowKeys, selectedRows) => {
+            let currentActivity = this.props.timetable.activities.newActivity;
+            this.props.updateFieldActivities("newActivity", {...currentActivity, selectedYears:selectedRows});
+          }
+        }
       },
       {
         key:2,
@@ -84,7 +117,13 @@ class Step1 extends React.Component {
             dataIndex: 'teacher',
             key: 'teacher'
           }
-        ]
+        ],
+        rowSelection: {
+          onChange: (selectedRowKeys, selectedRows) => {
+            let currentActivity = this.props.timetable.activities.newActivity;
+            this.props.updateFieldActivities("newActivity", {...currentActivity, selectedTeachers:selectedRows});
+          }
+        }
       },
       {
         key:3,
@@ -95,7 +134,13 @@ class Step1 extends React.Component {
             dataIndex: 'tag',
             key: 'tag',
           },
-        ]
+        ],
+        rowSelection: {
+          onChange: (selectedRowKeys, selectedRows) => {
+            let currentActivity = this.props.timetable.activities.newActivity;
+            this.props.updateFieldActivities("newActivity", {...currentActivity, selectedTags:selectedRows});
+          }
+        }
       },
     ]
     return (
@@ -117,7 +162,7 @@ class Step1 extends React.Component {
                   dataSource={item.data}
                   pagination={{ pageSize: 50 }}
                   scroll={{ y: 240 }}
-                  rowSelection={rowSelection}
+                  rowSelection={item.rowSelection}
                 />
               </Col>
             )}
@@ -186,10 +231,19 @@ class Step1 extends React.Component {
             </Col>
           </Row>
         </Modal>
+
         <Row className="mb-2">
           <Button onClick={this.showModal}>Add New</Button>
           <Button className="ml-3">Delete Selected</Button>
         </Row>
+
+        <Table
+          defaultExpandAllRows={true}
+          size="small"
+          columns={this.columns}
+          dataSource={data}
+          rowSelection={rowSelection}
+        />
 
         <BottomNav
           loading = {false}
