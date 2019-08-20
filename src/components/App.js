@@ -4,6 +4,7 @@ import Home from "./Home";
 import Login from "./Login";
 import Register from "./Register";
 import NewTimetable from "./NewTimetable";
+import ListTimetables from "./ListTimetables";
 import { connect } from 'react-redux';
 import { isLoggedIn } from '../actions';
 
@@ -23,6 +24,7 @@ class App extends React.Component {
         <Route exact path="/login" component={Login}/>
         <Route exact path="/register" component={Register}/>
         <Route exact path="/newTimetable" component={NewTimetable}/>
+        <Route exact path="/listTimetables" component={ListTimetables}/>
       </Router>
     );
   }

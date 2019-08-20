@@ -5,6 +5,7 @@ import {
   LOGOUT,
   REGISTER,
   SAVE_TIMETABLE,
+  LIST_TIMETABLES,
   ASYNC_UPDATE_FIELD,
   ISLOGGEDIN
 } from './constants/actionTypes';
@@ -26,7 +27,7 @@ const promiseMiddleware = store => next => action => {
   if (isPromise(action.payload)) {
     action.payload.then(
       res => {
-        console.log(res);
+        // console.log(res);
         switch (action.type) {
           case REGISTER:
             showModal(store, "success!");
@@ -41,6 +42,10 @@ const promiseMiddleware = store => next => action => {
             showModal(store, "success!");
             action.payload = null;
             localStorage.setItem('ws-token', null);
+            break;
+          case LIST_TIMETABLES:
+            action.payload = null;
+            console.log(LIST_TIMETABLES, res.val());
             break;
           default:
             break;

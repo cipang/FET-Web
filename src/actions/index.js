@@ -18,6 +18,7 @@ import {
   ASYNC_END,
   ISLOGGEDIN,
   SAVE_TIMETABLE,
+  LIST_TIMETABLES,
 } from '../constants/actionTypes';
 import * as firebase from 'firebase';
 
@@ -80,6 +81,14 @@ export function onSaveTimetable(timetable, key) {
     auth: firebase.auth(),
     database: firebase.database(),
     updates
+  };
+}
+
+export function onListTimetables() {
+  let uid = firebase.auth().currentUser.uid;
+  return {
+    type: LIST_TIMETABLES,
+    payload: firebase.database().ref('/users/' + uid + '/timetables').once('value')
   };
 }
 
