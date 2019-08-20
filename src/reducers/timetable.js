@@ -35,10 +35,7 @@ const initialstate = {
         key: 2,
         subject: 'physics'
       }
-    ],
-    subject_1:"maths",
-    subject_2:"physics",
-    subject_3:"chemistry",
+    ]
   },
   teachers:{
     keyList: [1,2],
@@ -56,16 +53,6 @@ const initialstate = {
         qualifiedSubjects:[]
       }
     ],
-    teacher_1:{
-      name:"teach1",
-      targetNumberOfHours:"",
-      qualifiedSubjects:[]
-    },
-    teacher_2:{
-      name:"teach2",
-      targetNumberOfHours:"",
-      qualifiedSubjects:[]
-    }
   },
   years:{
     keyList: [1,2,11,12],
@@ -108,6 +95,11 @@ const initialstate = {
     ]
   },
   activities:{
+    newActivity:{
+      split:1,
+      selectedSubject:"",
+      durations:{}
+    },
     showModal:false,
     data:[]
   }
