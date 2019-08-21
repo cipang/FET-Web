@@ -1,7 +1,7 @@
 import React from 'react';
 import AppLayout from './layouts/AppLayout';
 import NewTimetable from './NewTimetable';
-import { List, Avatar, Button, Skeleton, Card} from 'antd';
+import { List, Avatar, Button, Skeleton, Card, Modal} from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldListTimetable } from '../actions';
 
@@ -14,13 +14,22 @@ class ListTimetables extends React.Component {
     this.props.updateFieldListTimetable("newTimetable", timetable);
   }
 
-  render() {
-    const { timetables, showTimetable } = this.props.listTimetables;
-
+  componentDidMount(){
+    if(!this.props.loggedIn){
+      return Modal.error({
+               title: 'You need to log in first!',
+               onOk: () => {
+                 this.props.history.push("/login");
+               },
+             });
+    }
     if(showTimetable) {
       return <NewTimetable/>
     }
+  }
 
+  render() {
+    const { timetables, showTimetable } = this.props.listTimetables;
     return (
       <AppLayout customLoading={true}>
         <div className="container mt-5 pt-2">
@@ -54,6 +63,6 @@ class ListTimetables extends React.Component {
   }
 }
 
-const mapStateToProps = state => ( { listTimetables: state.listTimetables } );
+const mapStateToProps = state => ( { listTimetables: state.listTimetables, loggedIn:state.auth.loggedIn } );
 
 export default connect( mapStateToProps, { updateFieldListTimetable })(ListTimetables);

@@ -28,6 +28,9 @@ class Login extends Component {
   }
 
   render() {
+    if(this.props.loggedIn){
+      this.props.history.push("/listTimetables");
+    };
     const { getFieldDecorator } = this.props.form;
     const emailIcon = <Icon
                         type="mail"
@@ -76,7 +79,7 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = state => ({ async: state.async });
+const mapStateToProps = state => ({ async: state.async, loggedIn:state.auth.loggedIn });
 
 export default connect(
                   mapStateToProps,

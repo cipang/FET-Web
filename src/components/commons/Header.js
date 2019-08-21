@@ -11,10 +11,7 @@ import './Header.css';
 
 class Header extends React.Component {
 
-  handleHeaderChange = (e) => {
-    this.props.updateFieldAuth("headerPos", e.key);
-    localStorage.setItem('currentTab',e.key);
-  }
+  handleHeaderChange = (e) => { this.props.updateFieldAuth("headerPos", e.key); }
 
   handleNewTimeTable = () => {this.props.onNewTimetable();}
 
@@ -24,16 +21,13 @@ class Header extends React.Component {
 
   render() {
     const { loggedIn, user, headerPos } = this.props.auth;
-    let currentPost = headerPos;
-    if(localStorage.getItem('currentTab')) {
-      currentPost = localStorage.getItem('currentTab')
-    }
+
     return (
       <Layout.Header className="header" >
         <Typography.Title className="logo" level={3}>FET-Web</Typography.Title>
         <Menu
           mode="horizontal"
-          selectedKeys={[currentPost.toString()]}
+          selectedKeys={[headerPos.toString()]}
           style={{ lineHeight: '64px', float:'right' }}
           onClick={this.handleHeaderChange}
         >
