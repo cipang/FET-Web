@@ -44,17 +44,17 @@ class Step1 extends React.Component {
   }
 
   subjectOnChange = val => {
-    let currentActivity = this.props.timetable.activities.newActivity;
-    this.props.updateFieldActivities("newActivity", {...currentActivity, selectedSubject:val});
+    let currentActivity = this.props.timetable.newActivity;
+    this.props.updateFieldTimetable("newActivity", {...currentActivity, selectedSubject:val});
   }
 
   splitOnChange = val => {
-    let currentActivity = this.props.timetable.activities.newActivity;
+    let currentActivity = this.props.timetable.newActivity;
     let durations = {};
     [...Array(val).keys()].map(i => {
       durations["duration_" + (i+1).toString()] = 1;
     });
-    this.props.updateFieldActivities("newActivity",
+    this.props.updateFieldTimetable("newActivity",
        {
          ...currentActivity,
          split:val,
@@ -64,8 +64,8 @@ class Step1 extends React.Component {
   }
 
   durationsOnChange = (val, key) => {
-    let currentActivity = this.props.timetable.activities.newActivity;
-    this.props.updateFieldActivities(
+    let currentActivity = this.props.timetable.newActivity;
+    this.props.updateFieldTimetable(
       "newActivity",
       {
         ...currentActivity,
@@ -78,7 +78,8 @@ class Step1 extends React.Component {
   }
 
   handleAdd = () => {
-    let { newActivity, data, keyList } = this.props.timetable.activities;
+    let { data, keyList } = this.props.timetable.activities;
+    let { newActivity} = this.props.timetable;
     let updatedActivities = createActivity(newActivity, keyList );
     this.props.updateFieldActivities(
       "data",
@@ -113,9 +114,9 @@ class Step1 extends React.Component {
   }
 
   render() {
-    const { years, tags, teachers, subjects, activities, numberOfPeriodsPerDay } = this.props.timetable;
+    const { years, tags, teachers, subjects, activities, numberOfPeriodsPerDay, days } = this.props.timetable;
     const { data, keyList } = this.props.timetable.activities;
-    const { selectedSubject, split, durations } = this.props.timetable.activities.newActivity;
+    const { selectedSubject, split, durations } = this.props.timetable.newActivity;
     const formItemLayout = {
       labelCol: {
         xs: { span: 16 },
@@ -146,8 +147,8 @@ class Step1 extends React.Component {
         ],
         rowSelection: {
           onChange: (selectedRowKeys, selectedRows) => {
-            let currentActivity = this.props.timetable.activities.newActivity;
-            this.props.updateFieldActivities("newActivity", {...currentActivity, selectedYears:selectedRows});
+            let currentActivity = this.props.timetable.newActivity;
+            this.props.updateFieldTimetable("newActivity", {...currentActivity, selectedYears:selectedRows});
           }
         }
       },
@@ -163,8 +164,8 @@ class Step1 extends React.Component {
         ],
         rowSelection: {
           onChange: (selectedRowKeys, selectedRows) => {
-            let currentActivity = this.props.timetable.activities.newActivity;
-            this.props.updateFieldActivities("newActivity", {...currentActivity, selectedTeachers:selectedRows});
+            let currentActivity = this.props.timetable.newActivity;
+            this.props.updateFieldTimetable("newActivity", {...currentActivity, selectedTeachers:selectedRows});
           }
         }
       },
@@ -180,8 +181,8 @@ class Step1 extends React.Component {
         ],
         rowSelection: {
           onChange: (selectedRowKeys, selectedRows) => {
-            let currentActivity = this.props.timetable.activities.newActivity;
-            this.props.updateFieldActivities("newActivity", {...currentActivity, selectedTags:selectedRows});
+            let currentActivity = this.props.timetable.newActivity;
+            this.props.updateFieldTimetable("newActivity", {...currentActivity, selectedTags:selectedRows});
           }
         }
       },
@@ -237,7 +238,7 @@ class Step1 extends React.Component {
                     value={split}
                     onChange={this.splitOnChange}
                    >
-                     {[...Array(20).keys()].map(i => (
+                     {[...Array(days.length).keys()].map(i => (
                        <Select.Option value={i+1} key = {i+1}>{i+1}</Select.Option>
                      ))}
                   </Select>

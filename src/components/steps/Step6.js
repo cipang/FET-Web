@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldBuildings } from '../../actions';
 import { delObject, delObjects } from '../../helper';
 
-class Step1 extends React.Component {
+class Step6 extends React.Component {
 
   constructor(props) {
     super(props);
@@ -72,4 +72,4 @@ class Step1 extends React.Component {
 const mapStateToProps = state => ({ timetable: state.listTimetables.newTimetable });
 
 
-export default connect( mapStateToProps, { updateFieldTimetable, updateFieldBuildings } )(Step1);
+export default connect( mapStateToProps, { updateFieldTimetable, updateFieldBuildings } )(Step6);

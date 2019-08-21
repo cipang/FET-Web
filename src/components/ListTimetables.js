@@ -4,6 +4,7 @@ import NewTimetable from './NewTimetable';
 import { List, Avatar, Button, Skeleton, Card, Modal} from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldListTimetable } from '../actions';
+import { timetableTemplate } from '../helper';
 
 
 class ListTimetables extends React.Component {
@@ -11,13 +12,16 @@ class ListTimetables extends React.Component {
   editTimetable = (timetable) => {
     console.log(timetable);
     this.props.updateFieldListTimetable("showTimetable", true);
-    this.props.updateFieldListTimetable("newTimetable", timetable);
-  }
+    this.props.updateFieldListTimetable(
+      "newTimetable",
+      {
+        ...timetableTemplate,
+        ...timetable,
+        new:false
+      }
+    );
+    console.log(timetableTemplate,timetable);
 
-  componentDidMount(){
-    if(this.props.listTimetables.showTimetable) {
-      return <NewTimetable/>
-    }
   }
 
   componentDidUpdate() {
@@ -31,6 +35,9 @@ class ListTimetables extends React.Component {
 
   render() {
     const { showTimetable, timetables } = this.props.listTimetables;
+    if(showTimetable) {
+      return <NewTimetable/>
+    }
     return (
       <AppLayout customLoading={true} history={this.props.history}>
         <div className="container mt-5 pt-2">

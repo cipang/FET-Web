@@ -244,3 +244,41 @@ export function objects2Array(objects){
     });
     return result;
 }
+
+const basicDataStructure = {
+  keyList:[],
+  data:[]
+};
+
+export const activityTemplate ={
+  error:null,
+  split:1,
+  selectedSubject:"",
+  selectedTeachers:[],
+  selectedTags:[],
+  selectedYears:[],
+  durations:{}
+};
+
+export const timetableTemplate = {
+  new:true,
+  key:null,
+  step:0,
+  name:'',
+  days:[],
+  numberOfPeriodsPerDay:8,
+  periods:{},
+  numberOfSubjects:1,
+  subjects:basicDataStructure,
+  teachers:basicDataStructure,
+  years:basicDataStructure,
+  tags:basicDataStructure,
+  newActivity:activityTemplate,
+  activities:{
+    showModal:false,
+    data:[],
+    keyList:[]
+  },
+  buildings:basicDataStructure,
+  rooms:basicDataStructure,
+};

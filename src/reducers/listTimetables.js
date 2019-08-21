@@ -12,48 +12,14 @@ import {
   BUILDINGS_UPDATE_FIELD,
   ROOMS_UPDATE_FIELD
 } from '../constants/actionTypes';
-
-
-const basicDataStructure = {
-  keyList:[],
-  data:[]
-};
+import { timetableTemplate } from '../helper';
 
 const initialstate = {
   showTimetable:false,
   timetables:[{
     loading: true
   }],
-  newTimetable: {
-    new:true,
-    key:null,
-    step:0,
-    name:'',
-    days:[],
-    numberOfPeriodsPerDay:8,
-    periods:{},
-    numberOfSubjects:1,
-    subjects:basicDataStructure,
-    teachers:basicDataStructure,
-    years:basicDataStructure,
-    tags:basicDataStructure,
-    activities:{
-      newActivity:{
-        error:null,
-        split:1,
-        selectedSubject:"",
-        selectedTeachers:[],
-        selectedTags:[],
-        selectedYears:[],
-        durations:{}
-      },
-      showModal:false,
-      data:[],
-      keyList:[]
-    },
-    buildings:basicDataStructure,
-    rooms:basicDataStructure,
-  },
+  newTimetable: timetableTemplate
 };
 
 
