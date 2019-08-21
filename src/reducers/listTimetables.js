@@ -3,7 +3,6 @@ import {
   NEW_TIMETABLE,
   LIST_TIMETABLE_UPDATE_FIELD,
   TIMETABLE_UPDATE_FIELD,
-  DAYS_UPDATE_FIELD,
   PERIODS_UPDATE_FIELD,
   SUBJECTS_UPDATE_FIELD,
   TEACHERS_UPDATE_FIELD,
@@ -86,19 +85,15 @@ export default (state = initialstate, action) => {
                  [action.payload.key]: action.payload.value
                }
              }
-    case DAYS_UPDATE_FIELD:
-      return {
-               ...state,
-               newTimetable:{
-                 ...state.newTimetable,
-                 days:{...state.days, [action.payload.key]: action.payload.value}
-             }}
     case PERIODS_UPDATE_FIELD:
       return {
                ...state,
                newTimetable:{
                  ...state.newTimetable,
-                 periods:{...state.periods, [action.payload.key]: action.payload.value}
+                 periods:{
+                           ...state.newTimetable.periods,
+                           [action.payload.key]: action.payload.value
+                          }
              }}
     case SUBJECTS_UPDATE_FIELD:
       return {

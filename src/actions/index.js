@@ -6,7 +6,6 @@ import {
   ASYNC_UPDATE_FIELD,
   LIST_TIMETABLE_UPDATE_FIELD,
   TIMETABLE_UPDATE_FIELD,
-  DAYS_UPDATE_FIELD,
   PERIODS_UPDATE_FIELD,
   SUBJECTS_UPDATE_FIELD,
   TEACHERS_UPDATE_FIELD,
@@ -137,13 +136,6 @@ export function updateFieldTimetable(key, value) {
 export function updateFieldListTimetable(key, value) {
   return {
     type: LIST_TIMETABLE_UPDATE_FIELD,
-    payload: {key, value}
-  };
-}
-
-export function updateFieldDays(key, value) {
-  return {
-    type: DAYS_UPDATE_FIELD,
     payload: {key, value}
   };
 }

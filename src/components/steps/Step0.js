@@ -1,25 +1,14 @@
 import React from 'react';
 import BottomNav from '../commons/BottomNav';
-import {Form, Icon, Input, Row, Tooltip, Select, Button  } from 'antd';
+import { Form, Icon, Input, Row, Tooltip, Select, Button } from 'antd';
 import { connect } from 'react-redux';
-import { updateFieldTimetable,
-         updateFieldDays,
-         updateFieldPeriods } from '../../actions';
+import { updateFieldTimetable, updateFieldPeriods } from '../../actions';
 
 class Step0 extends React.Component {
 
   constructor(props) {
     super(props);
     this.goStep1 = () => {props.updateFieldTimetable("step",1);};
-    this.nameOnChange = (e) => {
-      props.updateFieldTimetable("name", e.target.value);
-    };
-    this.numberOfPeriodsOnChange = (value) => {
-      props.updateFieldTimetable("numberOfPeriodsPerDay", value);
-    };
-    this.periodsOnChange = (e, id) => {
-      props.updateFieldPeriods("period" + id.toString(), e.target.value);
-    };
   }
 
   renderNumerOfPeriods(){
@@ -30,9 +19,20 @@ class Step0 extends React.Component {
     return options;
   }
 
+  nameOnChange = (e) => {
+    this.props.updateFieldTimetable("name", e.target.value);
+  };
+
+  numberOfPeriodsOnChange = (value) => {
+    this.props.updateFieldTimetable("numberOfPeriodsPerDay", value);
+  };
+
+  periodsOnChange = (e, id) => {
+    this.props.updateFieldPeriods("period" + id.toString(), e.target.value);
+  };
+
   checkDayType = (day) => {
     let days = [...this.props.timetable.days];
-    console.log(day);
     if(days.includes(day)) {
       return "primary";
     }
@@ -42,7 +42,6 @@ class Step0 extends React.Component {
   addDay = (day) => {
     let days = [...this.props.timetable.days];
     if(days.includes(day)) {
-      console.log(days.filter(item => item !== day));
       this.props.updateFieldTimetable("days", days.filter(item => item !== day));
     } else {
       days.push(day);
@@ -50,7 +49,7 @@ class Step0 extends React.Component {
     }
   }
 
-  renderPeriods(){
+  renderPeriods() {
     let periods = [];
     // @ Todo : bind this function
     for (let i = 1; i <= this.props.timetable.numberOfPeriodsPerDay; i++) {
@@ -140,5 +139,4 @@ const mapStateToProps = state => ({ timetable: state.listTimetables.newTimetable
 
 export default connect( mapStateToProps,
                         { updateFieldTimetable,
-                          updateFieldDays,
                           updateFieldPeriods } )(Step0);
