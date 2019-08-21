@@ -58,7 +58,6 @@ export function onRegister(user) {
   return {
     type: REGISTER,
     payload:firebase.auth().createUserWithEmailAndPassword(user.email, user.password),
-    user
   };
 }
 

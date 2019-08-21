@@ -33,11 +33,10 @@ const promiseMiddleware = store => next => action => {
         // console.log(res);
         switch (action.type) {
           case REGISTER:
-            showModal(store, "success!");
-            action.payload = null;
+            action.payload = res.user;
+            localStorage.setItem('ws-token', res.user.refreshToke);
             break;
           case LOGIN:
-            showModal(store, "success!");
             action.payload = res.user;
             localStorage.setItem('ws-token', res.user.refreshToken);
             break;
@@ -68,7 +67,9 @@ const promiseMiddleware = store => next => action => {
         // GET DATA: TODO: need a better way
         action.payload.database.ref('/users/' + user.uid + '/timetables').once('value').then(
           res => {
-            store.dispatch({ type: LIST_TIMETABLES, payload: objects2Array(res.val()) });
+            if(res.val()) {
+              store.dispatch({ type: LIST_TIMETABLES, payload: objects2Array(res.val()) });
+            }
             store.dispatch({ type: ASYNC_END });
           },
           error => {

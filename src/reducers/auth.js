@@ -19,7 +19,8 @@ const initialstate = {
 export default (state = initialstate, action) => {
   switch (action.type) {
     case LOGIN:
-      console.log(action);
+      return { ...state, loggedIn:true, user:action.payload };
+    case REGISTER:
       return { ...state, loggedIn:true, user:action.payload };
     case AUTH_UPDATE_FIELD:
       return { ...state, [action.payload.key]: action.payload.value}

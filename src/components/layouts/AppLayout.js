@@ -9,24 +9,36 @@ import { updateFieldAsync } from '../../actions';
 
 class AppLayout extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.closeModal = () => {
-      props.updateFieldAsync("showModal", false);
-      window.location.reload();
-    };
+  closeModal = () => {
+    this.props.updateFieldAsync("showModal", false);
+    window.location.reload();
+  };
+
+  componentDidMount(){
+    //TODO: null?
+    if((!localStorage.getItem('ws-token')
+        || localStorage.getItem('ws-token') == "null")
+        && this.props.history) {
+      Modal.error({
+         title: 'You need to log in first!',
+         onOk: () => {
+           this.props.history.push("/signIn");
+         },
+       });
+    }
   }
 
   render() {
+    // {loading && !this.props.customLoading?
+    //   <Row className="center-spinner">
+    //     <Spin size="large" />
+    //   </Row>
+    //   :this.props.children}
     const { showModal, modalMsg, loading } = this.props.async;
     return (
       <div className="main applayout-wrapper">
         <Header/>
-        {loading && !this.props.customLoading?
-          <Row className="center-spinner">
-            <Spin size="large" />
-          </Row>
-          :this.props.children}
+        {this.props.children}
         <Modal
           title="Somthing happened"
           visible={showModal}

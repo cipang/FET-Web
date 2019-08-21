@@ -15,23 +15,24 @@ class ListTimetables extends React.Component {
   }
 
   componentDidMount(){
-    if(!this.props.loggedIn){
-      return Modal.error({
-               title: 'You need to log in first!',
-               onOk: () => {
-                 this.props.history.push("/login");
-               },
-             });
-    }
-    if(showTimetable) {
+    if(this.props.listTimetables.showTimetable) {
       return <NewTimetable/>
     }
   }
 
+  componentDidUpdate() {
+    if(this.props.listTimetables.timetables.length >= 1
+        && this.props.listTimetables.timetables["0"]["loading"]
+        && !this.props.loading
+      ) {
+      this.props.updateFieldListTimetable("timetables", []);
+    }
+  }
+
   render() {
-    const { timetables, showTimetable } = this.props.listTimetables;
+    const { showTimetable, timetables } = this.props.listTimetables;
     return (
-      <AppLayout customLoading={true}>
+      <AppLayout customLoading={true} history={this.props.history}>
         <div className="container mt-5 pt-2">
           <Card>
             <List
@@ -63,6 +64,6 @@ class ListTimetables extends React.Component {
   }
 }
 
-const mapStateToProps = state => ( { listTimetables: state.listTimetables, loggedIn:state.auth.loggedIn } );
+const mapStateToProps = state => ( { listTimetables: state.listTimetables, loggedIn:state.auth.loggedIn, loading:state.async.loading } );
 
 export default connect( mapStateToProps, { updateFieldListTimetable })(ListTimetables);

@@ -1,0 +1,19 @@
+.auth-tab{
+  width: 133px;
+  text-align:center
+}
+
+.adjust-margin{
+  margin-top: -5px;
+}
+
+.adjust-margin{
+  margin-top: -5px;
+}
+.adjust-margin .ant-form-item-label{
+  line-height: 0px !important;
+}
+
+.login-form-forgot {
+  float: right;
+}

@@ -11,10 +11,9 @@ import { isLoggedIn } from '../actions';
 
 class App extends React.Component {
 
-  constructor(props) {
-    super(props);
-    if(!props.auth.user){
-      props.isLoggedIn();
+  componentDidMount(){
+    if(!this.props.auth.user){
+      this.props.isLoggedIn();
     };
   }
 
@@ -22,9 +21,7 @@ class App extends React.Component {
     return (
       <Router>
         <Route exact path="/" component={Login}/>
-        <Route exact path="/login" component={Login}/>
         <Route exact path="/signIn" component={Auth}/>
-        <Route exact path="/register" component={Register}/>
         <Route exact path="/newTimetable" component={NewTimetable}/>
         <Route exact path="/listTimetables" component={ListTimetables}/>
       </Router>
