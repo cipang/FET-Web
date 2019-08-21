@@ -1,7 +1,7 @@
 import {
   LIST_TIMETABLES,
   NEW_TIMETABLE,
-  TIMETABLE_UPDATE,
+  LIST_TIMETABLE_UPDATE_FIELD,
   TIMETABLE_UPDATE_FIELD,
   DAYS_UPDATE_FIELD,
   PERIODS_UPDATE_FIELD,
@@ -21,6 +21,7 @@ const basicDataStructure = {
 };
 
 const initialstate = {
+  showTimetable:false,
   timetables:[{
     loading: true
   }],
@@ -68,8 +69,8 @@ export default (state = initialstate, action) => {
   switch (action.type) {
     case LIST_TIMETABLES:
       return { ...state, timetables:action.payload };
-    case TIMETABLE_UPDATE:
-      return { ...state, newTimetable:action.payload };
+    case LIST_TIMETABLE_UPDATE_FIELD:
+      return { ...state, [action.payload.key]: action.payload.value };
     case NEW_TIMETABLE:
       return {
                ...state,
