@@ -1,9 +1,8 @@
 import React from "react";
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Home from "./Home";
-import Login from "./Login";
 import Auth from "./Auth";
-import Register from "./Register";
+import NotFound from "./NotFound";
 import NewTimetable from "./NewTimetable";
 import ListTimetables from "./ListTimetables";
 import { connect } from 'react-redux';
@@ -20,10 +19,13 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <Route exact path="/" component={Login}/>
-        <Route exact path="/signIn" component={Auth}/>
-        <Route exact path="/newTimetable" component={NewTimetable}/>
-        <Route exact path="/listTimetables" component={ListTimetables}/>
+        <Switch>
+          <Route exact path="/" component={Auth}/>
+          <Route exact path="/signIn" component={Auth}/>
+          <Route exact path="/newTimetable" component={NewTimetable}/>
+          <Route exact path="/listTimetables" component={ListTimetables}/>
+          <Route component={NotFound}/>
+        </Switch>
       </Router>
     );
   }
