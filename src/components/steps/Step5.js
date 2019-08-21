@@ -79,7 +79,7 @@ class Step1 extends React.Component {
 
   handleAdd = () => {
     let { data, keyList } = this.props.timetable.activities;
-    let { newActivity} = this.props.timetable;
+    let { newActivity } = this.props.timetable;
     let updatedActivities = createActivity(newActivity, keyList );
     this.props.updateFieldActivities(
       "data",
@@ -89,6 +89,7 @@ class Step1 extends React.Component {
       "keyList",
       keyList
     );
+    this.closeModal();
   }
 
   //TODO: need a better way
@@ -116,7 +117,7 @@ class Step1 extends React.Component {
   render() {
     const { years, tags, teachers, subjects, activities, numberOfPeriodsPerDay, days } = this.props.timetable;
     const { data, keyList } = this.props.timetable.activities;
-    const { selectedSubject, split, durations } = this.props.timetable.newActivity;
+    const { selectedSubject, split, durations, msg, loading } = this.props.timetable.newActivity;
     const formItemLayout = {
       labelCol: {
         xs: { span: 16 },
