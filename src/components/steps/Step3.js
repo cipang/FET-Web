@@ -3,7 +3,7 @@ import CommonStep from '../commons/CommonStep';
 import { Row, Table, Divider, Button, Modal, Popconfirm, Input, Col} from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldYears } from '../../actions';
-import { getObject, delObject, generateKey } from '../../helper';
+import { addObject, getObject, delObject, generateKey } from '../../helper';
 
 class Step3 extends React.Component {
 

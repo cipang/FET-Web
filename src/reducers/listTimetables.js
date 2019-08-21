@@ -28,7 +28,7 @@ const initialstate = {
     key:null,
     step:0,
     name:'',
-    days:["Monday","Tuesday"],
+    days:[],
     numberOfPeriodsPerDay:8,
     periods:{},
     numberOfSubjects:1,
@@ -71,13 +71,6 @@ export default (state = initialstate, action) => {
                }
              };
     case TIMETABLE_UPDATE_FIELD:
-      console.log({
-               ...state,
-               newTimetable:{
-                 ...state.newTimetable,
-                 [action.payload.key]: action.payload.value
-               }
-             });
       return {
                ...state,
                newTimetable:{
@@ -100,14 +93,14 @@ export default (state = initialstate, action) => {
                ...state,
                newTimetable:{
                  ...state.newTimetable,
-                 subjects:{...state.subjects, [action.payload.key]: action.payload.value}
+                 subjects:{...state.newTimetable.subjects, [action.payload.key]: action.payload.value}
              }}
     case TEACHERS_UPDATE_FIELD:
       return {
                ...state,
                newTimetable:{
                  ...state.newTimetable,
-                 teachers:{...state.teachers, [action.payload.key]: action.payload.value}
+                 teachers:{...state.newTimetable.teachers, [action.payload.key]: action.payload.value}
                }
              }
     case YEARS_UPDATE_FIELD:
@@ -115,7 +108,7 @@ export default (state = initialstate, action) => {
                ...state,
                newTimetable:{
                  ...state.newTimetable,
-                 years:{...state.years, [action.payload.key]: action.payload.value}
+                 years:{...state.newTimetable.years, [action.payload.key]: action.payload.value}
                }
              }
     case TAGS_UPDATE_FIELD:
@@ -123,7 +116,7 @@ export default (state = initialstate, action) => {
                ...state,
                newTimetable:{
                  ...state.newTimetable,
-                 tags:{...state.tags, [action.payload.key]: action.payload.value}
+                 tags:{...state.newTimetable.tags, [action.payload.key]: action.payload.value}
                }
              }
     case ACTIVITIES_UPDATE_FIELD:
@@ -131,7 +124,7 @@ export default (state = initialstate, action) => {
                ...state,
                newTimetable:{
                  ...state.newTimetable,
-                 activities:{...state.activities, [action.payload.key]: action.payload.value}
+                 activities:{...state.newTimetable.activities, [action.payload.key]: action.payload.value}
                }
              }
     case BUILDINGS_UPDATE_FIELD:
@@ -139,7 +132,7 @@ export default (state = initialstate, action) => {
                ...state,
                newTimetable:{
                  ...state.newTimetable,
-                 buildings:{...state.buildings, [action.payload.key]: action.payload.value}
+                 buildings:{...state.newTimetable.buildings, [action.payload.key]: action.payload.value}
                }
              }
     case ROOMS_UPDATE_FIELD:
@@ -147,7 +140,7 @@ export default (state = initialstate, action) => {
                ...state,
                newTimetable:{
                  ...state.newTimetable,
-                 rooms:{...state.rooms, [action.payload.key]: action.payload.value}
+                 rooms:{...state.newTimetable.rooms, [action.payload.key]: action.payload.value}
                }
              }
     default:
