@@ -39,7 +39,7 @@ class Header extends React.Component {
               </Menu.Item>
               <Menu.Item key="logout" onClick={this.props.logout}>Logout</Menu.Item>
             </Menu.SubMenu>
-            :<Menu.Item key="2"><Link to="/login">Login</Link></Menu.Item>}
+            :<Menu.Item key="2"><Link to="/signIn">Login</Link></Menu.Item>}
           {loggedIn?
             <Menu.Item key="2" onClick={this.handleNewTimeTable }>
               <Link to="/newTimetable">Make a timeable</Link>

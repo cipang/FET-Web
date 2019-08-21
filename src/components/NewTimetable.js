@@ -60,7 +60,7 @@ class NewTimetable extends React.Component {
     // console.log(this.props.async.loading);
     // console.log(new Date().toLocaleString());
     return (
-      <AppLayout>
+      <AppLayout history={this.props.history}>
         <div className="container mt-5 pt-2">
           <Card>
             <Row gutter={24} >

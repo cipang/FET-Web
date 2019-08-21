@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import AppLayout from './layouts/AppLayout';
-import { Button, Card, Form, Icon, Input } from 'antd';
+import { Button, Card, Form, Checkbox, Input } from 'antd';
 import { connect } from 'react-redux';
 import { onLogin, startAsync } from '../actions';
 import './login.css';
@@ -9,77 +8,66 @@ import './login.css';
 
 class Login extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.handleSubmit = (e) => {
-      e.preventDefault();
-      props.startAsync();
-      props.form.validateFields((err, values) => {
-        console.log('Received values of form: ', values);
-        if (err) {
-          console.log('Error ', values);
-          return;
-        } else {
-          props.onLogin(values);
-        }
-      });
-    };
-  }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.startAsync();
+    this.props.form.validateFields((err, values) => {
+      console.log('Received values of form: ', values);
+      if (err) {
+        console.log('Error ', values);
+        return;
+      } else {
+        this.props.onLogin(values);
+      }
+    });
+  };
 
   render() {
-    if(this.props.loggedIn){
-      this.props.history.push("/listTimetables");
-    };
     const { getFieldDecorator } = this.props.form;
-    const emailIcon = <Icon
-                        type="mail"
-                        style={{ color: 'rgba(0,0,0,.25)'}}
-                      />;
-    const passwordIcon = <Icon
-                        type="lock"
-                        style={{ color: 'rgba(0,0,0,.25)'}}
-                      />;
+
     // Todo: responsive margin top
     return(
-      <AppLayout>
-        <div className="container login-section"  style={{ width: 450 }}>
-          <Card title="Account Login">
-            <Form  className="login-form" onSubmit = {this.handleSubmit} >
-              <Form.Item>
-                {getFieldDecorator('email', {
-                  rules: [{ required: true, message: 'Please input your email!' }],
-                })(
-                  <Input prefix={emailIcon} size="large"  placeholder="email" />
-                )}
-              </Form.Item>
-              <Form.Item>
-                {getFieldDecorator('password', {
-                  rules: [{ required: true, message: 'Please input your password!' }],
-                })(
-                  <Input prefix={passwordIcon} size="large" type="password" placeholder="password" />
-                )}
-              </Form.Item>
-              <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  style={{ width: '100%' }}
-                  loading={ this.props.async.loading }
-                >
-                  Log in
-                </Button>
-              </Form.Item>
-              Or <Link to="/register">register now!</Link>
-            </Form>
-          </Card>
-        </div>
-      </AppLayout>
+      <Card>
+        <Form  className="login-form" onSubmit={this.handleSubmit} >
+          <Form.Item label="Email" className="adjust-margin">
+            {getFieldDecorator('email', {
+              rules: [{ required: true, message: 'Please input your email!' }],
+            })(
+              <Input />
+            )}
+          </Form.Item>
+          <Form.Item label="Password" className="adjust-margin">
+            {getFieldDecorator('password', {
+              rules: [{ required: true, message: 'Please input your password!' }],
+            })(
+              <Input type="password" />
+            )}
+          </Form.Item>
+
+          <Form.Item>
+            {getFieldDecorator('remember', {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(<Checkbox>Remember me</Checkbox>)}
+            <a className="login-form-forgot" href="">
+              Forgot password
+            </a>
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{ width: '100%' }}
+              loading={ this.props.async.loading }
+            >
+              Log in
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
     );
   }
 }
 
-const mapStateToProps = state => ({ async: state.async, loggedIn:state.auth.loggedIn });
+const mapStateToProps = state => ({ async: state.async });
 
 export default connect(
                   mapStateToProps,
