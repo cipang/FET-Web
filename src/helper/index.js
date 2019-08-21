@@ -233,3 +233,14 @@ export function refreshActivities(activities) {
   });
   return {newData, ommitedKeys};
 }
+
+export function objects2Array(objects){
+    let result = [];
+    Object.keys(objects).map(key => {
+        result.push({
+            ...objects[key],
+            key
+        })
+    });
+    return result;
+}

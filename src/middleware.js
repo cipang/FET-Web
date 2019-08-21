@@ -10,6 +10,8 @@ import {
   ISLOGGEDIN
 } from './constants/actionTypes';
 
+import { objects2Array } from './helper';
+
 
 function showModal(store ,msg) {
   store.dispatch({
@@ -25,6 +27,7 @@ function showModal(store ,msg) {
 const promiseMiddleware = store => next => action => {
   let payload = null;
   if (isPromise(action.payload)) {
+    store.dispatch({ type: ASYNC_START });
     action.payload.then(
       res => {
         // console.log(res);
@@ -37,15 +40,12 @@ const promiseMiddleware = store => next => action => {
             showModal(store, "success!");
             action.payload = res.user;
             localStorage.setItem('ws-token', res.user.refreshToken);
+            onListTimetables();
             break;
           case LOGOUT:
             showModal(store, "success!");
             action.payload = null;
             localStorage.setItem('ws-token', null);
-            break;
-          case LIST_TIMETABLES:
-            action.payload = null;
-            console.log(LIST_TIMETABLES, res.val());
             break;
           default:
             break;
@@ -62,15 +62,30 @@ const promiseMiddleware = store => next => action => {
     );
     return;
   } else if (action.type === ISLOGGEDIN) {
-    action.payload.onAuthStateChanged((user) => {
+    store.dispatch({ type: ASYNC_START });
+    action.payload.auth.onAuthStateChanged((user) => {
       if(user) {
         store.dispatch({ type: LOGIN, payload: user });
-
-        console.log(user);
+        // GET DATA: TODO: need a better way
+        action.payload.database.ref('/users/' + user.uid + '/timetables').once('value').then(
+          res => {
+            store.dispatch({ type: LIST_TIMETABLES, payload: objects2Array(res.val()) });
+            store.dispatch({ type: ASYNC_END });
+          },
+          error => {
+            showModal(store, error.message);
+            store.dispatch({ type: ASYNC_END });
+          }
+        )
+        // store.dispatch(
+        //   {
+        //     type: LIST_TIMETABLES,
+        //     payload: action.payload.database.ref('/users/' + user.uid + '/timetables').once('value').then()
+        //   }
+        // );
       } else {
         console.log("no user");
       }
-      store.dispatch({ type: ASYNC_END });
     })
     return;
   } else if (action.type === SAVE_TIMETABLE) {
