@@ -22,7 +22,7 @@ class ListTimetables extends React.Component {
     }
 
     return (
-      <AppLayout>
+      <AppLayout customLoading={true}>
         <div className="container mt-5 pt-2">
           <Card>
             <List

@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../commons/Header';
-import { Modal } from 'antd';
+import { Modal, Spin, Row } from 'antd';
 
 import { connect } from 'react-redux';
 import './AppLayout.css';
@@ -18,11 +18,15 @@ class AppLayout extends React.Component {
   }
 
   render() {
-    const { showModal, modalMsg } = this.props.async;
+    const { showModal, modalMsg, loading } = this.props.async;
     return (
       <div className="applayout-wrapper">
         <Header/>
-        {this.props.children}
+        {loading && !this.props.customLoading?
+          <Row className="center-spinner">
+            <Spin size="large" />
+          </Row>
+          :this.props.children}
         <Modal
           title="Somthing happened"
           visible={showModal}

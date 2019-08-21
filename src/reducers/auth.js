@@ -12,6 +12,7 @@ const initialstate = {
   loggedIn:false,
   error:null,
   user:null,
+  headerPos:1
 };
 
 

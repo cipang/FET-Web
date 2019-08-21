@@ -6,3 +6,9 @@
   left: 0;
   background: rgba(0, 0, 0, 0.1);
 }
+
+.center-spinner {
+  text-align: center;
+  padding: 30px 50px;
+  margin:200px 0;
+}
