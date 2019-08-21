@@ -4,6 +4,7 @@ import {
   REGISTER,
   AUTH_UPDATE_FIELD,
   ASYNC_UPDATE_FIELD,
+  LIST_TIMETABLE_UPDATE_FIELD,
   TIMETABLE_UPDATE_FIELD,
   DAYS_UPDATE_FIELD,
   PERIODS_UPDATE_FIELD,
@@ -18,7 +19,9 @@ import {
   ASYNC_END,
   ISLOGGEDIN,
   SAVE_TIMETABLE,
+  NEW_TIMETABLE,
   LIST_TIMETABLES,
+  GENERATE_NEW_KEY
 } from '../constants/actionTypes';
 import * as firebase from 'firebase';
 
@@ -45,7 +48,6 @@ export function isLoggedIn() {
   };
 }
 
-
 export function onLogin(user) {
   return {
     type: LOGIN,
@@ -65,6 +67,20 @@ export function logout() {
   return {
     type: LOGOUT,
     payload:firebase.auth().signOut()
+  };
+}
+
+export function generatenNewKey() {
+  return {
+    type: GENERATE_NEW_KEY,
+    payload:firebase.database().ref().child('timetables').push().key
+  };
+}
+
+export function onNewTimetable() {
+  return {
+    type: NEW_TIMETABLE,
+    payload:firebase.database().ref().child('timetables').push().key
   };
 }
 
@@ -114,6 +130,13 @@ export function updateFieldAsync(key, value) {
 export function updateFieldTimetable(key, value) {
   return {
     type: TIMETABLE_UPDATE_FIELD,
+    payload: {key, value}
+  };
+}
+
+export function updateFieldListTimetable(key, value) {
+  return {
+    type: LIST_TIMETABLE_UPDATE_FIELD,
     payload: {key, value}
   };
 }

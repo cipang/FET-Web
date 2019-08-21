@@ -12,6 +12,7 @@ import {
 } from '../constants/actionTypes';
 
 const initialstate = {
+  key:null,
   step:7,
   name:'',
   days:{
