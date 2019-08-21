@@ -50,23 +50,14 @@ export function isLoggedIn() {
 }
 
 export function onSendTimetable(timetable) {
-  console.log(timetable);
-  console.log(JSON.stringify({"a":"hello"}));
   return {
      type: SEND_TIMETABLE,
      payload: fetch(root + "api/v1/test", {
          method: 'POST', // *GET, POST, PUT, DELETE, etc.
-         mode: 'no-cors', // no-cors, cors, *same-origin
-         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-         credentials: 'same-origin', // include, *same-origin, omit
          headers: {
              'Content-Type': 'application/json',
-             'Access-Control-Allow-Origin': '*',
-             // 'Content-Type': 'application/x-www-form-urlencoded',
          },
-         redirect: 'follow', // manual, *follow, error
-         referrer: 'no-referrer', // no-referrer, *client
-         body: {"a":"hello"}, // body data type must match "Content-Type" header
+         body: JSON.stringify(timetable) // body data type must match "Content-Type" header
      })
    }
 }
