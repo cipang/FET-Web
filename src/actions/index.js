@@ -18,12 +18,14 @@ import {
   ASYNC_END,
   ISLOGGEDIN,
   SAVE_TIMETABLE,
+  SEND_TIMETABLE,
   NEW_TIMETABLE,
   LIST_TIMETABLES,
   GENERATE_NEW_KEY
 } from '../constants/actionTypes';
 import * as firebase from 'firebase';
 
+const root = "http://127.0.0.1:5000/";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDcWtQqtqJeQ0QvxGEXtIRyiyoc42lWmmc",
@@ -45,6 +47,28 @@ export function isLoggedIn() {
       database: firebase.database()
     }
   };
+}
+
+export function onSendTimetable(timetable) {
+  console.log(timetable);
+  console.log(JSON.stringify({"a":"hello"}));
+  return {
+     type: SEND_TIMETABLE,
+     payload: fetch(root + "api/v1/test", {
+         method: 'POST', // *GET, POST, PUT, DELETE, etc.
+         mode: 'no-cors', // no-cors, cors, *same-origin
+         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+         credentials: 'same-origin', // include, *same-origin, omit
+         headers: {
+             'Content-Type': 'application/json',
+             'Access-Control-Allow-Origin': '*',
+             // 'Content-Type': 'application/x-www-form-urlencoded',
+         },
+         redirect: 'follow', // manual, *follow, error
+         referrer: 'no-referrer', // no-referrer, *client
+         body: {"a":"hello"}, // body data type must match "Content-Type" header
+     })
+   }
 }
 
 export function onLogin(user) {

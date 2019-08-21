@@ -5,6 +5,7 @@ import {
   LOGOUT,
   REGISTER,
   SAVE_TIMETABLE,
+  SEND_TIMETABLE,
   LIST_TIMETABLES,
   ASYNC_UPDATE_FIELD,
   ISLOGGEDIN
@@ -44,6 +45,8 @@ const promiseMiddleware = store => next => action => {
             showModal(store, "success!");
             action.payload = null;
             localStorage.setItem('ws-token', null);
+          case SEND_TIMETABLE:
+            action.payload = null;
             break;
           default:
             break;

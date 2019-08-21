@@ -2,7 +2,7 @@ import React from 'react';
 import CommonStep from '../commons/CommonStep';
 import { Popconfirm, Button, Radio } from 'antd';
 import { connect } from 'react-redux';
-import { updateFieldTimetable, updateFieldRooms } from '../../actions';
+import { updateFieldTimetable, updateFieldRooms, onSendTimetable } from '../../actions';
 import { delObject, delObjects } from '../../helper';
 
 class Step1 extends React.Component {
@@ -99,6 +99,7 @@ class Step1 extends React.Component {
     const { data, keyList, selectedRowKeys } = this.props.timetable.rooms;
     const objectPrototype = { room: null, capacity: 0, building:null };
 
+    //TODO: remove plain fucntion on method
     return (
       <CommonStep
         data = {data}
@@ -108,7 +109,7 @@ class Step1 extends React.Component {
         selectedRowKeys = {selectedRowKeys}
         updateField = {this.props.updateFieldRooms}
         goBack = {this.goStep5}
-        goNext = {this.goStep7}
+        goNext = {() => this.props.onSendTimetable(this.props.timetable)}
       />
     );
   }
@@ -117,4 +118,4 @@ class Step1 extends React.Component {
 const mapStateToProps = state => ({ timetable: state.listTimetables.newTimetable });
 
 
-export default connect( mapStateToProps, { updateFieldTimetable, updateFieldRooms } )(Step1);
+export default connect( mapStateToProps, { updateFieldTimetable, updateFieldRooms, onSendTimetable } )(Step1);
