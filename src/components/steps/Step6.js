@@ -69,7 +69,7 @@ class Step1 extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ timetable: state.timetable });
+const mapStateToProps = state => ({ timetable: state.listTimetables.newTimetable });
 
 
 export default connect( mapStateToProps, { updateFieldTimetable, updateFieldBuildings } )(Step1);

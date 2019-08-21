@@ -20,22 +20,6 @@ class Step0 extends React.Component {
     this.periodsOnChange = (e, id) => {
       props.updateFieldPeriods("period" + id.toString(), e.target.value);
     };
-    this.addMonday = (e) => { this.addDays(e.target.value,"monday") };
-    this.addTuesday = (e) => { this.addDays(e.target.value,"tuesday") };
-    this.addWednesday = (e) => { this.addDays(e.target.value,"wednesday") };
-    this.addThursday = (e) => { this.addDays(e.target.value,"thursday") };
-    this.addFriday = (e) => { this.addDays(e.target.value,"friday") };
-    this.addSaturday = (e) => { this.addDays(e.target.value,"saturday") };
-    this.addSunday = (e) => { this.addDays(e.target.value,"sunday") };
-    console.log(this.props);
-  }
-
-  addDays(type,day){
-    if(type === "default"){
-      this.props.updateFieldDays(day, "primary");
-    }else{
-      this.props.updateFieldDays(day, "default");
-    }
   }
 
   renderNumerOfPeriods(){
@@ -44,6 +28,26 @@ class Step0 extends React.Component {
       options.push(<Select.Option value={i} key = {i}>{i}</Select.Option>)
     }
     return options;
+  }
+
+  checkDayType = (day) => {
+    let days = [...this.props.timetable.days];
+    console.log(day);
+    if(days.includes(day)) {
+      return "primary";
+    }
+    return "default";
+  }
+
+  addDay = (day) => {
+    let days = [...this.props.timetable.days];
+    if(days.includes(day)) {
+      console.log(days.filter(item => item !== day));
+      this.props.updateFieldTimetable("days", days.filter(item => item !== day));
+    } else {
+      days.push(day);
+      this.props.updateFieldTimetable("days", days);
+    }
   }
 
   renderPeriods(){
@@ -68,6 +72,7 @@ class Step0 extends React.Component {
     const { name, numberOfPeriodsPerDay } = this.props.timetable;
     const {monday, tuesday, wednesday, thursday, friday, saturday, sunday} =
           this.props.timetable.days;
+    const daysData = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
     const formItemLayout = {
       labelCol: {
         xs: { span: 16 },
@@ -95,13 +100,16 @@ class Step0 extends React.Component {
           </Form.Item>
           <Form.Item label= "Working Days">
             <Row>
-              <Button onClick={this.addMonday} type={monday} value={monday}>Monday</Button>
-              <Button onClick={this.addTuesday} type={tuesday} value={tuesday}>Tuesday</Button>
-              <Button onClick={this.addWednesday} type={wednesday} value={wednesday}>Wednesday </Button>
-              <Button onClick={this.addThursday} type={thursday} value={thursday}>Thursday</Button>
-              <Button onClick={this.addFriday} type={friday} value={friday}>Friday </Button>
-              <Button onClick={this.addSaturday} type={saturday} value={saturday}>Saturday </Button>
-              <Button onClick={this.addSunday} type={sunday} value={sunday}>Sunday </Button>
+              {daysData.map(eachDay =>
+                 (<Button
+                     key={eachDay}
+                     onClick={() => this.addDay(eachDay)}
+                     type={this.checkDayType(eachDay)}
+                     value={eachDay}
+                   >
+                    {eachDay}
+                 </Button>)
+              )}
             </Row>
           </Form.Item>
           <Form.Item label= "Number of Periods(per day)">
@@ -128,8 +136,7 @@ class Step0 extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ timetable: state.timetable });
-
+const mapStateToProps = state => ({ timetable: state.listTimetables.newTimetable });
 
 export default connect( mapStateToProps,
                         { updateFieldTimetable,

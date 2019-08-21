@@ -29,15 +29,7 @@ const initialstate = {
     key:null,
     step:0,
     name:'',
-    days:{
-      monday:"default",
-      tuesday:"default",
-      wednesday:"default",
-      thursday:"default",
-      friday:"default",
-      saturday:"default",
-      sunday:"default"
-    },
+    days:["Monday","Tuesday"],
     numberOfPeriodsPerDay:8,
     periods:{},
     numberOfSubjects:1,
@@ -80,6 +72,13 @@ export default (state = initialstate, action) => {
                }
              };
     case TIMETABLE_UPDATE_FIELD:
+      console.log({
+               ...state,
+               newTimetable:{
+                 ...state.newTimetable,
+                 [action.payload.key]: action.payload.value
+               }
+             });
       return {
                ...state,
                newTimetable:{

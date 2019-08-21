@@ -36,21 +36,21 @@ class NewTimetable extends React.Component {
   renderSteps() {
     const { step } = this.props.timetable;
     if(step === 0){
-      return <Step0 timetable={this.props.timetable}/> ;
+      return <Step0/> ;
     } else if(step === 1){
-      return <Step1 timetable={this.props.timetable}/> ;
+      return <Step1/> ;
     } else if(step === 2){
-      return <Step2 timetable={this.props.timetable}/> ;
+      return <Step2/> ;
     } else if(step === 3){
-      return <Step3 timetable={this.props.timetable}/> ;
+      return <Step3/> ;
     } else if(step === 4){
-      return <Step4 timetable={this.props.timetable}/> ;
+      return <Step4/> ;
     } else if(step === 5){
-      return <Step5 timetable={this.props.timetable}/> ;
+      return <Step5/> ;
     } else if(step === 6){
-      return <Step6 timetable={this.props.timetable}/> ;
+      return <Step6/> ;
     } else if(step === 7){
-      return <Step7 timetable={this.props.timetable}/> ;
+      return <Step7/> ;
     }
   }
 
