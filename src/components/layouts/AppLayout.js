@@ -20,7 +20,7 @@ class AppLayout extends React.Component {
   render() {
     const { showModal, modalMsg, loading } = this.props.async;
     return (
-      <div className="applayout-wrapper">
+      <div className="main applayout-wrapper">
         <Header/>
         {loading && !this.props.customLoading?
           <Row className="center-spinner">
