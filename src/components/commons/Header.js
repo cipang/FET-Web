@@ -2,12 +2,22 @@ import React from "react";
 import { connect } from 'react-redux';
 import { Layout, Menu, Typography } from 'antd';
 import { Link } from "react-router-dom";
-import { logout, updateFieldAuth } from '../../actions';
+import { logout,
+         updateFieldAuth,
+         onNewTimetable,
+         updateFieldListTimetable
+       } from '../../actions';
 import './Header.css';
 
 class Header extends React.Component {
 
   handleHeaderChange = (e) => {this.props.updateFieldAuth("headerPos", e.key);}
+
+  handleNewTimeTable = () => {this.props.onNewTimetable();}
+
+  handleRefreshListTimetables = () => {
+    this.props.updateFieldListTimetable("showTimetable", false);
+  }
 
   render() {
     const { loggedIn, user, headerPos } = this.props.auth;
@@ -23,11 +33,17 @@ class Header extends React.Component {
           <Menu.Item key="1"><Link to="/">Home</Link></Menu.Item>
           {loggedIn?
             <Menu.SubMenu title= {user.email}>
-              <Menu.Item key="listTimetables"><Link to="/listTimetables">View All Timetables</Link></Menu.Item>
+              <Menu.Item key="listTimetables" onClick={this.handleRefreshListTimetables}>
+                <Link to="/listTimetables">View All Timetables</Link>
+              </Menu.Item>
               <Menu.Item key="logout" onClick={this.props.logout}>Logout</Menu.Item>
             </Menu.SubMenu>
             :<Menu.Item key="2"><Link to="/login">Login</Link></Menu.Item>}
-          {loggedIn?<Menu.Item key="2"><Link to="/newTimetable">Make a timeable</Link></Menu.Item>:null}
+          {loggedIn?
+            <Menu.Item key="2" onClick={this.handleNewTimeTable }>
+              <Link to="/newTimetable">Make a timeable</Link>
+            </Menu.Item>
+            :null}
 
         </Menu>
       </Layout.Header>
@@ -37,4 +53,9 @@ class Header extends React.Component {
 
 const mapStateToProps = state => ({ auth: state.auth });
 
-export default connect(mapStateToProps, { logout, updateFieldAuth })(Header);
+export default connect( mapStateToProps,
+                        { logout,
+                          updateFieldAuth,
+                          onNewTimetable,
+                          updateFieldListTimetable }
+                      )(Header);

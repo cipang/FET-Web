@@ -64,6 +64,7 @@ export default (state = initialstate, action) => {
     case LIST_TIMETABLE_UPDATE_FIELD:
       return { ...state, [action.payload.key]: action.payload.value };
     case NEW_TIMETABLE:
+      console.log("newTimetable initilized");
       return {
                ...state,
                newTimetable:{

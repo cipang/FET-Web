@@ -40,7 +40,6 @@ const promiseMiddleware = store => next => action => {
             showModal(store, "success!");
             action.payload = res.user;
             localStorage.setItem('ws-token', res.user.refreshToken);
-            onListTimetables();
             break;
           case LOGOUT:
             showModal(store, "success!");
@@ -85,6 +84,7 @@ const promiseMiddleware = store => next => action => {
         // );
       } else {
         console.log("no user");
+        store.dispatch({ type: ASYNC_END });
       }
     })
     return;
