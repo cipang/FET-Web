@@ -25,6 +25,7 @@ const initialstate = {
     loading: true
   }],
   newTimetable: {
+    new:true,
     key:null,
     step:0,
     name:'',

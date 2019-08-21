@@ -83,18 +83,12 @@ export function onNewTimetable() {
   };
 }
 
-export function onSaveTimetable(timetable, key) {
+export function onSaveTimetable(timetable) {
   let uid = firebase.auth().currentUser.uid;
-  var newPostKey = firebase.database().ref().child('timetables').push().key;
   var updates = {};
   timetable['lastModifiedTime'] = new Date().toLocaleString();
-  if(key == null) {
-    updates['/timetables/' + newPostKey] = timetable;
-    updates['users/' + uid + '/timetables/' + newPostKey] = timetable;
-  } else {
-    updates['/timetables/' + key] = timetable;
-    updates['users/' + uid + '/timetables/' + key] = timetable;
-  }
+  updates['/timetables/' + timetable.key] = timetable;
+  updates['users/' + uid + '/timetables/' + timetable.key] = timetable;
   return {
     type: SAVE_TIMETABLE,
     auth: firebase.auth(),
