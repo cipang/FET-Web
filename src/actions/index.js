@@ -25,19 +25,9 @@ import {
 } from '../constants/actionTypes';
 import * as firebase from 'firebase';
 
-const root = "http://127.0.0.1:5000/";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDcWtQqtqJeQ0QvxGEXtIRyiyoc42lWmmc",
-  authDomain: "fet-web.firebaseapp.com",
-  databaseURL: "https://fet-web.firebaseio.com",
-  projectId: "fet-web",
-  storageBucket: "fet-web.appspot.com",
-  messagingSenderId: "594488385508",
-  appId: "1:594488385508:web:0681f5d828166939"
-};
-
-firebase.initializeApp(firebaseConfig);
+const root = process.env.REACT_APP_BACKEND_URL;
+console.log(process.env);
+firebase.initializeApp(process.env.FIREBASE_CONFIG);
 
 export function isLoggedIn() {
   return {
