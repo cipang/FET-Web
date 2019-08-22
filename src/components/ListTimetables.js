@@ -4,26 +4,24 @@ import NewTimetable from './NewTimetable';
 import { List, Avatar, Button, Skeleton, Card, Modal} from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldListTimetable } from '../actions';
-import { timetableTemplate, activityTemplate } from '../helper';
+import { timetableTemplate, activityTemplate, validateData } from '../helper';
 
 
 class ListTimetables extends React.Component {
 
   editTimetable = (timetable) => {
-    console.log(timetable);
     this.props.updateFieldListTimetable("showTimetable", true);
     this.props.updateFieldListTimetable(
       "newTimetable",
-      {
+      validateData({
         ...timetableTemplate,
         ...timetable,
         newActivity:activityTemplate,
         new:false,
         showModal:false,
-      }
+      })
     );
-    console.log(timetableTemplate,timetable);
-
+    // console.log(timetableTemplate,timetable);
   }
 
   componentDidUpdate() {

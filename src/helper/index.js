@@ -311,3 +311,23 @@ export const timetableTemplate = {
   buildings:basicDataStructure,
   rooms:basicDataStructure,
 };
+
+
+// firebase will omit empty data, which will result data is null
+export function validateData(timetable) {
+    let dataNeedsToBeChecked = ["subjects","teachers","students","tags","buildings","rooms","activities"]
+    let result = {};
+    dataNeedsToBeChecked.map(data => {
+        console.log(timetable[data])
+        if("data" in timetable[data]) {
+            result[data] = {...timetable[data]};
+        } else{
+            result[data] = basicDataStructure;
+        }
+    });
+
+    return {
+      ...timetable,
+      ...result
+    }
+}
