@@ -1,9 +1,9 @@
 import React from 'react';
 import BottomNav from '../commons/BottomNav';
-import { Form, Icon, Input, Row ,Table, Button, Popconfirm, Modal, Col, Select,Tabs, Tooltip } from 'antd';
+import { Form, Icon, Input, Row ,Table, Button, Popconfirm, Modal, Col, Select,Tabs, Tooltip, Radio } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldActivities } from '../../actions';
-import { createActivity, generateKey, delObject, refreshActivities, serializeActivities } from '../../helper';
+import { createActivity, delObject, refreshActivities, serializeActivities } from '../../helper';
 
 // TODO: may use common step
 class Step1 extends React.Component {
@@ -44,8 +44,18 @@ class Step1 extends React.Component {
         title: 'Students',
         dataIndex: 'students',
         key: 'students'
+      },
+      {
+        title: 'Active',
+        dataIndex: 'active',
+        key: 'active'
       }
     ];
+  }
+
+  statusOnChange = e => {
+    let currentActivity = this.props.timetable.newActivity;
+    this.props.updateFieldTimetable("newActivity", {...currentActivity, active:e.target.value});
   }
 
   subjectOnChange = val => {
@@ -123,8 +133,7 @@ class Step1 extends React.Component {
   render() {
     const { students, tags, teachers, subjects, activities, numberOfPeriodsPerDay, days } = this.props.timetable;
     const { data, keyList } = this.props.timetable.activities;
-    console.log(data);
-    const { selectedSubject, split, durations, msg, loading } = this.props.timetable.newActivity;
+    const { selectedSubject, split, durations, msg, loading, active } = this.props.timetable.newActivity;
     const formItemLayout = {
       labelCol: {
         xs: { span: 16 },
@@ -202,7 +211,7 @@ class Step1 extends React.Component {
             visible={this.props.timetable.showModal}
             onOk={this.handleAdd}
             onCancel={this.closeModal}
-            width="1300px"
+            width="1000px"
           >
           <Row gutter= {24}>
             {tableData.map(item =>
@@ -278,6 +287,16 @@ class Step1 extends React.Component {
                       </Tabs.TabPane>
                     ))}
                   </Tabs>
+                </Form.Item>
+                <Form.Item label="Active" >
+                  <Radio.Group
+                    buttonStyle="solid"
+                    defaultValue="true"
+                    onChange ={this.statusOnChange}
+                  >
+                    <Radio.Button value="true">true</Radio.Button>
+                    <Radio.Button value="false">false</Radio.Button>
+                  </Radio.Group>
                 </Form.Item>
               </Form>
             </Col>

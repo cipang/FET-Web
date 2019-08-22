@@ -153,6 +153,14 @@ export function generateUniqueKey(keyList, length) {
     return newKey;
 }
 
+export function generateActivityKey(keyList) {
+    if(keyList.length === 0){
+        return 1;
+    } else{
+        return keyList[keyList.length-1] + 1;
+    }
+}
+
 function serializeData(data, name) {
     let result = "";
     data.map(childData => {
@@ -178,6 +186,7 @@ function serializeAcitivity(activity) {
           students
       })
   });
+  console.log(activity)
 
   return {
       ...activity,
@@ -200,10 +209,11 @@ export function serializeActivities(activities) {
 export function createActivity(raw, keyList) {
     let sum = 0;
     let children = [];
-    let newKey = generateUniqueKey(keyList, 6);
+    let newKey = generateActivityKey(keyList);
     keyList.push(newKey);
 
     let mainData = {
+      active:raw.active.toString(),
       durations:raw.durations,
       subject:raw.selectedSubject,
       teachers:raw.selectedTeachers,
@@ -213,7 +223,7 @@ export function createActivity(raw, keyList) {
 
     Object.keys(raw.durations).map(duration => {
         sum += raw.durations[duration];
-        let childKey = generateUniqueKey(keyList, 6);
+        let childKey = generateActivityKey(keyList);
         keyList.push(childKey);
         children.push({
             ...mainData,
@@ -282,6 +292,7 @@ const basicDataStructure = {
 export const activityTemplate ={
   error:null,
   split:1,
+  active:true,
   selectedSubject:"",
   selectedTeachers:[],
   selectedTags:[],
