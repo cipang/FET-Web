@@ -9,7 +9,7 @@ import {
   PERIODS_UPDATE_FIELD,
   SUBJECTS_UPDATE_FIELD,
   TEACHERS_UPDATE_FIELD,
-  YEARS_UPDATE_FIELD,
+  STUDENTS_UPDATE_FIELD,
   TAGS_UPDATE_FIELD,
   ACTIVITIES_UPDATE_FIELD,
   BUILDINGS_UPDATE_FIELD,
@@ -169,9 +169,9 @@ export function updateFieldTeachers(key, value) {
   };
 }
 
-export function updateFieldYears(key, value) {
+export function updateFieldStudents(key, value) {
   return {
-    type: YEARS_UPDATE_FIELD,
+    type: STUDENTS_UPDATE_FIELD,
     payload: {key, value}
   };
 }

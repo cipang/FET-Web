@@ -2,7 +2,7 @@ import React from 'react';
 import CommonStep from '../commons/CommonStep';
 import { Row, Table, Divider, Button, Modal, Popconfirm, Input, Col} from 'antd';
 import { connect } from 'react-redux';
-import { updateFieldTimetable, updateFieldYears } from '../../actions';
+import { updateFieldTimetable, updateFieldStudents } from '../../actions';
 import { addObject, getObject, delObject, generateKey } from '../../helper';
 
 class Step3 extends React.Component {
@@ -13,9 +13,9 @@ class Step3 extends React.Component {
     this.goStep4 = () => {props.updateFieldTimetable("step",4);};
     this.columns = [
       {
-        title: 'Year',
-        dataIndex: 'year',
-        key: 'year',
+        title: 'Students',
+        dataIndex: 'students',
+        key: 'students',
         width: '38%',
         editable: true,
       },
@@ -35,7 +35,7 @@ class Step3 extends React.Component {
             <span>
               <Button onClick= {() => this.addSubgroup(text, record)}>Add Subgroup</Button>
               <Divider type="vertical" />
-              {this.props.timetable.years.data.length >= 1 ? (
+              {this.props.timetable.students.data.length >= 1 ? (
                 <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
                   <Button>Delete</Button>
                 </Popconfirm>
@@ -49,7 +49,7 @@ class Step3 extends React.Component {
   }
 
   addSubgroup = (text, record) => {
-    const { data, keyList } = this.props.timetable.years;
+    const { data, keyList } = this.props.timetable.students;
     const parentObject = getObject(data, record.key);
     let length = 0;
 
@@ -60,23 +60,23 @@ class Step3 extends React.Component {
     let newKey = generateKey(keyList, record.key, length);
     let newObject = {
       key: newKey,
-      year: null,
+      students: null,
       number: null
     };
 
-    this.props.updateFieldYears("data", addObject(data, record.key, newObject));
-    this.props.updateFieldYears("keyList", [...keyList, newKey]);
+    this.props.updateFieldStudents("data", addObject(data, record.key, newObject));
+    this.props.updateFieldStudents("keyList", [...keyList, newKey]);
   }
 
   handleDelete = key => {
-    const { data, keyList } = this.props.timetable.years;
-    this.props.updateFieldYears("data", delObject(data, key));
-    this.props.updateFieldYears("keyList", keyList.filter(item => item !== key));
+    const { data, keyList } = this.props.timetable.students;
+    this.props.updateFieldStudents("data", delObject(data, key));
+    this.props.updateFieldStudents("keyList", keyList.filter(item => item !== key));
   }
 
   render() {
-    const { data, keyList, selectedRowKeys } = this.props.timetable.years;
-    const objectPrototype = { year: null, number: null };
+    const { data, keyList, selectedRowKeys } = this.props.timetable.students;
+    const objectPrototype = { students: null, number: null };
 
     return (
       <CommonStep
@@ -85,7 +85,7 @@ class Step3 extends React.Component {
         columns = {this.columns}
         selectedRowKeys = {selectedRowKeys}
         objectPrototype = {objectPrototype}
-        updateField = {this.props.updateFieldYears}
+        updateField = {this.props.updateFieldStudents}
         goBack = {this.goStep2}
         goNext = {this.goStep4}
       />
@@ -96,4 +96,4 @@ class Step3 extends React.Component {
 const mapStateToProps = state => ({ timetable: state.listTimetables.newTimetable });
 
 
-export default connect( mapStateToProps, { updateFieldTimetable, updateFieldYears } )(Step3);
+export default connect( mapStateToProps, { updateFieldTimetable, updateFieldStudents } )(Step3);

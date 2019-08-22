@@ -7,7 +7,7 @@ import {
   SUBJECTS_UPDATE_FIELD,
   TEACHERS_UPDATE_FIELD,
   TAGS_UPDATE_FIELD,
-  YEARS_UPDATE_FIELD,
+  STUDENTS_UPDATE_FIELD,
   ACTIVITIES_UPDATE_FIELD,
   BUILDINGS_UPDATE_FIELD,
   ROOMS_UPDATE_FIELD
@@ -30,7 +30,6 @@ export default (state = initialstate, action) => {
     case LIST_TIMETABLE_UPDATE_FIELD:
       return { ...state, [action.payload.key]: action.payload.value };
     case NEW_TIMETABLE:
-      console.log("newTimetable initilized");
       return {
                ...state,
                newTimetable:{
@@ -71,12 +70,12 @@ export default (state = initialstate, action) => {
                  teachers:{...state.newTimetable.teachers, [action.payload.key]: action.payload.value}
                }
              }
-    case YEARS_UPDATE_FIELD:
+    case STUDENTS_UPDATE_FIELD:
       return {
                ...state,
                newTimetable:{
                  ...state.newTimetable,
-                 years:{...state.newTimetable.years, [action.payload.key]: action.payload.value}
+                 students:{...state.newTimetable.students, [action.payload.key]: action.payload.value}
                }
              }
     case TAGS_UPDATE_FIELD:

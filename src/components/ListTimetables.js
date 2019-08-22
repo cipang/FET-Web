@@ -4,7 +4,7 @@ import NewTimetable from './NewTimetable';
 import { List, Avatar, Button, Skeleton, Card, Modal} from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldListTimetable } from '../actions';
-import { timetableTemplate } from '../helper';
+import { timetableTemplate, activityTemplate } from '../helper';
 
 
 class ListTimetables extends React.Component {
@@ -17,7 +17,9 @@ class ListTimetables extends React.Component {
       {
         ...timetableTemplate,
         ...timetable,
-        new:false
+        newActivity:activityTemplate,
+        new:false,
+        showModal:false,
       }
     );
     console.log(timetableTemplate,timetable);

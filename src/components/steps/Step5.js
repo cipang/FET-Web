@@ -3,7 +3,7 @@ import BottomNav from '../commons/BottomNav';
 import { Form, Icon, Input, Row ,Table, Button, Popconfirm, Modal, Col, Select,Tabs, Tooltip } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldActivities } from '../../actions';
-import { createActivity, generateKey, delObject, refreshActivities } from '../../helper';
+import { createActivity, generateKey, delObject, refreshActivities, serializeActivities } from '../../helper';
 
 // TODO: may use common step
 class Step1 extends React.Component {
@@ -12,8 +12,8 @@ class Step1 extends React.Component {
     super(props);
     this.goStep4 = () => this.props.updateFieldTimetable("step",4);
     this.goStep6 = () => this.props.updateFieldTimetable("step",6);
-    this.showModal = () => this.props.updateFieldActivities("showModal", true);
-    this.closeModal = () => this.props.updateFieldActivities("showModal", false);
+    this.showModal = () => this.props.updateFieldTimetable("showModal", true);
+    this.closeModal = () => this.props.updateFieldTimetable("showModal", false);
     this.columns = [
       {
         title: 'Key',
@@ -39,6 +39,11 @@ class Step1 extends React.Component {
         title: 'Tags',
         dataIndex: 'tags',
         key: 'tags'
+      },
+      {
+        title: 'Students',
+        dataIndex: 'students',
+        key: 'students'
       }
     ];
   }
@@ -80,6 +85,7 @@ class Step1 extends React.Component {
   handleAdd = () => {
     let { data, keyList } = this.props.timetable.activities;
     let { newActivity } = this.props.timetable;
+    console.log(newActivity);
     let updatedActivities = createActivity(newActivity, keyList );
     this.props.updateFieldActivities(
       "data",
@@ -115,8 +121,9 @@ class Step1 extends React.Component {
   }
 
   render() {
-    const { years, tags, teachers, subjects, activities, numberOfPeriodsPerDay, days } = this.props.timetable;
+    const { students, tags, teachers, subjects, activities, numberOfPeriodsPerDay, days } = this.props.timetable;
     const { data, keyList } = this.props.timetable.activities;
+    console.log(data);
     const { selectedSubject, split, durations, msg, loading } = this.props.timetable.newActivity;
     const formItemLayout = {
       labelCol: {
@@ -138,18 +145,18 @@ class Step1 extends React.Component {
     const tableData = [
       {
         key:1,
-        data: years.data,
+        data: students.data,
         columns:[
           {
-            title: 'Year',
-            dataIndex: 'year',
-            key: 'year',
+            title: 'Students',
+            dataIndex: 'students',
+            key: 'students',
           }
         ],
         rowSelection: {
           onChange: (selectedRowKeys, selectedRows) => {
             let currentActivity = this.props.timetable.newActivity;
-            this.props.updateFieldTimetable("newActivity", {...currentActivity, selectedYears:selectedRows});
+            this.props.updateFieldTimetable("newActivity", {...currentActivity, selectedStudents:selectedRows});
           }
         }
       },
@@ -192,7 +199,7 @@ class Step1 extends React.Component {
       <Row>
         <Modal
             title="Add students"
-            visible={this.props.timetable.activities.showModal}
+            visible={this.props.timetable.showModal}
             onOk={this.handleAdd}
             onCancel={this.closeModal}
             width="1300px"
@@ -288,7 +295,7 @@ class Step1 extends React.Component {
           defaultExpandAllRows={true}
           size="small"
           columns={this.columns}
-          dataSource={data}
+          dataSource={serializeActivities(data)}
           rowSelection={rowSelection}
         />
 

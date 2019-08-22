@@ -153,52 +153,81 @@ export function generateUniqueKey(keyList, length) {
     return newKey;
 }
 
+function serializeData(data, name) {
+    let result = "";
+    data.map(childData => {
+        result = result.concat(childData[name], ",");
+    })
+    result = result.substring(0, result.length - 1);
+    return result;
+}
+
+function serializeAcitivity(activity) {
+  let children = [];
+  let teachers = serializeData(activity.teachers, "teacher");
+  let tags = serializeData(activity.tags, "tag");
+  let students = serializeData(activity.students, "students");
+  let totalDuration = activity.totalDuration;
+
+  activity.children.map(child => {
+      children.push({
+          ...child,
+          duration: child.duration + "/" + totalDuration,
+          teachers,
+          tags,
+          students
+      })
+  });
+
+  return {
+      ...activity,
+      duration: activity.totalDuration,
+      students,
+      teachers,
+      tags,
+      children
+  };
+}
+
+export function serializeActivities(activities) {
+    let result = [];
+    activities.map(activity => {
+        result.push(serializeAcitivity(activity))
+    });
+    return result;
+}
+
 export function createActivity(raw, keyList) {
-    let result = {};
     let sum = 0;
-    let teachers = "";
-    let tags = "";
     let children = [];
     let newKey = generateUniqueKey(keyList, 6);
     keyList.push(newKey);
 
-    raw.selectedTeachers.map(teacher => {
-        teachers = teachers.concat(teacher.teacher, ",");
-    })
-    teachers = teachers.substring(0, teachers.length - 1);
-
-    raw.selectedTags.map(tag => {
-        tags = tags.concat(tag.tag, ",");
-    })
-    tags = tags.substring(0, tags.length - 1);
+    let mainData = {
+      durations:raw.durations,
+      subject:raw.selectedSubject,
+      teachers:raw.selectedTeachers,
+      tags:raw.selectedTags,
+      students:raw.selectedStudents
+    }
 
     Object.keys(raw.durations).map(duration => {
         sum += raw.durations[duration];
-    });
-
-    Object.keys(raw.durations).map(duration => {
         let childKey = generateUniqueKey(keyList, 6);
-        console.log(childKey);
         keyList.push(childKey);
         children.push({
+            ...mainData,
             key:childKey,
-            duration: raw.durations[duration].toString() + "/" + sum.toString(),
-            subject:raw.selectedSubject,
-            teachers,
-            tags
+            duration: raw.durations[duration].toString(),
         })
     });
 
-    result = {
+    return {
+        ...mainData,
         key:newKey,
-        duration: sum,
-        subject:raw.selectedSubject,
-        teachers,
-        tags,
+        totalDuration: sum.toString(),
         children
-    }
-    console.log(result);
-    return result;
+    };
 
 }
 
@@ -256,12 +285,13 @@ export const activityTemplate ={
   selectedSubject:"",
   selectedTeachers:[],
   selectedTags:[],
-  selectedYears:[],
+  selectedStudents:[],
   durations:{}
 };
 
 export const timetableTemplate = {
   new:true,
+  showModal:false,
   key:null,
   step:0,
   name:'',
@@ -271,11 +301,10 @@ export const timetableTemplate = {
   numberOfSubjects:1,
   subjects:basicDataStructure,
   teachers:basicDataStructure,
-  years:basicDataStructure,
+  students:basicDataStructure,
   tags:basicDataStructure,
   newActivity:activityTemplate,
   activities:{
-    showModal:false,
     data:[],
     keyList:[]
   },
