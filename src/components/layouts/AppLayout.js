@@ -14,6 +14,10 @@ class AppLayout extends React.Component {
     window.location.reload();
   };
 
+  closeModalWithoutRefresh = () => {
+    this.props.updateFieldAsync("showModal", false);
+  };
+
   componentDidMount(){
     //TODO: null?
     if((!localStorage.getItem('ws-token')
@@ -43,7 +47,7 @@ class AppLayout extends React.Component {
           title="Somthing happened"
           visible={showModal}
           onOk={this.closeModal}
-          onCancel={this.closeModal}
+          onCancel={this.closeModalWithoutRefresh}
         >
           <p>{modalMsg}</p>
         </Modal>

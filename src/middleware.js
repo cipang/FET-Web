@@ -7,6 +7,7 @@ import {
   SAVE_TIMETABLE,
   SEND_TIMETABLE,
   LIST_TIMETABLES,
+  TIMETABLE_UPDATE_FIELD,
   ASYNC_UPDATE_FIELD,
   ISLOGGEDIN
 } from './constants/actionTypes';
@@ -47,10 +48,11 @@ const promiseMiddleware = store => next => action => {
             localStorage.setItem('ws-token', null);
             break;
           case SEND_TIMETABLE:
-            res.text().then( data => {
-              console.log(data);
-            })
-            action.payload = null;
+            action.type = TIMETABLE_UPDATE_FIELD
+            action.payload = {
+              key:"step",
+              value:8
+            };
             break;
           default:
             break;
