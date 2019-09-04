@@ -84,7 +84,8 @@ module.exports = {
             messagingSenderId: "594488385508",
             appId: "1:594488385508:web:0681f5d828166939"
           }),
-          REACT_APP_BACKEND_URL:JSON.stringify("http://127.0.0.1:5000/")
+          REACT_APP_BACKEND_URL:JSON.stringify("http://35.189.33.72:5000/")
+          // REACT_APP_BACKEND_URL:JSON.stringify("http://127.0.0.1:5000/")
         }
     })
   ]

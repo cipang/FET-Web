@@ -45,7 +45,11 @@ const promiseMiddleware = store => next => action => {
             showModal(store, "success!");
             action.payload = null;
             localStorage.setItem('ws-token', null);
+            break;
           case SEND_TIMETABLE:
+            res.text().then( data => {
+              console.log(data);
+            })
             action.payload = null;
             break;
           default:
