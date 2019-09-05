@@ -48,7 +48,7 @@ const WrapTabNode = DropTarget('DND_NODE', cardTarget, connect => ({
 
 class DraggableTabs extends React.Component {
   state = {
-    order: ["1_1","1_2","1_3","2_1","2_2","2_3"],
+    order: this.props.dataOrder,
   };
 
   moveTabNode = (dragKey, hoverKey) => {
@@ -81,58 +81,83 @@ class DraggableTabs extends React.Component {
     </DefaultTabBar>
   );
 
-  render() {
-    console.log("re render");
-
+  renderTabs = () => {
     const { order } = this.state;
     const { children } = this.props;
+    const numberOfHours = this.props.dataSource.days[0].hours.length;
+    const numberOfDays = this.props.dataSource.days.length;
 
-    const tabsList = [[],[]];
+    let tabsList = [];
+    for(let i = 0; i < numberOfHours; i++){
+      tabsList.push([]);
+    }
+    let daysMap = {};
+    let dayCount = 0;
+    this.props.dataSource.days.map(day => {
+      daysMap[day.name] = dayCount;
+      dayCount ++;
+    });
     let tabCount = 0;
     let tabsListCount = 0;
-    let tabs = [];
     let len =  this.state.order.length;
     for(let i = 0; i < len; i ++) {
       React.Children.forEach(children, c => {
         if(this.state.order[i] === c.key) {
-          let rowIndex = c.key.split("_")[0] - 1;
+          let rowIndex = daysMap[c.key.split("_")[0]];
           console.log(c.key);
           tabsList[tabsListCount].push(c);
           return;
         }
       });
       tabCount += 1;
-      if(tabCount === 3) {
+      if(tabCount % numberOfDays === 0) {
         tabsListCount += 1;
       }
     }
-    console.log(tabsList[0]);
-    console.log(tabsList[1]);
+    console.log(tabsList, numberOfHours);
+    let count = 0;
+    let tabs = [];
+    tabsList.map(child => {
+      tabs.push(
+        <Tabs key={count} renderTabBar={this.renderTabBar} {...this.props}>
+          {child}
+        </Tabs>
+      )
+      count += 1;
+    });
+    return tabs;
+  }
 
+
+  render() {
     return (
       <DndProvider backend={HTML5Backend}>
-        <Tabs renderTabBar={this.renderTabBar} {...this.props}>
-          {tabsList[0]}
-        </Tabs>
-        <Tabs renderTabBar={this.renderTabBar} {...this.props}>
-          {tabsList[1]}
-        </Tabs>
+        {this.renderTabs()}
       </DndProvider>
     );
   }
 }
 
 class DraggableTimetable extends React.Component {
+
+  renderTabPanes = () => {
+    const { dataOrder } = this.props;
+    let count = -1;
+    let tabPanes = [];
+    this.props.dataSource.days.map(day => {
+      day.hours.map(hour => {
+        count += 1;
+        tabPanes.push(<TabPane tab={dataOrder[count]} key={dataOrder[count]}/>);
+      })
+    })
+    return tabPanes;
+  }
+
   render() {
-    console.log(this.props.dataSource);
+    console.log(this.props.dataSource, this.props.dataOrder);
     return (
       <DraggableTabs {...this.props}>
-          <TabPane tab="tab 1" key="1_1"/>
-          <TabPane tab="tab 2" key="1_2"/>
-          <TabPane tab="tab 3" key="1_3"/>
-          <TabPane tab="tab 4" key="2_1"/>
-          <TabPane tab="tab 5" key="2_2"/>
-          <TabPane tab="tab 6" key="2_3"/>
+        {this.renderTabPanes()}
       </DraggableTabs>
     )
   }

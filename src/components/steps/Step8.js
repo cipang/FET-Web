@@ -18,19 +18,23 @@ class Step1 extends React.Component {
 
   renderSubgroups = () => {
     const { subgroups } = this.props.timetable.finalTimetables;
+    let subgroupsOrders = this.props.timetable.finalTimetablesOrders.subgroups;
     let subgroupNames = [];
-    let timetabeData = null;
+    let timetableData = null;
+    let timetableOrder = null;
     subgroups.map(subgroup => subgroupNames.push(subgroup.name));
 
     // first time showing
     if(!this.props.timetable.hasOwnProperty("showSubgroupTimetable")) {
       this.props.updateFieldTimetable("showSubgroupTimetable", subgroupNames[0]);
-      timetabeData = subgroups[0];
+      timetableData = subgroups[0];
+      timetableOrder = subgroupsOrders[subgroupNames[0]];
     } else {
       const { showSubgroupTimetable } = this.props.timetable;
-      timetabeData = subgroups[subgroupNames.indexOf(showSubgroupTimetable)];
+      timetableData = subgroups[subgroupNames.indexOf(showSubgroupTimetable)];
+      timetableOrder = subgroupsOrders[showSubgroupTimetable];
     }
-    
+
     return(
       <div>
         <Select defaultValue={subgroupNames[0]} style={{ width: 120 }} onChange={this.subGroupOnChange}>
@@ -38,7 +42,7 @@ class Step1 extends React.Component {
             (<Select.Option key={name} value={name}>{name}</Select.Option>)
           )}
         </Select>
-        <DraggableTimetable dataSource={timetabeData}/>
+        <DraggableTimetable dataSource={timetableData} dataOrder={timetableOrder}/>
       </div>
     )
   }
