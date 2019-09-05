@@ -165,10 +165,11 @@ class DraggableTimetable extends React.Component {
         count += 1;
         let subject = "";
         let teachersStr = "";
+        let tagsStr = "";
         if(!hour.hasOwnProperty("empty")) {
           subject = hour.subject;
-          teachersStr = "";
           hour.teachers.map(teacher => teachersStr  += (teacher.name + " "));
+          hour.activity_tag.map(tag => tagsStr  += (tag.name + " "));
         }
         // tabPanes.push(<TabPane tab={text} key={dataOrder[count]}/>);
         tabPanes.push(
@@ -181,8 +182,8 @@ class DraggableTimetable extends React.Component {
                       <p>NA</p>
                      </div>
                     :<div>
-                      <p>{subject}</p>
-                      <p>{teachersStr}</p>
+                      <p>Subject:{subject}</p>
+                      <p>Teachers:{teachersStr}</p>
                     </div>
                   }
                 </Card>
