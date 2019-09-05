@@ -14,7 +14,6 @@ import {
 
 import { objects2Array } from './helper';
 
-
 function showModal(store ,msg) {
   store.dispatch({
     type: ASYNC_UPDATE_FIELD,
@@ -48,11 +47,18 @@ const promiseMiddleware = store => next => action => {
             localStorage.setItem('ws-token', null);
             break;
           case SEND_TIMETABLE:
-            action.type = TIMETABLE_UPDATE_FIELD
-            action.payload = {
-              key:"step",
-              value:8
-            };
+            action.type = TIMETABLE_UPDATE_FIELD;
+            res.text().then(data => {
+              console.log("data", JSON.parse(data));
+              action.payload = {
+                key: "finalTimetables",
+                value: JSON.parse(data)
+              }
+              store.dispatch(action);
+            }, error => {
+              console.log(error)
+            })
+            action.payload = null;
             break;
           default:
             break;

@@ -42,6 +42,7 @@ export function isLoggedIn() {
 export function onSendTimetable(timetable) {
   return {
      type: SEND_TIMETABLE,
+     key: timetable["key"],
      payload: fetch(root + "api/v1/test", {
          method: 'POST', // *GET, POST, PUT, DELETE, etc.
          headers: {

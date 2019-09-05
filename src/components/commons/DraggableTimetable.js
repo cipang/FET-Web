@@ -110,40 +110,7 @@ class DraggableTabs extends React.Component {
     }
     console.log(tabsList[0]);
     console.log(tabsList[1]);
-
-    // React.Children.forEach(children, c => {
-    //   console.log(c.key, c.key.split("_"));
-    //   tabs.push(c);
-    //   tabCount += 1;
-    //   if(tabCount === 3) {
-    //     tabCount = 0;
-    //     tabsListCount += 1;
-    //     tabsList.push(tabs);
-    //     tabs = [];
-    //   }
-    // });
-
-    // const orderTabs = tabs => (tabs.slice().sort((a, b) => {
-    //   const orderA = order.indexOf(a.key);
-    //   const orderB = order.indexOf(b.key);
-    //   // console.log(orderA, orderB);
-    //
-    //   if (orderA !== -1 && orderB !== -1) {
-    //     return orderA - orderB;
-    //   }
-    //   if (orderA !== -1) {
-    //     return -1;
-    //   }
-    //   if (orderB !== -1) {
-    //     return 1;
-    //   }
-    //
-    //   const ia = tabs.indexOf(a);
-    //   const ib = tabs.indexOf(b);
-    //
-    //   return ia - ib;
-    // }));
-
+    
     return (
       <DndProvider backend={HTML5Backend}>
         <Tabs renderTabBar={this.renderTabBar} {...this.props}>
