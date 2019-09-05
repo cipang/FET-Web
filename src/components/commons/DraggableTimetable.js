@@ -73,11 +73,14 @@ class DraggableTabs extends React.Component {
 
   renderTabBar = (props, DefaultTabBar) => (
     <DefaultTabBar {...props}>
-      {node => (
-        <WrapTabNode key={node.key} index={node.key} moveTabNode={this.moveTabNode}>
-          {node}
-        </WrapTabNode>
-      )}
+      {node => {
+        console.log(node.key);
+        return (
+          <WrapTabNode key={node.key} index={node.key} moveTabNode={this.moveTabNode}>
+            {node}
+          </WrapTabNode>
+        )
+      }}
     </DefaultTabBar>
   );
 
@@ -102,10 +105,10 @@ class DraggableTabs extends React.Component {
     let len =  this.state.order.length;
     for(let i = 0; i < len; i ++) {
       React.Children.forEach(children, c => {
-        console.log(c);
+        // console.log(c);
         if(this.state.order[i] === c.key) {
           let rowIndex = daysMap[c.key.split("_")[0]];
-          console.log(c.key);
+          // console.log(c.key);
           tabsList[tabsListCount].push(c);
           return;
         }
@@ -115,14 +118,23 @@ class DraggableTabs extends React.Component {
         tabsListCount += 1;
       }
     }
-    console.log(tabsList, numberOfHours);
+    // console.log(tabsList, numberOfHours);
     let count = 0;
     let tabs = [];
-    tabsList.map(child => {
+    tabsList.map(children => {
+      // tabs.push(
+      //   <Tabs key={count} renderTabBar={this.renderTabBar} {...this.props}>
+      //     {child}
+      //   </Tabs>
+      // )
       tabs.push(
-        <Tabs key={count} renderTabBar={this.renderTabBar} {...this.props}>
-          {child}
-        </Tabs>
+        <Row gutter= {24} key={count}>
+          {children.map(child => (
+             <WrapTabNode key={child.key} index={child.key} moveTabNode={this.moveTabNode}>
+               {child}
+             </WrapTabNode>
+          ))}
+        </Row>
       )
       count += 1;
     });
@@ -156,7 +168,8 @@ class DraggableTimetable extends React.Component {
           hour.teachers.map(teacher => teachersStr  += (teacher.name + " "));
           text = hour.subject + " by (" +  teachersStr  + ")";
         }
-        tabPanes.push(<TabPane tab={text} key={dataOrder[count]}/>);
+        // tabPanes.push(<TabPane tab={text} key={dataOrder[count]}/>);
+        tabPanes.push(<div key={dataOrder[count]}><Col span = {24/this.props.dataSource.days.length}> {text} </Col></div>);
       })
     })
     return tabPanes;
@@ -166,11 +179,11 @@ class DraggableTimetable extends React.Component {
     console.log(this.props.dataSource, this.props.dataOrder);
     return (
       <div>
-        <Tabs>
+        <Row gutter= {24}>
           {this.props.dataSource.days.map(day =>
-            (<TabPane tab={day.name} key={day.name}/>)
+            (<Col span = {24/this.props.dataSource.days.length} key = {day.name}> {day.name} </Col>)
           )}
-        </Tabs>
+        </Row>
         <DraggableTabs {...this.props}>
           {this.renderTabPanes()}
         </DraggableTabs>

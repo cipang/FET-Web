@@ -37,7 +37,7 @@ class Step1 extends React.Component {
 
     return(
       <div>
-        <Select defaultValue={subgroupNames[0]} style={{ width: 120 }} onChange={this.subGroupOnChange}>
+        <Select defaultValue={subgroupNames[0]} style={{ width: 200 }} onChange={this.subGroupOnChange}>
           {subgroupNames.map(name =>
             (<Select.Option key={name} value={name}>{name}</Select.Option>)
           )}
