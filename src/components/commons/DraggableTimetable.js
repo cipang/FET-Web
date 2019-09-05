@@ -1,4 +1,4 @@
-import { Tabs, Row, Col, Button } from 'antd';
+import { Tabs, Row, Col, Button, Card } from 'antd';
 import React from 'react';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -91,8 +91,10 @@ class DraggableTabs extends React.Component {
     const numberOfDays = this.props.dataSource.days.length;
 
     let tabsList = [];
+    let hoursList = [];
     for(let i = 0; i < numberOfHours; i++){
       tabsList.push([]);
+      hoursList.push(this.props.dataSource.days[0].hours[i].name);
     }
     let daysMap = {};
     let dayCount = 0;
@@ -129,6 +131,7 @@ class DraggableTabs extends React.Component {
       // )
       tabs.push(
         <Row gutter= {24} key={count}>
+          <Col span = {24/(this.props.dataSource.days.length+1)-1}>{hoursList[count]}</Col>
           {children.map(child => (
              <WrapTabNode key={child.key} index={child.key} moveTabNode={this.moveTabNode}>
                {child}
@@ -160,16 +163,32 @@ class DraggableTimetable extends React.Component {
     this.props.dataSource.days.map(day => {
       day.hours.map(hour => {
         count += 1;
-        let text = "";
-        if(hour.hasOwnProperty("empty")) {
-          text = "empty";
-        } else {
-          let teachersStr = "";
+        let subject = "";
+        let teachersStr = "";
+        if(!hour.hasOwnProperty("empty")) {
+          subject = hour.subject;
+          teachersStr = "";
           hour.teachers.map(teacher => teachersStr  += (teacher.name + " "));
-          text = hour.subject + " by (" +  teachersStr  + ")";
         }
         // tabPanes.push(<TabPane tab={text} key={dataOrder[count]}/>);
-        tabPanes.push(<div key={dataOrder[count]}><Col span = {24/this.props.dataSource.days.length}> {text} </Col></div>);
+        tabPanes.push(
+          <div key={dataOrder[count]}>
+            <Col span = {24/(this.props.dataSource.days.length+1)}>
+                <Card>
+                  {hour.hasOwnProperty("empty")
+                    ?<div>
+                      <p>NA</p>
+                      <p>NA</p>
+                     </div>
+                    :<div>
+                      <p>{subject}</p>
+                      <p>{teachersStr}</p>
+                    </div>
+                  }
+                </Card>
+            </Col>
+          </div>
+        );
       })
     })
     return tabPanes;
@@ -179,9 +198,10 @@ class DraggableTimetable extends React.Component {
     console.log(this.props.dataSource, this.props.dataOrder);
     return (
       <div>
+        <Col span = {24/(this.props.dataSource.days.length+1) -1}></Col>
         <Row gutter= {24}>
           {this.props.dataSource.days.map(day =>
-            (<Col span = {24/this.props.dataSource.days.length} key = {day.name}> {day.name} </Col>)
+            (<Col span = {24/(this.props.dataSource.days.length+1)} key = {day.name}> {day.name} </Col>)
           )}
         </Row>
         <DraggableTabs {...this.props}>
