@@ -48,8 +48,6 @@ const WrapTabNode = DropTarget('DND_NODE', cardTarget, connect => ({
 
 class DraggableTabs extends React.Component {
   state = {
-    order_row1:["1_1","1_2","1_3"],
-    order_row2:["2_1","2_2","2_3"],
     order: ["1_1","1_2","1_3","2_1","2_2","2_3"],
   };
 
@@ -110,7 +108,7 @@ class DraggableTabs extends React.Component {
     }
     console.log(tabsList[0]);
     console.log(tabsList[1]);
-    
+
     return (
       <DndProvider backend={HTML5Backend}>
         <Tabs renderTabBar={this.renderTabBar} {...this.props}>
@@ -126,8 +124,9 @@ class DraggableTabs extends React.Component {
 
 class DraggableTimetable extends React.Component {
   render() {
+    console.log(this.props.dataSource);
     return (
-      <DraggableTabs>
+      <DraggableTabs {...this.props}>
           <TabPane tab="tab 1" key="1_1"/>
           <TabPane tab="tab 2" key="1_2"/>
           <TabPane tab="tab 3" key="1_3"/>

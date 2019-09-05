@@ -284,6 +284,35 @@ export function objects2Array(objects){
     return result;
 }
 
+export function initializeOrderForAllTimeTables(timetables){
+    const { subgroups, teachers } = timetables;
+    let result = {};
+    let newSubgroups = {};
+    let newTeachers = {};
+
+    subgroups.map(subgroup => {
+      newSubgroups[subgroup.name] = initializeOrderForOneTimetable(subgroup.days)
+    })
+    teachers.map(teacher => {
+      newTeachers[teacher.name] = initializeOrderForOneTimetable(teacher.days)
+    })
+
+    result["subgroups"] = newSubgroups;
+    result["teachers"] = newTeachers;
+
+    return result;
+}
+
+function initializeOrderForOneTimetable(days){
+    let orders = [];
+    days.map(day => {
+      day.hours.map(hour => {
+        orders.push(day.name + "_" + hour.name);
+      })
+    })
+    return orders;
+}
+
 const basicDataStructure = {
   keyList:[],
   data:[]

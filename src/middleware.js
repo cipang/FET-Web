@@ -12,7 +12,7 @@ import {
   ISLOGGEDIN
 } from './constants/actionTypes';
 
-import { objects2Array } from './helper';
+import { objects2Array, initializeOrderForAllTimeTables } from './helper';
 
 function showModal(store ,msg) {
   store.dispatch({
@@ -46,6 +46,7 @@ const promiseMiddleware = store => next => action => {
             action.payload = null;
             localStorage.setItem('ws-token', null);
             break;
+          // TODO: need to be refactored
           case SEND_TIMETABLE:
             action.type = TIMETABLE_UPDATE_FIELD;
             res.text().then(data => {
@@ -55,6 +56,17 @@ const promiseMiddleware = store => next => action => {
                 value: JSON.parse(data)
               }
               store.dispatch(action);
+              action.payload = {
+                key: "finalTimetablesOrders",
+                value: initializeOrderForAllTimeTables(JSON.parse(data))
+              }
+              store.dispatch(action);
+              action.payload = {
+                key: "step",
+                value: 8
+              }
+              store.dispatch(action);
+              store.dispatch({ type: ASYNC_END });
             }, error => {
               console.log(error)
             })
