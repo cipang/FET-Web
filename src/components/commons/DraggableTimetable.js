@@ -1,4 +1,4 @@
-import { Tabs, Row, Col } from 'antd';
+import { Tabs, Row, Col, Button } from 'antd';
 import React from 'react';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -102,6 +102,7 @@ class DraggableTabs extends React.Component {
     let len =  this.state.order.length;
     for(let i = 0; i < len; i ++) {
       React.Children.forEach(children, c => {
+        console.log(c);
         if(this.state.order[i] === c.key) {
           let rowIndex = daysMap[c.key.split("_")[0]];
           console.log(c.key);
@@ -147,7 +148,15 @@ class DraggableTimetable extends React.Component {
     this.props.dataSource.days.map(day => {
       day.hours.map(hour => {
         count += 1;
-        tabPanes.push(<TabPane tab={dataOrder[count]} key={dataOrder[count]}/>);
+        let text = "";
+        if(hour.hasOwnProperty("empty")) {
+          text = "empty";
+        } else {
+          let teachersStr = "";
+          hour.teachers.map(teacher => teachersStr  += (teacher.name + " "));
+          text = hour.subject + " by (" +  teachersStr  + ")";
+        }
+        tabPanes.push(<TabPane tab={text} key={dataOrder[count]}/>);
       })
     })
     return tabPanes;
@@ -156,9 +165,16 @@ class DraggableTimetable extends React.Component {
   render() {
     console.log(this.props.dataSource, this.props.dataOrder);
     return (
-      <DraggableTabs {...this.props}>
-        {this.renderTabPanes()}
-      </DraggableTabs>
+      <div>
+        <Tabs>
+          {this.props.dataSource.days.map(day =>
+            (<TabPane tab={day.name} key={day.name}/>)
+          )}
+        </Tabs>
+        <DraggableTabs {...this.props}>
+          {this.renderTabPanes()}
+        </DraggableTabs>
+      </div>
     )
   }
 }
