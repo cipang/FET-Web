@@ -37,6 +37,7 @@ export default (state = initialstate, action) => {
                  key:action.payload
                }
              };
+    // Todo: handle null payload
     case TIMETABLE_UPDATE_FIELD:
       return {
                ...state,
