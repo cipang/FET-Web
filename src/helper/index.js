@@ -1,5 +1,3 @@
-import React from 'react';  // may not be a good practice
-
 export function getObject(theObject, key) {
     let result = null;
     if(theObject instanceof Array) {
@@ -360,14 +358,9 @@ function initializeDataMap(timetableData, timetableOrder, type){
         subject = hour.subject;
         hour[type].map(x => teachersOrStudentsStr += (x.name + " "));
         hour.activity_tag.map(tag => tagsStr  += (tag.name + " "));
-        dataMap[timetableOrder[count]] = (
-          <div>
-            <p>Subject:{subject}</p>
-            <p>{type}:{teachersOrStudentsStr}</p>
-          </div>
-        );
+        dataMap[timetableOrder[count]] = subject + " by " + teachersOrStudentsStr;
       } else {
-        dataMap[timetableOrder[count]] = (<div><p>NA</p><p>NA</p></div>);
+        dataMap[timetableOrder[count]] = "";
       }
     })
   ))
