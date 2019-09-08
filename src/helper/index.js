@@ -360,7 +360,7 @@ function initializeDataMap(timetableData, timetableOrder, type){
         hour.activity_tag.map(tag => tagsStr  += (tag.name + " "));
         dataMap[timetableOrder[count]] = subject + " by " + teachersOrStudentsStr;
       } else {
-        dataMap[timetableOrder[count]] = "";
+        dataMap[timetableOrder[count]] = "NA";
       }
     })
   ))

@@ -21,14 +21,14 @@ class Step1 extends React.Component {
 
   renderSubgroups = () => {
     const { subgroups } = this.props.timetable.finalTimetables;
-    const { finalTimetablesOrders } = this.props.timetable;
+    const { finalTimetablesOrders, finalTimetablesDataMap } = this.props.timetable;
     const { showGeneratedTimetable, showSubgroupTimetable } = this.props.timetable;
     console.log(showGeneratedTimetable, showSubgroupTimetable);
     let dataOrder = finalTimetablesOrders[showGeneratedTimetable][showSubgroupTimetable];
+    let componentMap = finalTimetablesDataMap[showGeneratedTimetable][showSubgroupTimetable];
     let subgroupsOrders = this.props.timetable.finalTimetablesOrders.subgroups;
     let subgroupNames = [];
     let timetableData = null;
-    let componentMap = {};  // map key to component
     subgroups.map(subgroup => subgroupNames.push(subgroup.name));
 
     // first time showing
@@ -39,49 +39,6 @@ class Step1 extends React.Component {
       const { showSubgroupTimetable } = this.props.timetable;
       timetableData = subgroups[subgroupNames.indexOf(showSubgroupTimetable)];
     }
-
-    const numberOfDays = timetableData.days.length;
-    let count = -1;
-    let tabPanes = [];
-    timetableData.days.map(day => (
-      day.hours.map(hour => {
-        count += 1;
-        let subject = "";
-        let teachersStr = "";
-        let tagsStr = "";
-        if(!hour.hasOwnProperty("empty")) {
-          subject = hour.subject;
-          hour.teachers.map(teacher => teachersStr  += (teacher.name + " "));
-          hour.activity_tag.map(tag => tagsStr  += (tag.name + " "));
-        }
-
-        componentMap[dataOrder[count]] = (
-          <div key={dataOrder[count]}>
-            <Col span = {24/(numberOfDays+1)}>
-                {dataOrder[count]}
-            </Col>
-          </div>
-        );
-        // componentMap[dataOrder[count]] = (
-        //   <div key={dataOrder[count]}>
-        //     <Col span = {24/(numberOfDays+1)}>
-        //         <Card>
-        //           {hour.hasOwnProperty("empty")
-        //             ?<div>
-        //               <p>NA</p>
-        //               <p>NA</p>
-        //              </div>
-        //             :<div>
-        //               <p>Subject:{subject}</p>
-        //               <p>Teachers:{teachersStr}</p>
-        //             </div>
-        //           }
-        //         </Card>
-        //     </Col>
-        //   </div>
-        // );
-      })
-    ))
 
     return(
       <div>

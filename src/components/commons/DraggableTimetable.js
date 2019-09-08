@@ -68,7 +68,7 @@ class DraggableTabs extends React.Component {
   };
 
   renderTabs = () => {
-    const { dataOrder, componentMap } = this.props;
+    const { dataOrder, children } = this.props;
     const numberOfHours = this.props.dataSource.days[0].hours.length;
     const numberOfDays = this.props.dataSource.days.length;
 
@@ -78,6 +78,10 @@ class DraggableTabs extends React.Component {
       tabsList.push([]);
       hoursList.push(this.props.dataSource.days[0].hours[i].name);
     }
+
+    let componentMap = {};
+    console.log(children);
+    children.map(child => componentMap[child.key] = child);
 
     // console.log(componentMap);
     // console.log(dataOrder);
@@ -99,7 +103,6 @@ class DraggableTabs extends React.Component {
         <Row gutter= {24} key={count}>
           <Col span = {24/(this.props.dataSource.days.length+1)-1}>{hoursList[count]}</Col>
           {children.map(child => {
-             // console.log(child.key);
              return(
                <WrapTabNode key={child.key} index={child.key} moveTabNode={this.moveTabNode}>
                  {child}
@@ -127,10 +130,19 @@ class DraggableTimetable extends React.Component {
 
   renderTabPanes = () => {
     const { dataOrder, componentMap } = this.props;
+    console.log(dataOrder,componentMap);
     let tabPanes = [];
-    dataOrder.map(key => {
-      tabPanes.push(componentMap[key]);
-    })
+    dataOrder.map(key =>{
+       tabPanes.push(
+          <div key={key}>
+            <Col span = {24/(this.props.dataSource.days.length+1)} key={key}>
+                {componentMap[key]}
+            </Col>
+          </div>
+        )
+        // console.log(tabPanes);
+      }
+    )
     return tabPanes;
   }
 
