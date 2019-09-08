@@ -1,6 +1,6 @@
 import React from 'react';
 import DraggableTimetable from '../commons/DraggableTimetable';
-import { Radio, Select} from 'antd';
+import { Radio, Select, Col, Card} from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable,
          updateFieldSubjects,
@@ -21,22 +21,67 @@ class Step1 extends React.Component {
 
   renderSubgroups = () => {
     const { subgroups } = this.props.timetable.finalTimetables;
+    const { finalTimetablesOrders } = this.props.timetable;
+    const { showGeneratedTimetable, showSubgroupTimetable } = this.props.timetable;
+    console.log(showGeneratedTimetable, showSubgroupTimetable);
+    let dataOrder = finalTimetablesOrders[showGeneratedTimetable][showSubgroupTimetable];
     let subgroupsOrders = this.props.timetable.finalTimetablesOrders.subgroups;
     let subgroupNames = [];
     let timetableData = null;
-    let timetableOrder = null;
+    let componentMap = {};  // map key to component
     subgroups.map(subgroup => subgroupNames.push(subgroup.name));
 
     // first time showing
     if(!this.props.timetable.hasOwnProperty("showSubgroupTimetable")) {
       this.props.updateFieldTimetable("showSubgroupTimetable", subgroupNames[0]);
       timetableData = subgroups[0];
-      timetableOrder = subgroupsOrders[subgroupNames[0]];
     } else {
       const { showSubgroupTimetable } = this.props.timetable;
       timetableData = subgroups[subgroupNames.indexOf(showSubgroupTimetable)];
-      timetableOrder = subgroupsOrders[showSubgroupTimetable];
     }
+
+    const numberOfDays = timetableData.days.length;
+    let count = -1;
+    let tabPanes = [];
+    timetableData.days.map(day => (
+      day.hours.map(hour => {
+        count += 1;
+        let subject = "";
+        let teachersStr = "";
+        let tagsStr = "";
+        if(!hour.hasOwnProperty("empty")) {
+          subject = hour.subject;
+          hour.teachers.map(teacher => teachersStr  += (teacher.name + " "));
+          hour.activity_tag.map(tag => tagsStr  += (tag.name + " "));
+        }
+
+        componentMap[dataOrder[count]] = (
+          <div key={dataOrder[count]}>
+            <Col span = {24/(numberOfDays+1)}>
+                {dataOrder[count]}
+            </Col>
+          </div>
+        );
+        // componentMap[dataOrder[count]] = (
+        //   <div key={dataOrder[count]}>
+        //     <Col span = {24/(numberOfDays+1)}>
+        //         <Card>
+        //           {hour.hasOwnProperty("empty")
+        //             ?<div>
+        //               <p>NA</p>
+        //               <p>NA</p>
+        //              </div>
+        //             :<div>
+        //               <p>Subject:{subject}</p>
+        //               <p>Teachers:{teachersStr}</p>
+        //             </div>
+        //           }
+        //         </Card>
+        //     </Col>
+        //   </div>
+        // );
+      })
+    ))
 
     return(
       <div>
@@ -47,9 +92,10 @@ class Step1 extends React.Component {
         </Select>
         <DraggableTimetable
           dataSource={timetableData}
-          dataOrder={timetableOrder}
-          dataType={this.props.timetable.showGeneratedTimetable}
-          dataSubType={this.props.timetable.showSubgroupTimetable}
+          dataOrder={dataOrder}
+          componentMap={componentMap}
+          dataType={showGeneratedTimetable}
+          dataSubType={showSubgroupTimetable}
           finalTimetablesOrders={this.props.timetable.finalTimetablesOrders}
           updateFieldFinalTimetableOrders={this.props.updateFieldFinalTimetableOrders}
           updateFieldTimetable={this.props.updateFieldTimetable}

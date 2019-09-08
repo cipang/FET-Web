@@ -1,3 +1,5 @@
+import React from 'react';  // may not be a good practice
+
 export function getObject(theObject, key) {
     let result = null;
     if(theObject instanceof Array) {
@@ -284,7 +286,18 @@ export function objects2Array(objects){
     return result;
 }
 
-export function initializeOrderForAllTimeTables(timetables){
+
+export function initializeTimetableOrderManagement(timetables) {
+    let orderResult = initializeOrderForAllTimeTables(timetables);
+    let dataMapResult = initializeDataMapForAllTimeTables(timetables, orderResult);
+
+    return ({
+      "finalTimetablesOrders": orderResult,
+      "finalTimetablesDataMap": dataMapResult,
+    });
+}
+
+function initializeOrderForAllTimeTables(timetables){
     const { subgroups, teachers } = timetables;
     let result = {};
     let newSubgroups = {};
@@ -301,6 +314,64 @@ export function initializeOrderForAllTimeTables(timetables){
     result["teachers"] = newTeachers;
 
     return result;
+}
+
+function initializeDataMapForAllTimeTables(timetables, timetableOrders){
+    const { subgroups, teachers } = timetables;
+    let result = {};
+    let newSubgroups = {};
+    let newTeachers = {};
+
+    subgroups.map(subgroup =>
+      newSubgroups[subgroup.name] =
+          initializeDataMap(
+                             subgroup.days,
+                             timetableOrders["subgroups"][subgroup.name],
+                             "teachers"
+                           )
+    )
+    teachers.map(teacher =>
+      newTeachers[teacher.name] =
+          initializeDataMap(
+                             teacher.days,
+                             timetableOrders["teachers"][teacher.name],
+                             "students"
+                           )
+    )
+
+    result["subgroups"] = newSubgroups;
+    result["teachers"] = newTeachers;
+
+    return result;
+}
+
+// map key to dispaly string e.g. { Monday_11 : "physics by teacher1" }
+function initializeDataMap(timetableData, timetableOrder, type){
+  let dataMap = {};
+  let count = -1;
+  timetableData.map(day => (
+    day.hours.map(hour => {
+      count += 1;
+      let subject = "";
+      let teachersOrStudentsStr = "";
+      let tagsStr = "";
+      if(!hour.hasOwnProperty("empty")) {
+        console.log(hour, hour[type]);
+        subject = hour.subject;
+        hour[type].map(x => teachersOrStudentsStr += (x.name + " "));
+        hour.activity_tag.map(tag => tagsStr  += (tag.name + " "));
+        dataMap[timetableOrder[count]] = (
+          <div>
+            <p>Subject:{subject}</p>
+            <p>{type}:{teachersOrStudentsStr}</p>
+          </div>
+        );
+      } else {
+        dataMap[timetableOrder[count]] = (<div><p>NA</p><p>NA</p></div>);
+      }
+    })
+  ))
+  return dataMap;
 }
 
 function initializeOrderForOneTimetable(days){

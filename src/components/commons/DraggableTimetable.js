@@ -45,9 +45,6 @@ const WrapTabNode = DropTarget('DND_NODE', cardTarget, connect => ({
 );
 
 class DraggableTabs extends React.Component {
-  // state = {
-  //   order: this.props.dataOrder,
-  // };
 
   moveTabNode = (dragKey, hoverKey) => {
     const { finalTimetablesOrders, dataType, dataSubType } = this.props;
@@ -68,59 +65,47 @@ class DraggableTabs extends React.Component {
 
     update[dataSubType] = newOrder;
     this.props.updateFieldFinalTimetableOrders(dataType, update);
-    // this.setState({
-    //   order: newOrder,
-    // });
   };
 
   renderTabs = () => {
-    const { finalTimetablesOrders, dataType, dataSubType } = this.props;
-    let dataOrder = finalTimetablesOrders[dataType][dataSubType];
-    const { children } = this.props;
+    const { dataOrder, componentMap } = this.props;
     const numberOfHours = this.props.dataSource.days[0].hours.length;
     const numberOfDays = this.props.dataSource.days.length;
 
-    let tabsList = [];
-    let hoursList = [];
+    let tabsList = []; // 2-d components list [x][y], x is hour count, y is day count
+    let hoursList = []; // time slots,. eg. [11:00, 12:00, 13:00, 14:00]
     for(let i = 0; i < numberOfHours; i++){
       tabsList.push([]);
       hoursList.push(this.props.dataSource.days[0].hours[i].name);
     }
-    let daysMap = {};
-    let dayCount = 0;
-    this.props.dataSource.days.map(day => {
-      daysMap[day.name] = dayCount;
-      dayCount ++;
-    });
-    let tabCount = 0;
-    let tabsListCount = 0;
-    let len =  dataOrder.length;
+
+    // console.log(componentMap);
+    // console.log(dataOrder);
+    let tabCount = 0; // day count
+    let x = 0; // hour count
+    let len = dataOrder.length; // total number of time slots
     for(let i = 0; i < len; i ++) {
-      React.Children.forEach(children, c => {
-        // console.log(c);
-        if(dataOrder[i] === c.key) {
-          let rowIndex = daysMap[c.key.split("_")[0]];
-          console.log(c.key);
-          tabsList[tabsListCount].push(c);
-        }
-      });
+      tabsList[x].push(componentMap[dataOrder[i]]);
       tabCount += 1;
       if(tabCount % numberOfDays === 0) {
-        tabsListCount += 1;
+        x += 1;
       }
     }
-    console.log(tabsList, numberOfHours);
+    // console.log(tabsList, numberOfHours);
     let count = 0;
     let tabs = [];
     tabsList.map(children => {
       tabs.push(
         <Row gutter= {24} key={count}>
           <Col span = {24/(this.props.dataSource.days.length+1)-1}>{hoursList[count]}</Col>
-          {children.map(child => (
-             <WrapTabNode key={child.key} index={child.key} moveTabNode={this.moveTabNode}>
-               {child}
-             </WrapTabNode>
-          ))}
+          {children.map(child => {
+             // console.log(child.key);
+             return(
+               <WrapTabNode key={child.key} index={child.key} moveTabNode={this.moveTabNode}>
+                 {child}
+               </WrapTabNode>
+             )
+          })}
         </Row>
       )
       count += 1;
@@ -141,44 +126,11 @@ class DraggableTabs extends React.Component {
 class DraggableTimetable extends React.Component {
 
   renderTabPanes = () => {
-    const { finalTimetablesOrders, dataType, dataSubType } = this.props;
-    // console.log(finalTimetablesOrders, dataType, dataSubType);
-    let dataOrder = finalTimetablesOrders[dataType][dataSubType];
-    let count = -1;
+    const { dataOrder, componentMap } = this.props;
     let tabPanes = [];
-    this.props.dataSource.days.map(day => (
-      day.hours.map(hour => {
-        count += 1;
-        let subject = "";
-        let teachersStr = "";
-        let tagsStr = "";
-        if(!hour.hasOwnProperty("empty")) {
-          subject = hour.subject;
-          hour.teachers.map(teacher => teachersStr  += (teacher.name + " "));
-          hour.activity_tag.map(tag => tagsStr  += (tag.name + " "));
-        }
-        // tabPanes.push(<TabPane tab={text} key={dataOrder[count]}/>);
-        console.log(dataOrder, dataOrder[count], count);
-        tabPanes.push(
-          <div key={dataOrder[count]}>
-            <Col span = {24/(this.props.dataSource.days.length+1)}>
-                <Card>
-                  {hour.hasOwnProperty("empty")
-                    ?<div>
-                      <p>NA</p>
-                      <p>NA</p>
-                     </div>
-                    :<div>
-                      <p>Subject:{subject}</p>
-                      <p>Teachers:{teachersStr}</p>
-                    </div>
-                  }
-                </Card>
-            </Col>
-          </div>
-        );
-      })
-    ))
+    dataOrder.map(key => {
+      tabPanes.push(componentMap[key]);
+    })
     return tabPanes;
   }
 

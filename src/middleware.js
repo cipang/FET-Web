@@ -12,7 +12,7 @@ import {
   ISLOGGEDIN
 } from './constants/actionTypes';
 
-import { objects2Array, initializeOrderForAllTimeTables } from './helper';
+import { objects2Array, initializeTimetableOrderManagement } from './helper';
 
 function showModal(store ,msg) {
   store.dispatch({
@@ -56,11 +56,19 @@ const promiseMiddleware = store => next => action => {
                 value: JSON.parse(data)
               }
               store.dispatch(action);
+
+              const {finalTimetablesOrders , finalTimetablesDataMap} = initializeTimetableOrderManagement(JSON.parse(data));
               action.payload = {
                 key: "finalTimetablesOrders",
-                value: initializeOrderForAllTimeTables(JSON.parse(data))
+                value: finalTimetablesOrders
               }
               store.dispatch(action);
+              action.payload = {
+                key: "finalTimetablesDataMap",
+                value: finalTimetablesDataMap
+              }
+              store.dispatch(action);
+
               action.payload = {
                 key: "step",
                 value: 8
