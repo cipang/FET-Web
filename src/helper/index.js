@@ -290,12 +290,12 @@ export function initializeOrderForAllTimeTables(timetables){
     let newSubgroups = {};
     let newTeachers = {};
 
-    subgroups.map(subgroup => {
+    subgroups.map(subgroup =>
       newSubgroups[subgroup.name] = initializeOrderForOneTimetable(subgroup.days)
-    })
-    teachers.map(teacher => {
+    )
+    teachers.map(teacher =>
       newTeachers[teacher.name] = initializeOrderForOneTimetable(teacher.days)
-    })
+    )
 
     result["subgroups"] = newSubgroups;
     result["teachers"] = newTeachers;
@@ -304,13 +304,18 @@ export function initializeOrderForAllTimeTables(timetables){
 }
 
 function initializeOrderForOneTimetable(days){
-    let orders = [];
-    days.map(day => {
-      day.hours.map(hour => {
-        orders.push(day.name + "_" + hour.name);
-      })
-    })
-    return orders;
+    let order = [];
+    let numberOfHours = days[0].hours.length;
+    let numberOfDays = days.length;
+    for(let i = 0; i < numberOfHours; i++ ){
+      for(let j = 0; j < numberOfDays; j++ ) {
+        order.push(days[j].name + "_" + days[j].hours[i].name);
+      }
+    }
+    // days.map(day =>
+    //   day.hours.map(hour => orders.push(day.name + "_" + hour.name) )
+    // );
+    return order;
 }
 
 const basicDataStructure = {

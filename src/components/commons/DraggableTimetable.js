@@ -1,9 +1,7 @@
-import { Tabs, Row, Col, Button, Card } from 'antd';
+import { Row, Col, Button, Card } from 'antd';
 import React from 'react';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-
-const { TabPane } = Tabs;
 
 // Drag & Drop node
 class TabNode extends React.Component {
@@ -47,45 +45,37 @@ const WrapTabNode = DropTarget('DND_NODE', cardTarget, connect => ({
 );
 
 class DraggableTabs extends React.Component {
-  state = {
-    order: this.props.dataOrder,
-  };
+  // state = {
+  //   order: this.props.dataOrder,
+  // };
 
   moveTabNode = (dragKey, hoverKey) => {
-    const newOrder = this.state.order.slice();
-    const { children } = this.props;
-    console.log("before:", newOrder);
+    const { finalTimetablesOrders, dataType, dataSubType } = this.props;
+    let update = finalTimetablesOrders[dataType];
+    let newOrder = update[dataSubType].slice();
+    // console.log("before:", newOrder);
 
     const dragIndex = newOrder.indexOf(dragKey);
     const hoverIndex = newOrder.indexOf(hoverKey);
-    console.log("newOrder[dragIndex]", dragIndex, newOrder[dragIndex]);
-    console.log("newOrder[hoverIndex]", hoverIndex, newOrder[hoverIndex]);
+    // console.log("newOrder[dragIndex]", dragIndex, newOrder[dragIndex]);
+    // console.log("newOrder[hoverIndex]", hoverIndex, newOrder[hoverIndex]);
 
     const tmp = newOrder[dragIndex];
     newOrder[dragIndex] = newOrder[hoverIndex];
     newOrder[hoverIndex] = tmp;
 
-    console.log("after:", newOrder);
-    this.setState({
-      order: newOrder,
-    });
+    // console.log("after:", newOrder);
+
+    update[dataSubType] = newOrder;
+    this.props.updateFieldFinalTimetableOrders(dataType, update);
+    // this.setState({
+    //   order: newOrder,
+    // });
   };
 
-  renderTabBar = (props, DefaultTabBar) => (
-    <DefaultTabBar {...props}>
-      {node => {
-        console.log(node.key);
-        return (
-          <WrapTabNode key={node.key} index={node.key} moveTabNode={this.moveTabNode}>
-            {node}
-          </WrapTabNode>
-        )
-      }}
-    </DefaultTabBar>
-  );
-
   renderTabs = () => {
-    const { order } = this.state;
+    const { finalTimetablesOrders, dataType, dataSubType } = this.props;
+    let dataOrder = finalTimetablesOrders[dataType][dataSubType];
     const { children } = this.props;
     const numberOfHours = this.props.dataSource.days[0].hours.length;
     const numberOfDays = this.props.dataSource.days.length;
@@ -104,15 +94,14 @@ class DraggableTabs extends React.Component {
     });
     let tabCount = 0;
     let tabsListCount = 0;
-    let len =  this.state.order.length;
+    let len =  dataOrder.length;
     for(let i = 0; i < len; i ++) {
       React.Children.forEach(children, c => {
         // console.log(c);
-        if(this.state.order[i] === c.key) {
+        if(dataOrder[i] === c.key) {
           let rowIndex = daysMap[c.key.split("_")[0]];
-          // console.log(c.key);
+          console.log(c.key);
           tabsList[tabsListCount].push(c);
-          return;
         }
       });
       tabCount += 1;
@@ -120,15 +109,10 @@ class DraggableTabs extends React.Component {
         tabsListCount += 1;
       }
     }
-    // console.log(tabsList, numberOfHours);
+    console.log(tabsList, numberOfHours);
     let count = 0;
     let tabs = [];
     tabsList.map(children => {
-      // tabs.push(
-      //   <Tabs key={count} renderTabBar={this.renderTabBar} {...this.props}>
-      //     {child}
-      //   </Tabs>
-      // )
       tabs.push(
         <Row gutter= {24} key={count}>
           <Col span = {24/(this.props.dataSource.days.length+1)-1}>{hoursList[count]}</Col>
@@ -157,10 +141,12 @@ class DraggableTabs extends React.Component {
 class DraggableTimetable extends React.Component {
 
   renderTabPanes = () => {
-    const { dataOrder } = this.props;
+    const { finalTimetablesOrders, dataType, dataSubType } = this.props;
+    // console.log(finalTimetablesOrders, dataType, dataSubType);
+    let dataOrder = finalTimetablesOrders[dataType][dataSubType];
     let count = -1;
     let tabPanes = [];
-    this.props.dataSource.days.map(day => {
+    this.props.dataSource.days.map(day => (
       day.hours.map(hour => {
         count += 1;
         let subject = "";
@@ -172,6 +158,7 @@ class DraggableTimetable extends React.Component {
           hour.activity_tag.map(tag => tagsStr  += (tag.name + " "));
         }
         // tabPanes.push(<TabPane tab={text} key={dataOrder[count]}/>);
+        console.log(dataOrder, dataOrder[count], count);
         tabPanes.push(
           <div key={dataOrder[count]}>
             <Col span = {24/(this.props.dataSource.days.length+1)}>
@@ -191,12 +178,12 @@ class DraggableTimetable extends React.Component {
           </div>
         );
       })
-    })
+    ))
     return tabPanes;
   }
 
   render() {
-    console.log(this.props.dataSource, this.props.dataOrder);
+    console.log(this.props);
     return (
       <div>
         <Col span = {24/(this.props.dataSource.days.length+1) -1}></Col>

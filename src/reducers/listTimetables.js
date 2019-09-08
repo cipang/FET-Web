@@ -10,7 +10,8 @@ import {
   STUDENTS_UPDATE_FIELD,
   ACTIVITIES_UPDATE_FIELD,
   BUILDINGS_UPDATE_FIELD,
-  ROOMS_UPDATE_FIELD
+  ROOMS_UPDATE_FIELD,
+  FINAL_TIMETABLE_ORDER_UPDATE_FIELD
 } from '../constants/actionTypes';
 import { timetableTemplate } from '../helper';
 
@@ -109,6 +110,14 @@ export default (state = initialstate, action) => {
                newTimetable:{
                  ...state.newTimetable,
                  rooms:{...state.newTimetable.rooms, [action.payload.key]: action.payload.value}
+               }
+             }
+    case FINAL_TIMETABLE_ORDER_UPDATE_FIELD:
+      return {
+               ...state,
+               newTimetable:{
+                 ...state.newTimetable,
+                 finalTimetablesOrders:{...state.newTimetable.finalTimetablesOrders, [action.payload.key]: action.payload.value}
                }
              }
     default:

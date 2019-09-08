@@ -2,7 +2,10 @@ import React from 'react';
 import DraggableTimetable from '../commons/DraggableTimetable';
 import { Radio, Select} from 'antd';
 import { connect } from 'react-redux';
-import { updateFieldTimetable, updateFieldSubjects } from '../../actions';
+import { updateFieldTimetable,
+         updateFieldSubjects,
+         updateFieldFinalTimetableOrders
+       } from '../../actions';
 
 class Step1 extends React.Component {
 
@@ -42,7 +45,15 @@ class Step1 extends React.Component {
             (<Select.Option key={name} value={name}>{name}</Select.Option>)
           )}
         </Select>
-        <DraggableTimetable dataSource={timetableData} dataOrder={timetableOrder}/>
+        <DraggableTimetable
+          dataSource={timetableData}
+          dataOrder={timetableOrder}
+          dataType={this.props.timetable.showGeneratedTimetable}
+          dataSubType={this.props.timetable.showSubgroupTimetable}
+          finalTimetablesOrders={this.props.timetable.finalTimetablesOrders}
+          updateFieldFinalTimetableOrders={this.props.updateFieldFinalTimetableOrders}
+          updateFieldTimetable={this.props.updateFieldTimetable}
+        />
       </div>
     )
   }
@@ -78,4 +89,7 @@ class Step1 extends React.Component {
 const mapStateToProps = state => ({ timetable: state.listTimetables.newTimetable });
 
 
-export default connect( mapStateToProps, { updateFieldTimetable, updateFieldSubjects } )(Step1);
+export default connect( mapStateToProps, { updateFieldTimetable,
+                                           updateFieldSubjects,
+                                           updateFieldFinalTimetableOrders
+                                         } )(Step1);
