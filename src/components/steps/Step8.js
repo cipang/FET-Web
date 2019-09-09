@@ -22,11 +22,7 @@ class Step1 extends React.Component {
   renderSubgroups = () => {
     const { subgroups } = this.props.timetable.finalTimetables;
     const { finalTimetablesOrders, finalTimetablesDataMap } = this.props.timetable;
-    const { showGeneratedTimetable, showSubgroupTimetable } = this.props.timetable;
-    console.log(showGeneratedTimetable, showSubgroupTimetable);
-    let dataOrder = finalTimetablesOrders[showGeneratedTimetable][showSubgroupTimetable];
-    let componentMap = finalTimetablesDataMap[showGeneratedTimetable][showSubgroupTimetable];
-    let subgroupsOrders = this.props.timetable.finalTimetablesOrders.subgroups;
+    const { showGeneratedTimetable } = this.props.timetable;
     let subgroupNames = [];
     let timetableData = null;
     subgroups.map(subgroup => subgroupNames.push(subgroup.name));
@@ -34,11 +30,17 @@ class Step1 extends React.Component {
     // first time showing
     if(!this.props.timetable.hasOwnProperty("showSubgroupTimetable")) {
       this.props.updateFieldTimetable("showSubgroupTimetable", subgroupNames[0]);
-      timetableData = subgroups[0];
-    } else {
-      const { showSubgroupTimetable } = this.props.timetable;
-      timetableData = subgroups[subgroupNames.indexOf(showSubgroupTimetable)];
+      // React should auto render when state change return should not be needed here
+      return;
     }
+
+    const { showSubgroupTimetable } = this.props.timetable;
+    timetableData = subgroups[subgroupNames.indexOf(showSubgroupTimetable)];
+    console.log(showGeneratedTimetable, showSubgroupTimetable, this.props.timetable);
+    let dataOrder = finalTimetablesOrders[showGeneratedTimetable][showSubgroupTimetable];
+    let componentMap = finalTimetablesDataMap[showGeneratedTimetable][showSubgroupTimetable];
+    console.log(dataOrder, componentMap);
+
 
     return(
       <div>

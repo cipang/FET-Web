@@ -58,6 +58,7 @@ const promiseMiddleware = store => next => action => {
               store.dispatch(action);
 
               const {finalTimetablesOrders , finalTimetablesDataMap} = initializeTimetableOrderManagement(JSON.parse(data));
+              console.log(finalTimetablesOrders , finalTimetablesDataMap);
               action.payload = {
                 key: "finalTimetablesOrders",
                 value: finalTimetablesOrders
