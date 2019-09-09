@@ -6,7 +6,7 @@ import { updateFieldTimetable, updateFieldActivities } from '../../actions';
 import { createActivity, delObject, refreshActivities, serializeActivities } from '../../helper';
 
 // TODO: may use common step
-class Step1 extends React.Component {
+class Step5 extends React.Component {
 
   constructor(props) {
     super(props);
@@ -93,19 +93,50 @@ class Step1 extends React.Component {
   }
 
   handleAdd = () => {
+    this.props.updateFieldActivities("error", "");
     let { data, keyList } = this.props.timetable.activities;
     let { newActivity } = this.props.timetable;
-    console.log(newActivity);
-    let updatedActivities = createActivity(newActivity, keyList );
-    this.props.updateFieldActivities(
-      "data",
-      [...data,  updatedActivities]
-    );
-    this.props.updateFieldActivities(
-      "keyList",
-      keyList
-    );
-    this.closeModal();
+    let dataMap = [
+      {
+        name:"selectedStudents",
+        errorMsg:"ERROR: no students being selected"
+      },
+      {
+        name:"selectedTags",
+        errorMsg:"ERROR: no tags being selected"
+      },
+      {
+        name:"selectedTeachers",
+        errorMsg:"ERROR: no teacher being selected"
+      }
+    ];
+
+    let errorMsg = "";
+    let incompleteData = false;
+    dataMap.map(child => {
+      if(newActivity[child.name].length === 0) {
+        errorMsg += child.errorMsg;
+        errorMsg += ". ";
+        incompleteData = true;
+      }
+    })
+
+    if(incompleteData) {
+      this.props.updateFieldActivities("error", errorMsg);
+    } else if(!newActivity.selectedSubject) {
+      this.props.updateFieldActivities("error", "ERROR: no subject being selected");
+    } else {
+      let updatedActivities = createActivity(newActivity, keyList );
+      this.props.updateFieldActivities(
+        "data",
+        [...data,  updatedActivities]
+      );
+      this.props.updateFieldActivities(
+        "keyList",
+        keyList
+      );
+      this.closeModal();
+    }
   }
 
   //TODO: need a better way
@@ -132,8 +163,8 @@ class Step1 extends React.Component {
 
   render() {
     const { students, tags, teachers, subjects, activities, numberOfPeriodsPerDay, days } = this.props.timetable;
-    const { data, keyList } = this.props.timetable.activities;
-    const { selectedSubject, split, durations, msg, loading, active } = this.props.timetable.newActivity;
+    const { data, keyList, error } = this.props.timetable.activities;
+    const { selectedSubject, split, durations, loading, active } = this.props.timetable.newActivity;
     const formItemLayout = {
       labelCol: {
         xs: { span: 16 },
@@ -204,6 +235,7 @@ class Step1 extends React.Component {
         }
       },
     ]
+
     return (
       <Row>
         <Modal
@@ -298,6 +330,7 @@ class Step1 extends React.Component {
                     <Radio.Button value="false">false</Radio.Button>
                   </Radio.Group>
                 </Form.Item>
+                {error?<p style={{"color":"red"}}>{error}</p>:null}
               </Form>
             </Col>
           </Row>
@@ -333,4 +366,4 @@ class Step1 extends React.Component {
 const mapStateToProps = state => ({ timetable: state.listTimetables.newTimetable });
 
 
-export default connect( mapStateToProps, { updateFieldTimetable, updateFieldActivities  } )(Step1);
+export default connect( mapStateToProps, { updateFieldTimetable, updateFieldActivities  } )(Step5);

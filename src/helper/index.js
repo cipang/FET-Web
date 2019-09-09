@@ -395,7 +395,7 @@ export const activityTemplate ={
   selectedTeachers:[],
   selectedTags:[],
   selectedStudents:[],
-  durations:{}
+  durations:{"duration_1":1}
 };
 
 export const timetableTemplate = {
