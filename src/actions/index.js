@@ -20,6 +20,7 @@ import {
   ISLOGGEDIN,
   SAVE_TIMETABLE,
   SEND_TIMETABLE,
+  EXPORT_TIMETABLE,
   NEW_TIMETABLE,
   LIST_TIMETABLES,
   GENERATE_NEW_KEY
@@ -52,6 +53,13 @@ export function onSendTimetable(timetable) {
          body: JSON.stringify(timetable) // body data type must match "Content-Type" header
      })
    }
+}
+
+export function onExportTimetable(data, order, subgroup, dataType) {
+  console.log(subgroup, data, order, dataType);
+  return {
+     type: EXPORT_TIMETABLE
+  }
 }
 
 export function onLogin(user) {

@@ -4,15 +4,31 @@ import { Radio, Select, Col, Card, Menu, Row } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable,
          updateFieldSubjects,
-         updateFieldFinalTimetableOrders
+         updateFieldFinalTimetableOrders,
+         onExportTimetable
        } from '../../actions';
 
 class Step1 extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.subgroups = this.props.timetable.finalTimetables;
+    let subgroupNames = {};
+    Object.keys(this.props.timetable.finalTimetables).map(key => {
+        let names = [];
+        this.props.timetable.finalTimetables[key].map(subgroup => names.push(subgroup.name));
+        subgroupNames[key] = names;
+    });
+    this.subgroupNames = subgroupNames;
+    this.finalTimetablesOrders =  this.props.timetable.finalTimetablesOrders;
+    this.finalTimetablesDataMap =  this.props.timetable.finalTimetablesDataMap;
+  }
 
   goStep7 = () => {this.props.updateFieldTimetable("step",7);};
 
   statusOnChange = e => {
     this.props.updateFieldTimetable("showGeneratedTimetable", e.target.value);
+    this.props.updateFieldTimetable("showSubgroupTimetable", "");
   };
 
   subGroupOnChange = val => {
@@ -20,32 +36,27 @@ class Step1 extends React.Component {
   };
 
   renderSubgroups = () => {
-    const { subgroups } = this.props.timetable.finalTimetables;
-    const { finalTimetablesOrders, finalTimetablesDataMap } = this.props.timetable;
     const { showGeneratedTimetable } = this.props.timetable;
-    let subgroupNames = [];
-    let timetableData = null;
-    subgroups.map(subgroup => subgroupNames.push(subgroup.name));
 
     // first time showing
-    if(!this.props.timetable.hasOwnProperty("showSubgroupTimetable")) {
-      this.props.updateFieldTimetable("showSubgroupTimetable", subgroupNames[0]);
+    if(!this.props.timetable.hasOwnProperty("showSubgroupTimetable") || !this.props.timetable.showSubgroupTimetable) {
+      this.props.updateFieldTimetable("showSubgroupTimetable", this.subgroupNames[showGeneratedTimetable][0]);
       // React should auto render when state change return should not be needed here
       return;
     }
 
     const { showSubgroupTimetable } = this.props.timetable;
-    timetableData = subgroups[subgroupNames.indexOf(showSubgroupTimetable)];
+    let timetableData = this.subgroups[showGeneratedTimetable][this.subgroupNames[showGeneratedTimetable].indexOf(showSubgroupTimetable)];
     console.log(showGeneratedTimetable, showSubgroupTimetable, this.props.timetable);
-    let dataOrder = finalTimetablesOrders[showGeneratedTimetable][showSubgroupTimetable];
-    let componentMap = finalTimetablesDataMap[showGeneratedTimetable][showSubgroupTimetable];
+    let dataOrder = this.finalTimetablesOrders[showGeneratedTimetable][showSubgroupTimetable];
+    let componentMap = this.finalTimetablesDataMap[showGeneratedTimetable][showSubgroupTimetable];
     console.log(dataOrder, componentMap);
 
 
     return(
       <div>
-        <Select defaultValue={subgroupNames[0]} style={{ width: 200 }} onChange={this.subGroupOnChange}>
-          {subgroupNames.map(name =>
+        <Select defaultValue={this.subgroupNames[showGeneratedTimetable][0]} style={{ width: 200 }} onChange={this.subGroupOnChange}>
+          {this.subgroupNames[showGeneratedTimetable].map(name =>
             (<Select.Option key={name} value={name}>{name}</Select.Option>)
           )}
         </Select>
@@ -61,6 +72,13 @@ class Step1 extends React.Component {
         />
       </div>
     )
+  }
+
+  exportTimetable = (fileType) => {
+    const { showGeneratedTimetable, showSubgroupTimetable } = this.props.timetable;
+    timetableData = this.subgroups[showGeneratedTimetable][this.subgroupNames[showGeneratedTimetable].indexOf(showSubgroupTimetable)];
+    let dataOrder = this.finalTimetablesOrders[showGeneratedTimetable][showSubgroupTimetable];
+    this.props.onExportTimetable(timetableData, dataOrder, showSubgroupTimetable, fileType);
   }
 
   render() {
@@ -94,9 +112,7 @@ class Step1 extends React.Component {
                 </Menu>
               </Col>
             </Row>
-            {showGeneratedTimetable === "subgroups"?
-            this.renderSubgroups()
-            :null}
+            {this.renderSubgroups()}
           </div>
           :<div>no generated timetables yet!</div>}
       </div>
@@ -109,5 +125,6 @@ const mapStateToProps = state => ({ timetable: state.listTimetables.newTimetable
 
 export default connect( mapStateToProps, { updateFieldTimetable,
                                            updateFieldSubjects,
-                                           updateFieldFinalTimetableOrders
+                                           updateFieldFinalTimetableOrders,
+                                           onExportTimetable
                                          } )(Step1);
