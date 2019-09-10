@@ -1,6 +1,6 @@
 import React from 'react';
 import DraggableTimetable from '../commons/DraggableTimetable';
-import { Radio, Select, Col, Card} from 'antd';
+import { Radio, Select, Col, Card, Menu, Row } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable,
          updateFieldSubjects,
@@ -70,22 +70,35 @@ class Step1 extends React.Component {
     console.log(this.props.timetable.finalTimetables)
     return (
       <div>
-        {this.props.timetable["finalTimetables"]?
-        <div>
-          <Radio.Group
-            buttonStyle="solid"
-            defaultValue="activities"
-            onChange ={this.statusOnChange}
-          >
-            {typeData.map(type =>
-               (<Radio.Button key = {type} value= {type}>{type}</Radio.Button>)
-            )}
-          </Radio.Group>
-          {showGeneratedTimetable === "subgroups"?
-          this.renderSubgroups()
-          :null}
-        </div>
-        : <div>no generated timetables yet!</div>}
+        {this.props.timetable["finalTimetables"]
+          ?<div>
+            <Row gutter={24}>
+              <Col span={18}>
+                <Radio.Group
+                  buttonStyle="solid"
+                  defaultValue="subgroups"
+                  size="large"
+                  onChange ={this.statusOnChange}
+                >
+                  {typeData.map(type =>
+                     (<Radio.Button key = {type} value= {type}>{type}</Radio.Button>)
+                  )}
+                </Radio.Group>
+              </Col>
+              <Col span={5}>
+                <Menu>
+                  <Menu.SubMenu title="Export as">
+                    <Menu.Item key="setting:1">xml</Menu.Item>
+                    <Menu.Item key="setting:2">html</Menu.Item>
+                  </Menu.SubMenu>
+                </Menu>
+              </Col>
+            </Row>
+            {showGeneratedTimetable === "subgroups"?
+            this.renderSubgroups()
+            :null}
+          </div>
+          :<div>no generated timetables yet!</div>}
       </div>
     );
   }
