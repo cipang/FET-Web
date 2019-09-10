@@ -74,11 +74,12 @@ class Step1 extends React.Component {
     )
   }
 
-  exportTimetable = (fileType) => {
+  exportTimetable = (e) => {
+    console.log(e.key);
     const { showGeneratedTimetable, showSubgroupTimetable } = this.props.timetable;
-    timetableData = this.subgroups[showGeneratedTimetable][this.subgroupNames[showGeneratedTimetable].indexOf(showSubgroupTimetable)];
+    let timetableData = this.subgroups[showGeneratedTimetable][this.subgroupNames[showGeneratedTimetable].indexOf(showSubgroupTimetable)];
     let dataOrder = this.finalTimetablesOrders[showGeneratedTimetable][showSubgroupTimetable];
-    this.props.onExportTimetable(timetableData, dataOrder, showSubgroupTimetable, fileType);
+    this.props.onExportTimetable(timetableData, dataOrder, e.key);
   }
 
   render() {
@@ -106,8 +107,8 @@ class Step1 extends React.Component {
               <Col span={5}>
                 <Menu>
                   <Menu.SubMenu title="Export as">
-                    <Menu.Item key="setting:1">xml</Menu.Item>
-                    <Menu.Item key="setting:2">html</Menu.Item>
+                    <Menu.Item key="xml" onClick={this.exportTimetable}>xml</Menu.Item>
+                    <Menu.Item key="html" onClick={this.exportTimetable}>html</Menu.Item>
                   </Menu.SubMenu>
                 </Menu>
               </Col>

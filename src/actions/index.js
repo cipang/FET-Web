@@ -55,8 +55,8 @@ export function onSendTimetable(timetable) {
    }
 }
 
-export function onExportTimetable(data, order, subgroup, dataType) {
-  console.log(subgroup, data, order, dataType);
+export function onExportTimetable(data, order, fileType) {
+  console.log(fileType, data, order);
   return {
      type: EXPORT_TIMETABLE
   }
