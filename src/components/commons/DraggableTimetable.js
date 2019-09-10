@@ -7,6 +7,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 class TabNode extends React.Component {
   render() {
     const { connectDragSource, connectDropTarget, children } = this.props;
+    console.log(this.props);
 
     return connectDragSource(connectDropTarget(children));
   }
@@ -132,14 +133,21 @@ class DraggableTimetable extends React.Component {
     const { dataOrder, componentMap } = this.props;
     console.log(componentMap);
     let tabPanes = [];
-    dataOrder.map(key =>{
+    let className = "ant-col ant-col-";
+    className += Math.floor(24/(this.props.dataSource.days.length+1)).toString();
+    dataOrder.map(key => {
        tabPanes.push(
-          <div key={key}>
-            <Col span = {Math.floor(24/(this.props.dataSource.days.length+1))} key={key}>
-              <Card> {componentMap[key]} </Card>
-            </Col>
+          <div className={className} key={key}>
+            <Card> {componentMap[key]} </Card>
           </div>
         )
+       // tabPanes.push(
+       //    <div key={key}>
+       //      <Col span = {Math.floor(24/(this.props.dataSource.days.length+1))}>
+       //        <Card> {componentMap[key]} </Card>
+       //      </Col>
+       //    </div>
+       //  )
         // console.log(tabPanes);
       }
     )
