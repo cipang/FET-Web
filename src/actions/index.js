@@ -55,10 +55,22 @@ export function onSendTimetable(timetable) {
    }
 }
 
-export function onExportTimetable(data, order, fileType) {
-  console.log(fileType, data, order);
+export function onExportTimetable(data, order, fileType, key) {
+  console.log(fileType, data, order, key);
   return {
-     type: EXPORT_TIMETABLE
+     type: EXPORT_TIMETABLE,
+     payload: fetch(root + "api/v1/exportTimetable", {
+         method: 'POST', // *GET, POST, PUT, DELETE, etc.
+         headers: {
+             'Content-Type': 'application/json',
+         },
+         body: JSON.stringify({
+           fileType,
+           data,
+           order,
+           key
+         }) // body data type must match "Content-Type" header
+     })
   }
 }
 

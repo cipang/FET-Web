@@ -6,6 +6,7 @@ import {
   REGISTER,
   SAVE_TIMETABLE,
   SEND_TIMETABLE,
+  EXPORT_TIMETABLE,
   LIST_TIMETABLES,
   TIMETABLE_UPDATE_FIELD,
   ASYNC_UPDATE_FIELD,
@@ -26,7 +27,6 @@ function showModal(store ,msg) {
 }
 
 const promiseMiddleware = store => next => action => {
-  let payload = null;
   if (isPromise(action.payload)) {
     store.dispatch({ type: ASYNC_START });
     action.payload.then(
@@ -45,6 +45,20 @@ const promiseMiddleware = store => next => action => {
             showModal(store, "success!");
             action.payload = null;
             localStorage.setItem('ws-token', null);
+            break;
+          case EXPORT_TIMETABLE:
+            // res.text().then(data => {
+            //   console.log(data);
+            // });
+            res.blob().then(blob => {
+              let url = window.URL.createObjectURL(blob);
+              let a = document.createElement('a');
+              a.href = url;
+              a.download = 'test.xml';
+              a.click();
+            });
+
+            action.payload = null;
             break;
           // TODO: need to be refactored
           case SEND_TIMETABLE:

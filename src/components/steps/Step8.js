@@ -76,10 +76,10 @@ class Step1 extends React.Component {
 
   exportTimetable = (e) => {
     console.log(e.key);
-    const { showGeneratedTimetable, showSubgroupTimetable } = this.props.timetable;
+    const { showGeneratedTimetable, showSubgroupTimetable, key } = this.props.timetable;
     let timetableData = this.subgroups[showGeneratedTimetable][this.subgroupNames[showGeneratedTimetable].indexOf(showSubgroupTimetable)];
     let dataOrder = this.finalTimetablesOrders[showGeneratedTimetable][showSubgroupTimetable];
-    this.props.onExportTimetable(timetableData, dataOrder, e.key);
+    this.props.onExportTimetable(timetableData, dataOrder, e.key ,key);
   }
 
   render() {
