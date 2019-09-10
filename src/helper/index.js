@@ -358,9 +358,12 @@ function initializeDataMap(timetableData, timetableOrder, type){
         subject = hour.subject;
         hour[type].map(x => teachersOrStudentsStr += (x.name + " "));
         hour.activity_tag.map(tag => tagsStr  += (tag.name + " "));
-        dataMap[timetableOrder[count]] = subject + " by " + teachersOrStudentsStr;
+        dataMap[day.name + "_" + hour.name] = subject + " by " + teachersOrStudentsStr;
+        // dataMap[timetableOrder[count]] = subject + " by " + teachersOrStudentsStr;
       } else {
-        dataMap[timetableOrder[count]] = "NA";
+        dataMap[day.name + "_" + hour.name] = "NA";
+
+        // dataMap[timetableOrder[count]] = "NA";
       }
     })
   ))

@@ -130,7 +130,7 @@ class DraggableTimetable extends React.Component {
 
   renderTabPanes = () => {
     const { dataOrder, componentMap } = this.props;
-    // console.log(dataOrder,componentMap,Math.floor(this.props.dataSource.days.length);
+    console.log(componentMap);
     let tabPanes = [];
     dataOrder.map(key =>{
        tabPanes.push(

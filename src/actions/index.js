@@ -70,7 +70,9 @@ export function onExportTimetable(data, order, fileType, key) {
            order,
            key
          }) // body data type must match "Content-Type" header
-     })
+     }),
+     fileType,
+     name:data["name"]
   }
 }
 

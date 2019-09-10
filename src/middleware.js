@@ -47,14 +47,16 @@ const promiseMiddleware = store => next => action => {
             localStorage.setItem('ws-token', null);
             break;
           case EXPORT_TIMETABLE:
+
             // res.text().then(data => {
-            //   console.log(data);
+            //   console.log(JSON.parse(data)["data"]);
             // });
             res.blob().then(blob => {
+              console.log(blob);
               let url = window.URL.createObjectURL(blob);
               let a = document.createElement('a');
               a.href = url;
-              a.download = 'test.xml';
+              a.download = action.name + "." + action.fileType;
               a.click();
             });
 
