@@ -1,0 +1,5 @@
+@media (min-width: 1200px) {
+  .custom-width{
+      max-width: 1500px !important;
+  }
+}

@@ -12,6 +12,8 @@ import Step5 from './steps/Step5';
 import Step6 from './steps/Step6';
 import Step7 from './steps/Step7';
 import Step8 from './steps/Step8';
+import './NewTimetable.css';
+
 
 class NewTimetable extends React.Component {
 
@@ -64,7 +66,7 @@ class NewTimetable extends React.Component {
     // console.log(new Date().toLocaleString());
     return (
       <AppLayout history={this.props.history}>
-        <div className="container mt-5 pt-2">
+        <div className="container mt-5 pt-2 custom-width">
           <Card>
             <Row gutter={24} >
               <Col span={6}>
