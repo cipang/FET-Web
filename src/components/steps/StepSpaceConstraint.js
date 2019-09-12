@@ -49,16 +49,17 @@ class Step1 extends React.Component {
 
   render() {
     const { data, keyList, selectedRowKeys } = this.props.timetable.subjects;
+    const { showSpaceConstraintModal } = this.props.timetable;
     const objectPrototype = { subject: null };
 
     return (
       <div>
         <Modal
             title="Add students"
-            visible={this.props.timetable.showSpaceConstraintModal}
+            visible={showSpaceConstraintModal}
             onOk={this.handleAdd}
             onCancel={this.closeModal}
-            width="1000px"
+            width="1200px"
           >
           <SpaceConstraint/>
         </Modal>
