@@ -50,7 +50,7 @@ class ListTimetables extends React.Component {
                 return (
                   <List.Item
                     key={item.key}
-                    actions={[<a key="list-loadmore-edit" onClick={() => this.editTimetable(item)}>edit</a>, <a key="list-loadmore-more">more</a>]}
+                    actions={!item.loading?[<a key="list-loadmore-edit" onClick={() => this.editTimetable(item)}>edit</a>, <a key="list-loadmore-more">more</a>]:null}
                   >
                     <Skeleton avatar title={false} loading={item.loading} active>
                       <List.Item.Meta
