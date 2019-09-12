@@ -66,6 +66,7 @@ class Step1 extends React.Component {
       },
     ];
     this.goStep6 = () => {props.updateFieldTimetable("step",6);};
+    this.goStep7 = () => {props.updateFieldTimetable("step",7);};
   }
 
   onUpdateBuilding = (e, key) => {
@@ -108,7 +109,7 @@ class Step1 extends React.Component {
         selectedRowKeys = {selectedRowKeys}
         updateField = {this.props.updateFieldRooms}
         goBack = {this.goStep6}
-        goNext = {() => this.props.onSendTimetable(this.props.timetable)}
+        goNext = {this.goStep7}
       />
     );
   }

@@ -2,7 +2,7 @@ import React from 'react';
 import BottomNav from './BottomNav';
 import EditableTable from './EditableTable';
 import { Row , Button, Popconfirm } from 'antd';
-import { delObject, addObject, generateKey, updateObject, mapColumns } from '../../helper';
+import { delObject, generateKey, updateObject, mapColumns } from '../../helper';
 
 class CommonStep extends React.Component {
 
@@ -56,7 +56,7 @@ class CommonStep extends React.Component {
     return (
       <Row>
         <Row className="mb-2">
-          <Button onClick={this.handleAdd}>Add New</Button>
+          <Button onClick={this.props.handleAdd?this.props.handleAdd:this.handleAdd}>Add New</Button>
           <Popconfirm title="Sure to delete?" onConfirm={this.handleDelAll}>
             <Button  className="ml-3">Delete Selected</Button>
           </Popconfirm>
