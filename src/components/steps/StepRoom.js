@@ -2,7 +2,7 @@ import React from 'react';
 import CommonStep from '../commons/CommonStep';
 import { Popconfirm, Button, Radio } from 'antd';
 import { connect } from 'react-redux';
-import { updateFieldTimetable, updateFieldRooms, onSendTimetable } from '../../actions';
+import { updateFieldTimetable, updateFieldRooms } from '../../actions';
 import { delObject, delObjects } from '../../helper';
 
 class Step1 extends React.Component {
@@ -114,4 +114,4 @@ class Step1 extends React.Component {
 const mapStateToProps = state => ({ timetable: state.listTimetables.newTimetable });
 
 
-export default connect( mapStateToProps, { updateFieldTimetable, updateFieldRooms, onSendTimetable } )(Step1);
+export default connect( mapStateToProps, { updateFieldTimetable, updateFieldRooms } )(Step1);

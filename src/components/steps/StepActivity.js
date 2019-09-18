@@ -2,7 +2,7 @@ import React from 'react';
 import BottomNav from '../commons/BottomNav';
 import { Form, Icon, Input, Row ,Table, Button, Popconfirm, Modal, Col, Select,Tabs, Tooltip, Radio } from 'antd';
 import { connect } from 'react-redux';
-import { updateFieldTimetable, updateFieldActivities } from '../../actions';
+import { updateFieldTimetable, updateFieldActivities, onSendTimetable } from '../../actions';
 import { createActivity, delObject, refreshActivities, serializeActivities } from '../../helper';
 
 // TODO: may use common step
@@ -51,7 +51,7 @@ class Step5 extends React.Component {
 
   goBack = () => this.props.updateFieldTimetable("step", this.props.step - 1);
 
-  goNext = () => this.props.updateFieldTimetable("step", this.props.step + 1);
+  goNext = () => this.props.onSendTimetable(this.props.timetable);
 
   showModal = () => this.props.updateFieldTimetable("showModal", true);
 
@@ -358,7 +358,7 @@ class Step5 extends React.Component {
         <BottomNav
           loading = {false}
           goBackButtonText = {'Back'}
-          goNextButtonText = {'Next'}
+          goNextButtonText = {'Generate'}
           goBack= {this.goBack}
           goNext= {this.goNext}
         />
@@ -370,4 +370,4 @@ class Step5 extends React.Component {
 const mapStateToProps = state => ({ timetable: state.listTimetables.newTimetable });
 
 
-export default connect( mapStateToProps, { updateFieldTimetable, updateFieldActivities  } )(Step5);
+export default connect( mapStateToProps, { updateFieldTimetable, updateFieldActivities, onSendTimetable  } )(Step5);
