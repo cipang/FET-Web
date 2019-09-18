@@ -32,10 +32,7 @@ class Step1 extends React.Component {
         }
       },
     ];
-    this.goStep3 = () => {props.updateFieldTimetable("step",3);};
-    this.goStep5 = () => {props.updateFieldTimetable("step",5);};
   }
-
 
   handleDelete = key => {
     const { data, keyList } = this.props.timetable.tags;
@@ -55,8 +52,6 @@ class Step1 extends React.Component {
         selectedRowKeys = {selectedRowKeys}
         objectPrototype = {objectPrototype}
         updateField = {this.props.updateFieldTags}
-        goBack = {this.goStep3}
-        goNext = {this.goStep5}
       />
     );
   }

@@ -2,6 +2,8 @@ import React from 'react';
 import { Menu } from 'antd';
 import { spaceConstraintList } from '../../constants/constraints';
 
+
+// Full Version of Sapce Constraint
 class SpaceConstraintMenu extends React.Component {
 
   render() {

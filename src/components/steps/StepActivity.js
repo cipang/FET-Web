@@ -10,10 +10,6 @@ class Step5 extends React.Component {
 
   constructor(props) {
     super(props);
-    this.goStep4 = () => this.props.updateFieldTimetable("step",4);
-    this.goStep6 = () => this.props.updateFieldTimetable("step",6);
-    this.showModal = () => this.props.updateFieldTimetable("showModal", true);
-    this.closeModal = () => this.props.updateFieldTimetable("showModal", false);
     this.columns = [
       {
         title: 'Key',
@@ -52,6 +48,14 @@ class Step5 extends React.Component {
       }
     ];
   }
+
+  goBack = () => this.props.updateFieldTimetable("step", this.props.step - 1);
+
+  goNext = () => this.props.updateFieldTimetable("step", this.props.step + 1);
+
+  showModal = () => this.props.updateFieldTimetable("showModal", true);
+
+  closeModal = () => this.props.updateFieldTimetable("showModal", false);
 
   statusOnChange = e => {
     let currentActivity = this.props.timetable.newActivity;
@@ -355,8 +359,8 @@ class Step5 extends React.Component {
           loading = {false}
           goBackButtonText = {'Back'}
           goNextButtonText = {'Next'}
-          goBack= {this.goStep4}
-          goNext= {this.goStep6}
+          goBack= {this.goBack}
+          goNext= {this.goNext}
         />
       </Row>
     );

@@ -9,8 +9,6 @@ class Step3 extends React.Component {
 
   constructor(props) {
     super(props);
-    this.goStep2 = () => {props.updateFieldTimetable("step",2);};
-    this.goStep4 = () => {props.updateFieldTimetable("step",4);};
     this.columns = [
       {
         title: 'Students',
@@ -46,7 +44,7 @@ class Step3 extends React.Component {
         }
       },
     ];
-  }
+  };
 
   addSubgroup = (text, record) => {
     const { data, keyList } = this.props.timetable.students;
@@ -86,8 +84,6 @@ class Step3 extends React.Component {
         selectedRowKeys = {selectedRowKeys}
         objectPrototype = {objectPrototype}
         updateField = {this.props.updateFieldStudents}
-        goBack = {this.goStep2}
-        goNext = {this.goStep4}
       />
     );
   }

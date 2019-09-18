@@ -3,17 +3,8 @@ import AppLayout from './layouts/AppLayout';
 import { Button, Card, Row, Col, Steps  } from 'antd';
 import { connect } from 'react-redux';
 import { onSaveTimetable, startAsync, updateFieldTimetable, onNewTimetable, updateFieldListTimetable } from '../actions';
-import Step0 from './steps/Step0';
-import Step1 from './steps/Step1';
-import Step2 from './steps/Step2';
-import Step3 from './steps/Step3';
-import Step4 from './steps/Step4';
-import Step5 from './steps/Step5';
-import Step6 from './steps/Step6';
-import Step7 from './steps/Step7';
-import Step8 from './steps/Step8';
-import StepSpaceConstraint from './steps/StepSpaceConstraint';
 import './NewTimetable.css';
+import { stepsMapping } from './steps/stepsMapping';
 
 
 class NewTimetable extends React.Component {
@@ -39,27 +30,7 @@ class NewTimetable extends React.Component {
 
   renderSteps() {
     const { step } = this.props.timetable;
-    if(step === 0){
-      return <Step0/> ;
-    } else if(step === 1){
-      return <Step1/> ;
-    } else if(step === 2){
-      return <Step2/> ;
-    } else if(step === 3){
-      return <Step3/> ;
-    } else if(step === 4){
-      return <Step4/> ;
-    } else if(step === 5){
-      return <Step5/> ;
-    } else if(step === 6){
-      return <Step6/> ;
-    } else if(step === 7){
-      return <Step7/> ;
-    } else if(step === 8){
-      return <StepSpaceConstraint/>
-    } else if(step === 9){
-      return <Step8/> ;
-    }
+    return stepsMapping[step.toString()];
   }
 
   onChange = current => this.props.updateFieldTimetable("step", current);
@@ -87,8 +58,7 @@ class NewTimetable extends React.Component {
                   <Steps.Step title="Step 6" description="Add activities." />
                   <Steps.Step title="Step 7" description="Add buildings." />
                   <Steps.Step title="Step 8" description="Add rooms." />
-                  <Steps.Step title="Step 9" description="Add space constraints." />
-                  <Steps.Step title="Step 10" description="Select timetable by type." />
+                  <Steps.Step title="Step 9" description="Select timetable by type." />
                 </Steps>
               </Col>
               <Col span={18}>
