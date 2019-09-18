@@ -352,16 +352,26 @@ function initializeDataMap(timetableData, timetableOrder, type){
       count += 1;
       let subject = "";
       let teachersOrStudentsStr = "";
+      let roomStr = "NA";
       let tagsStr = "";
       if(!hour.hasOwnProperty("empty")) {
         console.log(hour, hour[type]);
         subject = hour.subject;
         hour[type].map(x => teachersOrStudentsStr += (x.name + " "));
         hour.activity_tag.map(tag => tagsStr  += (tag.name + " "));
-        dataMap[day.name + "_" + hour.name] = subject + " by " + teachersOrStudentsStr;
+        if(hour.room.length > 0) {
+          roomStr = hour.room[0].name;
+        };
+        hour.room.map(tag => tagsStr  += (tag.name + " "));
+        dataMap[day.name + "_" + hour.name] =
+                                          subject +
+                                          " by " +
+                                          teachersOrStudentsStr +
+                                          " in " +
+                                          roomStr;
         // dataMap[timetableOrder[count]] = subject + " by " + teachersOrStudentsStr;
       } else {
-        dataMap[day.name + "_" + hour.name] = "NA";
+        dataMap[day.name + "_" + hour.name] = "---";
 
         // dataMap[timetableOrder[count]] = "NA";
       }
