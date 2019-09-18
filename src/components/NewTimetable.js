@@ -30,7 +30,7 @@ class NewTimetable extends React.Component {
 
   renderSteps() {
     const { step } = this.props.timetable;
-    return stepsMapping[step.toString()];
+    return stepsMapping[step.toString()].object;
   }
 
   onChange = current => this.props.updateFieldTimetable("step", current);
@@ -50,15 +50,13 @@ class NewTimetable extends React.Component {
                   direction="vertical"
                   onChange={this.onChange}
                 >
-                  <Steps.Step title="Step 1" description="Name and time." />
-                  <Steps.Step title="Step 2" description="Add subjects." />
-                  <Steps.Step title="Step 3" description="Add teachers." />
-                  <Steps.Step title="Step 4" description="Add students in years(groups)." />
-                  <Steps.Step title="Step 5" description="Add activity tags." />
-                  <Steps.Step title="Step 6" description="Add activities." />
-                  <Steps.Step title="Step 7" description="Add buildings." />
-                  <Steps.Step title="Step 8" description="Add rooms." />
-                  <Steps.Step title="Step 9" description="Select timetable by type." />
+                  {Object.keys(stepsMapping).map( key =>
+                    <Steps.Step
+                      title={"Step " + key}
+                      key={key}
+                      description={stepsMapping[key].description}
+                    />
+                  )}
                 </Steps>
               </Col>
               <Col span={18}>
