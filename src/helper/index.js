@@ -404,6 +404,7 @@ export const activityTemplate ={
 export const timetableTemplate = {
   new:true,
   showModal:false,
+  showSpaceConstraintModal:false,
   key:null,
   step:0,
   name:'',

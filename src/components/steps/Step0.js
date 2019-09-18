@@ -6,11 +6,6 @@ import { updateFieldTimetable, updateFieldPeriods } from '../../actions';
 
 class Step0 extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.goStep1 = () => {props.updateFieldTimetable("step",1);};
-  }
-
   renderNumerOfPeriods(){
     let options = [];
     for (let i = 1; i <= 24; i++) {
@@ -18,6 +13,8 @@ class Step0 extends React.Component {
     }
     return options;
   }
+
+  goStep1 = () => this.props.updateFieldTimetable("step",1);
 
   nameOnChange = (e) => {
     this.props.updateFieldTimetable("name", e.target.value);

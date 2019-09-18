@@ -2,18 +2,24 @@ import React from 'react';
 import CommonStep from '../commons/CommonStep';
 import { Popconfirm, Button } from 'antd';
 import { connect } from 'react-redux';
-import { updateFieldTimetable, updateFieldSubjects } from '../../actions';
+import { updateFieldTimetable, updateFieldBuildings } from '../../actions';
 import { delObject, delObjects } from '../../helper';
 
-class Step1 extends React.Component {
+class Step6 extends React.Component {
 
   constructor(props) {
     super(props);
     this.columns = [
       {
-        title: 'Subject',
-        dataIndex: 'subject',
-        key: 'subject',
+        title: 'Building',
+        dataIndex: 'building',
+        key: 'building',
+        editable: true,
+      },
+      {
+        title: 'Capacity',
+        dataIndex: 'capacity',
+        key: 'capacity',
         editable: true,
       },
       {
@@ -22,7 +28,7 @@ class Step1 extends React.Component {
         render: (text, record) => {
           return(
             <span>
-              {this.props.timetable.subjects.data.length >= 1 ? (
+              {this.props.timetable.buildings.data.length >= 1 ? (
                 <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
                   <Button>Delete</Button>
                 </Popconfirm>
@@ -32,21 +38,18 @@ class Step1 extends React.Component {
         }
       },
     ];
-    this.goStep0 = () => {props.updateFieldTimetable("step",0);};
-    this.goStep2 = () => {props.updateFieldTimetable("step",2);};
   }
 
-
   handleDelete = key => {
-    let { data, keyList } = this.props.timetable.subjects;
+    let { data, keyList } = this.props.timetable.buildings;
 
-    this.props.updateFieldSubjects("data", delObject(data, key));
-    this.props.updateFieldSubjects("keyList", keyList.filter(item => item !== key));
+    this.props.updateFieldBuildings("data", delObject(data, key));
+    this.props.updateFieldBuildings("keyList", keyList.filter(item => item !== key));
   }
 
   render() {
-    const { data, keyList, selectedRowKeys } = this.props.timetable.subjects;
-    const objectPrototype = { subject: null };
+    const { data, keyList, selectedRowKeys } = this.props.timetable.buildings;
+    const objectPrototype = { building: null, capacity: 100 };
 
     return (
       <CommonStep
@@ -55,9 +58,7 @@ class Step1 extends React.Component {
         columns = {this.columns}
         objectPrototype = {objectPrototype}
         selectedRowKeys = {selectedRowKeys}
-        updateField = {this.props.updateFieldSubjects}
-        goBack = {this.goStep0}
-        goNext = {this.goStep2}
+        updateField = {this.props.updateFieldBuildings}
       />
     );
   }
@@ -66,4 +67,4 @@ class Step1 extends React.Component {
 const mapStateToProps = state => ({ timetable: state.listTimetables.newTimetable });
 
 
-export default connect( mapStateToProps, { updateFieldTimetable, updateFieldSubjects } )(Step1);
+export default connect( mapStateToProps, { updateFieldTimetable, updateFieldBuildings } )(Step6);
