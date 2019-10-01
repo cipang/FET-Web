@@ -4,7 +4,7 @@ import { Button, Card, Row, Col, Steps  } from 'antd';
 import { connect } from 'react-redux';
 import { onSaveTimetable, startAsync, updateFieldTimetable, onNewTimetable, updateFieldListTimetable } from '../actions';
 import './NewTimetable.css';
-import { stepsMapping } from './steps/stepsMapping';
+import { stepsMappingDescriptions, stepsMappingObjects } from './steps/stepsMapping';
 
 
 class NewTimetable extends React.Component {
@@ -30,7 +30,7 @@ class NewTimetable extends React.Component {
 
   renderSteps() {
     const { step } = this.props.timetable;
-    return stepsMapping[step.toString()].object;
+    return stepsMappingObjects[step.toString()].object;
   }
 
   onChange = current => this.props.updateFieldTimetable("step", current);
@@ -50,11 +50,11 @@ class NewTimetable extends React.Component {
                   direction="vertical"
                   onChange={this.onChange}
                 >
-                  {Object.keys(stepsMapping).map( key =>
+                  {Object.keys(stepsMappingDescriptions).map( key =>
                     <Steps.Step
                       title={"Step " + key}
                       key={key}
-                      description={stepsMapping[key].description}
+                      description={stepsMappingDescriptions[key].description}
                     />
                   )}
                 </Steps>

@@ -75,7 +75,7 @@ class Step1 extends React.Component {
 
   render() {
     const { data, keyList, selectedRowKeys } = this.props.timetable.subjects;
-    const objectPrototype = { subject: null, room: this.roomsData[0].room };
+    const objectPrototype = { subject: null, room: this.roomsData[0] };
 
     return (
       <CommonStep
