@@ -101,7 +101,7 @@ class DraggableTabs extends React.Component {
     let tabs = [];
     tabsList.map(children => {
       tabs.push(
-        <Row gutter= {24} key={count} className="mb-1" align="middle">
+        <Row type="flex" key={count} className="mb-1" align="middle" justify="center">
           <Col span = {Math.floor(24/(this.props.dataSource.days.length+1)) - 3}>{hoursList[count]}</Col>
           {children.map(child => {
              return(
@@ -158,7 +158,7 @@ class DraggableTimetable extends React.Component {
     console.log(this.props);
     return (
       <div>
-        <Row gutter= {24} style={{ height: 30 }} align="middle">
+        <Row type="flex" style={{ height: 30 }} align="middle" justify="center">
           <Col span = {Math.floor(24/(this.props.dataSource.days.length+1)) - 3}></Col>
           {this.props.dataSource.days.map(day =>
             (<Col span = {Math.floor(24/(this.props.dataSource.days.length+1))} key = {day.name}>
