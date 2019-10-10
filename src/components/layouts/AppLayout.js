@@ -11,6 +11,8 @@ class AppLayout extends React.Component {
 
   closeModal = () => {
     this.props.updateFieldAsync("showModal", false);
+    this.props.push("/listTimetables");
+    // better way to toggle data refresh needed
     window.location.reload();
   };
 

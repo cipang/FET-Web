@@ -1,9 +1,9 @@
 import React from 'react';
 import AppLayout from './layouts/AppLayout';
 import NewTimetable from './NewTimetable';
-import { List, Avatar, Button, Skeleton, Card, Modal} from 'antd';
+import { List, Avatar, Button, Skeleton, Card, Modal, Popconfirm} from 'antd';
 import { connect } from 'react-redux';
-import { updateFieldListTimetable } from '../actions';
+import { updateFieldListTimetable, onDeleteTimetable } from '../actions';
 import { timetableTemplate, activityTemplate, validateData } from '../helper';
 
 
@@ -35,11 +35,14 @@ class ListTimetables extends React.Component {
 
   render() {
     const { showTimetable, timetables } = this.props.listTimetables;
+    if(!this.props.loggedIn){
+      this.props.history.push("/");
+    }
     if(showTimetable) {
-      return <NewTimetable/>
+      return <NewTimetable history={this.props.history}/>
     }
     return (
-      <AppLayout customLoading={true} history={this.props.history}>
+      <AppLayout customLoading={true} push={this.props.history.push}>
         <div className="container mt-5 pt-2">
           <Card>
             <List
@@ -47,17 +50,22 @@ class ListTimetables extends React.Component {
               itemLayout="horizontal"
               dataSource={timetables}
               renderItem={item => {
+                console.log(item);
                 return (
                   <List.Item
                     key={item.key}
-                    actions={!item.loading?[<a key="list-loadmore-edit" onClick={() => this.editTimetable(item)}>edit</a>, <a key="list-loadmore-more">more</a>]:null}
+                    actions={!item.loading
+                      ?[<a key="list-loadmore-edit" onClick={() => this.editTimetable(item)}>edit</a>,
+                        <Popconfirm title="Sure to delete?" onConfirm={() => this.props.onDeleteTimetable(item)}>
+                          <a key="list-delete">delete</a>
+                        </Popconfirm>]
+                      :null}
                   >
                     <Skeleton avatar title={false} loading={item.loading} active>
                       <List.Item.Meta
-                        title={<a href="https://ant.design">{item.lastModifiedTime}</a>}
-                        description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                        title={<a onClick={() => this.editTimetable(item)} >{item.name}</a>}
+                        description={"lastModifiedTime:" + item.lastModifiedTime}
                       />
-                      <div>content</div>
                     </Skeleton>
                   </List.Item>
                 )
@@ -73,4 +81,5 @@ class ListTimetables extends React.Component {
 
 const mapStateToProps = state => ( { listTimetables: state.listTimetables, loggedIn:state.auth.loggedIn, loading:state.async.loading } );
 
-export default connect( mapStateToProps, { updateFieldListTimetable })(ListTimetables);
+export default connect( mapStateToProps, { updateFieldListTimetable,
+                                          onDeleteTimetable })(ListTimetables);

@@ -55,11 +55,14 @@ class Step1 extends React.Component {
 
     return(
       <div>
-        <Select defaultValue={this.subgroupNames[showGeneratedTimetable][0]} style={{ width: 200 }} onChange={this.subGroupOnChange}>
-          {this.subgroupNames[showGeneratedTimetable].map(name =>
-            (<Select.Option key={name} value={name}>{name}</Select.Option>)
-          )}
-        </Select>
+        <Row type="flex" justify="center" align="middle" style= {{"width":"100%"}}>
+          <Select defaultValue={this.subgroupNames[showGeneratedTimetable][0]} style={{ width: 200 }} onChange={this.subGroupOnChange}>
+            {this.subgroupNames[showGeneratedTimetable].map(name =>
+              (<Select.Option key={name} value={name}>{name}</Select.Option>)
+            )}
+          </Select>
+        </Row>
+
         <DraggableTimetable
           dataSource={timetableData}
           dataOrder={dataOrder}

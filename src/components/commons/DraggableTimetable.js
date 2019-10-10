@@ -101,8 +101,8 @@ class DraggableTabs extends React.Component {
     let tabs = [];
     tabsList.map(children => {
       tabs.push(
-        <Row gutter= {24} key={count} className="mb-1">
-          <Col span = {Math.floor(24/(this.props.dataSource.days.length+1)) - 1}>{hoursList[count]}</Col>
+        <Row type="flex" key={count} className="mb-1" align="middle" justify="center">
+          <Col span = {Math.floor(24/(this.props.dataSource.days.length+1)) - 3}>{hoursList[count]}</Col>
           {children.map(child => {
              return(
                <WrapTabNode key={child.key} index={child.key} moveTabNode={this.moveTabNode}>
@@ -138,7 +138,7 @@ class DraggableTimetable extends React.Component {
     dataOrder.map(key => {
        tabPanes.push(
           <div className={className} key={key}>
-            <Card> {componentMap[key]} </Card>
+            <Card style={{ height: 100}}> {componentMap[key]} </Card>
           </div>
         )
        // tabPanes.push(
@@ -158,10 +158,13 @@ class DraggableTimetable extends React.Component {
     console.log(this.props);
     return (
       <div>
-        <Row gutter= {24}>
-          <Col span = {Math.floor(24/(this.props.dataSource.days.length+1)) - 1}></Col>
+        <Row type="flex" style={{ height: 30 }} align="middle" justify="center">
+          <Col span = {Math.floor(24/(this.props.dataSource.days.length+1)) - 3}></Col>
           {this.props.dataSource.days.map(day =>
-            (<Col span = {Math.floor(24/(this.props.dataSource.days.length+1))} key = {day.name}> {day.name} </Col>)
+            (<Col span = {Math.floor(24/(this.props.dataSource.days.length+1))} key = {day.name}>
+                {day.name}
+             </Col>
+            )
           )}
         </Row>
         <DraggableTabs {...this.props}>

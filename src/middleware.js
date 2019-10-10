@@ -98,6 +98,7 @@ const promiseMiddleware = store => next => action => {
             action.payload = null;
             break;
           default:
+            action.payload = null;
             break;
         }
         store.dispatch(action);

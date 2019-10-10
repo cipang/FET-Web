@@ -31,15 +31,14 @@ class Header extends React.Component {
           style={{ lineHeight: '64px', float:'right' }}
           onClick={this.handleHeaderChange}
         >
-          <Menu.Item key="1"><Link to="/">Home</Link></Menu.Item>
           {loggedIn?
-            <Menu.SubMenu title= {user.email}>
+            <Menu.SubMenu title= {user.email} key="1">
               <Menu.Item key="listTimetables" onClick={this.handleRefreshListTimetables}>
                 <Link to="/listTimetables">View All Timetables</Link>
               </Menu.Item>
               <Menu.Item key="logout" onClick={this.props.logout}>Logout</Menu.Item>
             </Menu.SubMenu>
-            :<Menu.Item key="2"><Link to="/signIn">Login</Link></Menu.Item>}
+            :<Menu.Item key="1"><Link to="/signIn">Login</Link></Menu.Item>}
           {loggedIn?
             <Menu.Item key="2" onClick={this.handleNewTimeTable }>
               <Link to="/newTimetable">Make a timeable</Link>

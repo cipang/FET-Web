@@ -19,6 +19,7 @@ import {
   ASYNC_END,
   ISLOGGEDIN,
   SAVE_TIMETABLE,
+  DELETE_TIMETABLE,
   SEND_TIMETABLE,
   EXPORT_TIMETABLE,
   NEW_TIMETABLE,
@@ -122,6 +123,18 @@ export function onSaveTimetable(timetable) {
     auth: firebase.auth(),
     database: firebase.database(),
     updates
+  };
+}
+
+export function onDeleteTimetable(timetable) {
+  let uid = firebase.auth().currentUser.uid;
+  var updates = {};
+  updates['/timetables/' + timetable.key] = null;
+  updates['users/' + uid + '/timetables/' + timetable.key] = null;
+  return {
+    type: DELETE_TIMETABLE,
+    payload: firebase.database().ref().update(updates),
+    key:timetable.key
   };
 }
 
