@@ -39,8 +39,10 @@ class Step1 extends React.Component {
     const { showGeneratedTimetable } = this.props.timetable;
 
     // first time showing
-    if(!this.props.timetable.hasOwnProperty("showSubgroupTimetable") || !this.props.timetable.showSubgroupTimetable) {
-      this.props.updateFieldTimetable("showSubgroupTimetable", this.subgroupNames[showGeneratedTimetable][0]);
+    if(!this.props.timetable.hasOwnProperty("showGeneratedTimetable") || !this.props.timetable.showSubgroupTimetable) {
+      // console.log(this.props.timetable, this.subgroupNames, showGeneratedTimetable, this.subgroupNames["subgroups"])
+      this.props.updateFieldTimetable("showGeneratedTimetable", "subgroups");
+      this.props.updateFieldTimetable("showSubgroupTimetable", this.subgroupNames["subgroups"][0]);
       // React should auto render when state change return should not be needed here
       return;
     }
