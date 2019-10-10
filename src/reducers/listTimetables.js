@@ -1,6 +1,7 @@
 import {
   LIST_TIMETABLES,
   NEW_TIMETABLE,
+  DELETE_TIMETABLE,
   LIST_TIMETABLE_UPDATE_FIELD,
   TIMETABLE_UPDATE_FIELD,
   PERIODS_UPDATE_FIELD,
@@ -28,6 +29,8 @@ export default (state = initialstate, action) => {
   switch (action.type) {
     case LIST_TIMETABLES:
       return { ...state, timetables:action.payload };
+    case DELETE_TIMETABLE:
+      return { ...state, timetables:state.timetables.filter(val => val.key != action.key)};
     case LIST_TIMETABLE_UPDATE_FIELD:
       return { ...state, [action.payload.key]: action.payload.value };
     case NEW_TIMETABLE:
