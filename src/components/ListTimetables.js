@@ -35,11 +35,14 @@ class ListTimetables extends React.Component {
 
   render() {
     const { showTimetable, timetables } = this.props.listTimetables;
+    if(!this.props.loggedIn){
+      this.props.history.push("/");
+    }
     if(showTimetable) {
-      return <NewTimetable/>
+      return <NewTimetable history={this.props.history}/>
     }
     return (
-      <AppLayout customLoading={true} history={this.props.history}>
+      <AppLayout customLoading={true} push={this.props.history.push}>
         <div className="container mt-5 pt-2">
           <Card>
             <List

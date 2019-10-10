@@ -16,7 +16,7 @@ class Auth extends React.Component {
 
   render() {
     return (
-      <AppLayout>
+      <AppLayout  push={this.props.history.push}>
         <div className="container login-section">
           <Card>
             <Row gutter={24}>

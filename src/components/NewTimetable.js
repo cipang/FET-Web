@@ -38,8 +38,9 @@ class NewTimetable extends React.Component {
   render() {
     // console.log(this.props.async.loading);
     // console.log(new Date().toLocaleString());
+    console.log("this.props.history",this.props.history);
     return (
-      <AppLayout history={this.props.history}>
+      <AppLayout push={this.props.history.push}>
         <div className="container mt-5 pt-2 custom-width">
           <Card>
             <Row gutter={24} >
