@@ -29,6 +29,7 @@ class CommonStep extends React.Component {
   }
 
   handleAdd = () => {
+    console.log(this.props);
     const { data, keyList, objectPrototype } = this.props;
     let newKey = generateKey(keyList, data.length, 0);
     let newObject = {
