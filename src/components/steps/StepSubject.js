@@ -24,6 +24,7 @@ class Step1 extends React.Component {
         render: (text, record) => (
           <Select
             style={{ width: 120 }}
+            value={text}
             onChange={ (val) => this.updatePreferredRoom(record, val)}
           >
             {this.renderRoomOptions()}
@@ -74,7 +75,7 @@ class Step1 extends React.Component {
 
   render() {
     const { data, keyList, selectedRowKeys } = this.props.timetable.subjects;
-    const objectPrototype = { subject: null, room: this.roomsData[0] };
+    const objectPrototype = { subject: null, room: this.roomsData[0].room };
 
     return (
       <CommonStep
