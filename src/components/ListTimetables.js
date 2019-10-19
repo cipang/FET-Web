@@ -1,9 +1,9 @@
 import React from 'react';
 import AppLayout from './layouts/AppLayout';
 import NewTimetable from './NewTimetable';
-import { List, Avatar, Button, Skeleton, Card, Modal, Popconfirm} from 'antd';
+import { List, Avatar, Button, Skeleton, Card, Modal, Popconfirm, Row} from 'antd';
 import { connect } from 'react-redux';
-import { updateFieldListTimetable, onDeleteTimetable } from '../actions';
+import { updateFieldListTimetable, onDeleteTimetable, updateFieldAuth } from '../actions';
 import { timetableTemplate, activityTemplate, validateData } from '../helper';
 
 
@@ -22,6 +22,11 @@ class ListTimetables extends React.Component {
       })
     );
     // console.log(timetableTemplate,timetable);
+  }
+
+  redirectToNewTimetablePage = () => {
+    this.props.history.push("/newTimetable");
+    this.props.updateFieldAuth("headerPos", "2");
   }
 
   componentDidUpdate() {
@@ -71,9 +76,13 @@ class ListTimetables extends React.Component {
                 )
               }}
             />
+            {timetables.length > 0?null:
+              <Row type="flex" align="middle" justify="center">
+                <Button size="large" onClick={this.redirectToNewTimetablePage}>Create a new one</Button>
+              </Row>
+            }
           </Card>
         </div>
-
       </AppLayout>
     );
   }
@@ -82,4 +91,5 @@ class ListTimetables extends React.Component {
 const mapStateToProps = state => ( { listTimetables: state.listTimetables, loggedIn:state.auth.loggedIn, loading:state.async.loading } );
 
 export default connect( mapStateToProps, { updateFieldListTimetable,
-                                          onDeleteTimetable })(ListTimetables);
+                                           updateFieldAuth,
+                                           onDeleteTimetable })(ListTimetables);

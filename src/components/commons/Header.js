@@ -11,7 +11,10 @@ import './Header.css';
 
 class Header extends React.Component {
 
-  handleHeaderChange = (e) => { this.props.updateFieldAuth("headerPos", e.key); }
+  handleHeaderChange = (e) => {
+    console.log(e);
+    this.props.updateFieldAuth("headerPos", e.key);
+  }
 
   handleNewTimeTable = () => {this.props.onNewTimetable();}
 
@@ -27,13 +30,14 @@ class Header extends React.Component {
         <Typography.Title className="logo" level={3}>FET-Web</Typography.Title>
         <Menu
           mode="horizontal"
+          defaultSelectedKeys = {["1"]}
           selectedKeys={[headerPos.toString()]}
           style={{ lineHeight: '64px', float:'right' }}
           onClick={this.handleHeaderChange}
         >
           {loggedIn?
             <Menu.SubMenu title= {user.email} key="1">
-              <Menu.Item key="listTimetables" onClick={this.handleRefreshListTimetables}>
+              <Menu.Item key="listTimetables" key="1" onClick={this.handleRefreshListTimetables}>
                 <Link to="/listTimetables">View All Timetables</Link>
               </Menu.Item>
               <Menu.Item key="logout" onClick={this.props.logout}>Logout</Menu.Item>
@@ -44,7 +48,6 @@ class Header extends React.Component {
               <Link to="/newTimetable">Make a timeable</Link>
             </Menu.Item>
             :null}
-
         </Menu>
       </Layout.Header>
     );
