@@ -18,15 +18,21 @@ class Step0 extends React.Component {
 
   nameOnChange = (e) => {
     this.props.updateFieldTimetable("name", e.target.value);
-  };
+  }
 
   numberOfPeriodsOnChange = (value) => {
     this.props.updateFieldTimetable("numberOfPeriodsPerDay", value);
-  };
+    let newPeriods = {};
+    for (let i = 1; i <= value; i++) {
+      newPeriods["period" + i.toString()] = "";
+    }
+    this.props.updateFieldTimetable("periods", newPeriods);
+
+  }
 
   periodsOnChange = (e, id) => {
     this.props.updateFieldPeriods("period" + id.toString(), e.target.value);
-  };
+  }
 
   checkDayType = (day) => {
     let days = [...this.props.timetable.days];
@@ -65,6 +71,7 @@ class Step0 extends React.Component {
   }
 
   render() {
+    console.log(this.props.timetable);
     const { name, numberOfPeriodsPerDay } = this.props.timetable;
     const {monday, tuesday, wednesday, thursday, friday, saturday, sunday} =
           this.props.timetable.days;
