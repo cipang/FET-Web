@@ -186,7 +186,7 @@ function serializeAcitivity(activity) {
           students
       })
   });
-  console.log(activity)
+  // console.log(activity)
 
   return {
       ...activity,
@@ -393,6 +393,17 @@ function initializeOrderForOneTimetable(days){
     //   day.hours.map(hour => orders.push(day.name + "_" + hour.name) )
     // );
     return order;
+}
+
+export function buildFilter(data, key){
+    let list = [];
+    data.map(v => {
+      list.push({
+        text:v[key],
+        value:v[key]
+      })
+    })
+    return list;
 }
 
 const basicDataStructure = {

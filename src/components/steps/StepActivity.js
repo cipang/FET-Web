@@ -3,13 +3,18 @@ import BottomNav from '../commons/BottomNav';
 import { Form, Icon, Input, Row ,Table, Button, Popconfirm, Modal, Col, Select,Tabs, Tooltip, Radio } from 'antd';
 import { connect } from 'react-redux';
 import { updateFieldTimetable, updateFieldActivities, onSendTimetable } from '../../actions';
-import { createActivity, delObject, refreshActivities, serializeActivities } from '../../helper';
+import { createActivity, delObject, refreshActivities, serializeActivities, buildFilter } from '../../helper';
 
 // TODO: may use common step
 class Step5 extends React.Component {
 
   constructor(props) {
     super(props);
+    // const { students, tags, teachers, subjects } = this.props.timetable;
+    // let subjectFilters = buildFilter(subjects.data, "subject");
+    // let tagFilters = buildFilter(tags.data, "tag");
+    // let studentFilters = buildFilter(students.data, "students");
+    // let teacherFilters = buildFilter(teachers.data, "teacher");
     this.columns = [
       {
         title: 'Key',
@@ -24,22 +29,26 @@ class Step5 extends React.Component {
       {
         title: 'Teachers',
         dataIndex: 'teachers',
-        key: 'teachers'
+        key: 'teachers',
+        sorter: (a, b) => a.teachers > b.teachers
       },
       {
         title: 'Subject',
         dataIndex: 'subject',
-        key: 'subject'
+        key: 'subject',
+        sorter: (a, b) => a.subject > b.subject
       },
       {
         title: 'Tags',
         dataIndex: 'tags',
-        key: 'tags'
+        key: 'tags',
+        sorter: (a, b) => a.tags > b.tags,
       },
       {
         title: 'Students',
         dataIndex: 'students',
-        key: 'students'
+        key: 'students',
+        sorter: (a, b) => a.students > b.students,
       },
       {
         title: 'Active',
@@ -348,7 +357,6 @@ class Step5 extends React.Component {
         </Row>
 
         <Table
-          defaultExpandAllRows={true}
           size="small"
           columns={this.columns}
           dataSource={serializeActivities(data)}
