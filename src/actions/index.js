@@ -29,7 +29,7 @@ import {
 import * as firebase from 'firebase';
 
 const root = process.env.REACT_APP_BACKEND_URL;
-console.log(process.env);
+// console.log(process.env);
 firebase.initializeApp(process.env.FIREBASE_CONFIG);
 
 export function isLoggedIn() {

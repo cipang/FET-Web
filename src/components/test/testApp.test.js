@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-// import App from '../App';
+import Home from '../Home';
 
 // describe('App', () => {
 //   test('snapshot renders', () => {

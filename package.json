@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "jest": {
-    "moduleNameMapper": {
-      "transform": {
+    "verbose": true,
+    "clearMocks": true,
+    "collectCoverage": true,
+    "transform": {
         "^.+\\.js$": "babel-jest"
-      },
-      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
-      "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js"
+    },
+    "moduleNameMapper": {
+        "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+        "\\.(css|scss|less)$": "<rootDir>/__mocks__/styleMock.js"
     }
   },
   "dependencies": {
@@ -51,7 +54,9 @@
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.5.5",
+    "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
