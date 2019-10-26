@@ -1,15 +1,10 @@
-import ReactDOM from 'react-dom';
-import Login from '../components/Login';
+import React from 'react';
+import { shallow } from 'enzyme';
+import BottomNav from '../components/commons/BottomNav';
+import { Row, Col, Button } from 'antd';
 
-// describe('App', () => {
-//   test('snapshot renders', () => {
-//     const component = renderer.create(<App />);
-//     let tree = component.toJSON();
-//     expect(tree).toMatchSnapshot();
-//   });
-// });
+it('It shows a card', () => {
+  const wrapped = shallow(<BottomNav />);
+  expect(wrapped.find(Row).length).toEqual(1);
 
-
-it('My Test Case', () => {
-  expect(true).toEqual(true);
 });
