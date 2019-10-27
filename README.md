@@ -1,4 +1,4 @@
-# FET-Wweb
+# FET-Web
 ## Before running this application you need to install node.js:
 
 Instructions:
