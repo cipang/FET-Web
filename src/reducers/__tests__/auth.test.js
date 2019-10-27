@@ -37,3 +37,8 @@ it('handles actions of type AUTH_UPDATE_FIELD', () => {
   const newState = authReducer([], fakeAction);
   expect(newState.error).toEqual("somthing went wrong");
 });
+
+it('handles action with unknown type', () => {
+  const newState = authReducer([], { type: 'unknown type' });
+  expect(newState).toEqual([]);
+});

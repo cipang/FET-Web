@@ -54,3 +54,8 @@ it('handles actions of type TIMETABLE_UPDATE_FIELDE', () => {
     fakeAction);
   expect(newState.newTimetable.name).toEqual("this is a new timetable");
 });
+
+it('handles action with unknown type', () => {
+  const newState = listTimetablesReducer([], { type: 'unknown type' });
+  expect(newState).toEqual([]);
+});

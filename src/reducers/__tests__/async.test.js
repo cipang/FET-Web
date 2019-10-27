@@ -30,3 +30,8 @@ it('handles actions of type ASYNC_UPDATE_FIELD', () => {
   const newState = asyncReducer([], fakeAction);
   expect(newState.error).toEqual("something went wrong");
 });
+
+it('handles action with unknown type', () => {
+  const newState = asyncReducer([], { type: 'unknown type' });
+  expect(newState).toEqual([]);
+});
