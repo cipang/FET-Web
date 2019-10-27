@@ -6,7 +6,9 @@
     "verbose": true,
     "clearMocks": true,
     "collectCoverage": true,
-    "setupFilesAfterEnv": ["<rootDir>/src/setupTest.js"],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTest.js"
+    ],
     "transform": {
       "^.+\\.js$": "babel-jest"
     },
@@ -26,8 +28,8 @@
     "jquery": "^3.4.1",
     "popper.js": "^1.15.0",
     "react": "^16.8.6",
-    "react-dnd": "^9.3.4",
-    "react-dnd-html5-backend": "^9.3.4",
+    "react-dnd-cjs": "^9.4.0",
+    "react-dnd-html5-backend-cjs": "^9.4.0",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.0",

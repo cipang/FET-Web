@@ -1,7 +1,7 @@
 import { Row, Col, Button, Card } from 'antd';
 import React from 'react';
-import { DndProvider, DragSource, DropTarget } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import { DndProvider, DragSource, DropTarget } from 'react-dnd-cjs';
+import HTML5Backend from 'react-dnd-html5-backend-cjs';
 
 // Drag & Drop node
 class TabNode extends React.Component {
