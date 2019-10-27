@@ -55,7 +55,7 @@ class ListTimetables extends React.Component {
               itemLayout="horizontal"
               dataSource={timetables}
               renderItem={item => {
-                console.log(item);
+                // console.log(item);
                 return (
                   <List.Item
                     key={item.key}
