@@ -1,10 +1,14 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import BottomNav from '../components/commons/BottomNav';
-import { Row, Col, Button } from 'antd';
+import Login from '../components/Login';
+import Root from '../Root';
+import { Button, Card, Form, Checkbox, Input } from 'antd';
 
 it('It shows the login card', () => {
-  const wrapped = shallow(<BottomNav />);
-  expect(wrapped.find(Row).length).toEqual(1);
-
+  const wrapped = shallow(
+    <Root>
+      <Login/>
+    </Root>
+  );
+  expect(wrapped.find(Card).length).toEqual(1);
 });

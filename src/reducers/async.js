@@ -15,7 +15,6 @@ const initialstate = {
 export default (state = initialstate, action) => {
   switch (action.type) {
     case ASYNC_START:
-      console.log({ ...state, loading: true });
       return { ...state, loading: true };
     case ASYNC_END:
       return { ...state, loading: false };
