@@ -1,12 +1,24 @@
 import React from 'react';
 import { Provider } from "react-redux";
-import store from "./store.js";
+import { createStore, applyMiddleware } from "redux";
+import reducers from './reducers';
+import { promiseMiddleware } from './middleware';
 
-// For testing redux
-export default (props) => {
+const logger = (store) => (next) => (action) => {
+  console.log("action fired",action);
+  next(action);
+}
+
+export default ({ children, initialState = {} }) => {
+  const store = createStore(
+    reducers,
+    initialState,
+    applyMiddleware(logger, promiseMiddleware)
+  );
+
   return (
     <Provider store={store}>
-      {props.children}
+      {children}
     </Provider>
   )
 }
