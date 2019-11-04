@@ -29,6 +29,6 @@ yarn test
 
 2. Go to root directory, find a file called webpack.config.js and 
 
-comment ```REACT_APP_BACKEND_URL:JSON.stringify("http://35.189.33.72:5000/")```
+comment ```REACT_APP_BACKEND_URL:JSON.stringify("http://35.201.20.55:5000/")```
 
 uncomment ```// REACT_APP_BACKEND_URL:JSON.stringify("http://127.0.0.1:5000/")```
