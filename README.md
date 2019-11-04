@@ -23,9 +23,11 @@ yarn start
 yarn test
 ```
 
-## If your want to test with a local service server download from https://github.com/zijies1/FET-Web-Backend:
+## IMPORTANT!Currently the app is running on the google cloud, it is possible that the server would be down for unexpected reasons, In that case, please follow the below steps to test the application:
 
-Go to root directory, find a file called webpack.config.js and 
+1. Go to https://github.com/zijies1/FET-Web-Backend, git clone and run the app
+
+2. Go to root directory, find a file called webpack.config.js and 
 
 comment ```REACT_APP_BACKEND_URL:JSON.stringify("http://35.189.33.72:5000/")```
 
