@@ -1,4 +1,7 @@
 # FET-Web
+## Link of detailed report for this project:
+https://docs.google.com/document/d/1XYhdxybL5Uc96Ad8zwifnDJRVZPwwnvtO0xMurRwyag/edit?usp=sharing
+
 ## Before running this application you need to install node.js:
 
 Instructions:
